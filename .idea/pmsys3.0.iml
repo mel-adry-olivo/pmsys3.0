@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/org/pmsys/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/org/pmsys/resources/psw4j" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="flatlaf-3.4" level="project" />
+    <orderEntry type="library" name="flatlaf-extras-3.4" level="project" />
+    <orderEntry type="library" name="jsvg-1.0.0" level="project" />
+    <orderEntry type="library" name="miglayout-core" level="project" />
+    <orderEntry type="library" name="miglayout-swing" level="project" />
+    <orderEntry type="library" name="flatlaf-fonts-inter-4.0" level="project" />
+    <orderEntry type="library" name="password4j-1.8.2" level="project" />
+    <orderEntry type="library" name="slf4j-api-2.1.0-alpha1" level="project" />
+    <orderEntry type="library" name="slf4j-simple-2.1.0-alpha1" level="project" />
+  </component>
+</module>
