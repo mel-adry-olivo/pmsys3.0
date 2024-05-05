@@ -20,6 +20,8 @@ public class AppIcons {
 
     public static final FlatSVGIcon EXPORT_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/export.svg", SMALL, SMALL);
 
+    public static final FlatSVGIcon KEBAB_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/kebab.svg", SMALL, SMALL);
+
     public static final FlatSVGIcon SORT_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/sort.svg", SMALL, SMALL);
 
     public static final FlatSVGIcon CLOSE_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/close.svg", SMALL, SMALL);

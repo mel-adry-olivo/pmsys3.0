@@ -4,11 +4,9 @@ import org.pmsys.constants.AppColors;
 import org.pmsys.constants.AppIcons;
 import org.pmsys.main.entity.ProjectCreateRequest;
 import org.pmsys.main.ui.components.ProjectCardUI;
+import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.ui.forms.ProjectCreateUI;
-import org.pmsys.main.ui.components.base.FlatButton;
-import org.pmsys.main.ui.components.base.FlatLabel;
 import org.pmsys.main.ui.components.ProjectListUI;
-import org.pmsys.main.ui.components.base.FlatPanel;
 import org.pmsys.main.ui.listeners.ClickListener;
 
 import javax.swing.*;
@@ -179,8 +177,6 @@ public class ProjectListView extends FlatPanel {
     private void setupComponent() {
         this.setConstraints("insets 28, fill");
 
-
-
         FlatPanel mainContent = new FlatPanel()
                 .setConstraints("insets 0, fillx", "", "[]0[]0[]0[]")
                 .setLineBorder(1,1,1,1, 8)
@@ -205,14 +201,17 @@ public class ProjectListView extends FlatPanel {
         mainContent.add(footerSection, "h 2%, wrap, grow, gapbottom 5");
 
         add(mainContent, "grow");
+
     }
     private FlatPanel createHeaderSection() {
-        FlatPanel header = new FlatPanel("insets 16 3% 16 3%, filly", "[]push[][]", "center");
-        FlatLabel allProjectsLabel = createLabel("All Projects", FlatLabel.H1, AppColors.BLACK);
 
-        addProjectButton = createButton("Add Project", AppColors.WHITE, AppColors.ACCENT , null, AppIcons.ADD_ICON_SMALL);
-        exportButton = createButton("Export", AppColors.DARK_GREY, null, "#FAFAFA", AppIcons.EXPORT_ICON_SMALL);
-        sortButton = createButton("Sort", AppColors.DARK_GREY, null, "#FAFAFA", AppIcons.SORT_ICON_SMALL);
+        FlatPanel header = new FlatPanel("insets 16 3% 16 3%, filly", "[]push[][]", "center");
+
+        FlatLabel allProjectsLabel = FlatLabelFactory.createH1Label("All Projects");
+
+        addProjectButton = FlatButtonFactory.createFilledButton("Add Project", AppIcons.ADD_ICON_SMALL);
+        exportButton = FlatButtonFactory.createDefaultButton("Export", AppIcons.EXPORT_ICON_SMALL);
+        sortButton = FlatButtonFactory.createDefaultButton("Sort", AppIcons.SORT_ICON_SMALL);
 
         header.add(allProjectsLabel, "gapbottom 5");
         header.add(sortButton, "gapbottom 5, hmin 32, hmax 32");
@@ -231,16 +230,10 @@ public class ProjectListView extends FlatPanel {
                 .setConstraints("insets 4 28 4 28, filly", "", "center")
                 .setMatteBorder(1,0,0,0);
 
-        previousButton = createButton("Previous", AppColors.DARK_GREY, null, "#FAFAFA", null);
-        previousButton.setTextMargin(2,12,2,12); // no icon
-        previousButton.applyFlatStyle();
+        previousButton = FlatButtonFactory.createDefaultButton("Previous");
+        nextButton = FlatButtonFactory.createDefaultButton("Next");
 
-        nextButton = createButton("Next", AppColors.DARK_GREY, null, "#FAFAFA", null);
-        nextButton.setTextMargin(2,12,2,12);  // no icon
-        nextButton.applyFlatStyle();
-
-        String pageFormat = "Page " + currentProjectPage + " of " + currentTotalPage;
-        pageLabel = createLabel(pageFormat, FlatLabel.SMALL, AppColors.DARK_GREY);
+        pageLabel = FlatLabelFactory.createSmallLabel("Page " + currentProjectPage + " of " + currentTotalPage);
 
         footer.add(previousButton, "gaptop 5, hmin 32, hmax 32");
         footer.add(nextButton, "gaptop 5, hmin 32, hmax 32, pushx");
@@ -254,15 +247,16 @@ public class ProjectListView extends FlatPanel {
         return pageContainer;
     }
     private FlatPanel createProjectListHeader() {
+
         FlatPanel projectListHeader = new FlatPanel()
                 .setConstraints("insets 6px 3% 6px 3%, fill", "", "center")
                 .setMatteBorder(1,0,1,0);
 
-        FlatLabel nameColumn = createLabel("Project Name", FlatLabel.SMALL, AppColors.DARK_GREY);
-        FlatLabel descriptionColumn = createLabel("Description", FlatLabel.SMALL, AppColors.DARK_GREY);
-        FlatLabel taskProgressColumn = createLabel("Task Progress", FlatLabel.SMALL, AppColors.DARK_GREY);
-        FlatLabel statusColumn = createLabel("Status", FlatLabel.SMALL, AppColors.DARK_GREY);
-        FlatLabel dueDateColumn = createLabel("Due Date", FlatLabel.SMALL, AppColors.DARK_GREY);
+        FlatLabel nameColumn = FlatLabelFactory.createSmallLabel("Project Name");
+        FlatLabel descriptionColumn = FlatLabelFactory.createSmallLabel("Description");
+        FlatLabel taskProgressColumn = FlatLabelFactory.createSmallLabel("Task Progress");
+        FlatLabel statusColumn = FlatLabelFactory.createSmallLabel("Status");
+        FlatLabel dueDateColumn = FlatLabelFactory.createSmallLabel("Due Date");
 
         projectListHeader.add(nameColumn, "w 20%");
         projectListHeader.add(descriptionColumn, "w 20%");
@@ -275,28 +269,4 @@ public class ProjectListView extends FlatPanel {
     public ProjectListUI createProjectList() {
         return new ProjectListUI();
     }
-    private FlatButton createButton(String text, String foregroundColor, String backgroundColor, String hoverBackgroundColor, Icon icon) {
-        FlatButton button = new FlatButton(text, false)
-                .setForegroundColor(foregroundColor)
-                .setTextMargin(8,8,8,12)
-                .setSVGIcon(icon);
-
-        if (backgroundColor != null)
-            button.setBackgroundColor(backgroundColor);
-        if (hoverBackgroundColor != null)
-            button.setHoverBackgroundColor(hoverBackgroundColor);
-
-        button.applyFlatStyle();
-
-        return button;
-    }
-    private FlatLabel createLabel(String text, String fontStyle, String foregroundColor) {
-        return new FlatLabel(text)
-                .setFontStyle(fontStyle)
-                .setForegroundColor(foregroundColor)
-                .applyFlatStyle();
-    }
-
-
-
 }

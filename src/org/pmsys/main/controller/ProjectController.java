@@ -5,6 +5,7 @@ import org.pmsys.main.entity.ProjectCreateRequest;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.ui.components.ProjectCardUI;
 import org.pmsys.main.ui.views.ProjectListView;
+import org.pmsys.main.ui.windows.MainWindow;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -26,16 +27,19 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final ProjectListView projectListView;
+    private final MainWindow mainWindow;
 
     /**
      * Constructor for the ProjectController.
      *
      * @param projectService  The service responsible for interacting with project data.
      * @param projectListView The main project list view .
+     * @param mainWindow      The main window of the application.
      */
-    public ProjectController(ProjectService projectService, ProjectListView projectListView) {
+    public ProjectController(ProjectService projectService, ProjectListView projectListView, MainWindow mainWindow) {
         this.projectService = projectService;
         this.projectListView = projectListView;
+        this.mainWindow = mainWindow;
 
         attachListeners();
     }
@@ -136,7 +140,7 @@ public class ProjectController {
      * @param project The project that was opened.
      */
     private void handleProjectOpenEvent(Project project) {
-        System.out.println(project.toString());
+        mainWindow.getContentLayout().show(mainWindow.getMainContentArea(), "projectView");
     }
 
     /**
@@ -151,6 +155,8 @@ public class ProjectController {
 
     /**
      * Creates a ProjectCardUI for the given project.
+     *
+     * Will be called by the @displayProjectInUI method.
      *
      * @param project The project for which a card is to be created.
      * @return The created ProjectCardUI.

@@ -44,7 +44,7 @@ public class Project {
         dueDate = data[4];
     }
 
-    public static Project parseToProject(String line) {
+    public static Project parseLineToProject(String line) {
         String[] data = line.split(":::");
         return new Project(data);
     }

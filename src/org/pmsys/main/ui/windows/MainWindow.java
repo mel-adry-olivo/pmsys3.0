@@ -14,7 +14,7 @@ public class MainWindow extends JFrame {
     private MenuUI menu;
     private HeaderUI header;
 
-    private FlatPanel mainContentArea;
+    private JLayeredPane mainContentArea;
 
     public MainWindow( ) {
         setupWindow();
@@ -26,9 +26,12 @@ public class MainWindow extends JFrame {
     }
 
     private void setupComponents() {
-        header = new HeaderUI();
-        mainContentArea = new FlatPanel();
+        mainContentArea = new JLayeredPane();
         mainContentArea.setLayout(new CardLayout());
+        mainContentArea.setOpaque(true);
+        mainContentArea.setVisible(true);
+
+        header = new HeaderUI();
         menu = new MenuUI(header, mainContentArea);
 
         add(menu, "cell 0 0 1 2, w 0%, grow");
@@ -44,8 +47,11 @@ public class MainWindow extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    public CardLayout getContentLayout() {
+        return (CardLayout) mainContentArea.getLayout();
+    }
 
-    public FlatPanel getMainContentArea() {
+    public JLayeredPane getMainContentArea() {
         return mainContentArea;
     }
 

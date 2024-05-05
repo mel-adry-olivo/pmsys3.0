@@ -8,6 +8,7 @@ import org.pmsys.main.controller.ProjectController;
 import org.pmsys.main.service.AuthService;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.service.UserService;
+import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.windows.AuthWindow;
 import org.pmsys.main.ui.views.DashboardView;
 import org.pmsys.main.ui.views.ProjectListView;
@@ -27,13 +28,17 @@ public class Application {
 
         ProjectListView projectListView = new ProjectListView();
         ProjectService projectService = new ProjectService();
-        ProjectController projectController = new ProjectController(projectService, projectListView);
+        ProjectController projectController = new ProjectController(projectService, projectListView, mainWindow);
         projectController.loadProjectFromFile();
 
         DashboardView dashboardView = new DashboardView();
 
+        ProjectView projectView = new ProjectView();
+
         mainWindow.addView(projectListView, "projectListView");
         mainWindow.addView(dashboardView, "dashboardView");
+        mainWindow.addView(projectView, "projectView");
+
     }
 
     public boolean isApplicationLoaded() {
@@ -69,6 +74,15 @@ public class Application {
 
             Application application = new Application();
             application.authenticateUser();
+
+
+            // for testing
+//            Application application = new Application();
+//            application.loadApplication();
+//            application.showApplication();
+
         });
     }
+
+
 }

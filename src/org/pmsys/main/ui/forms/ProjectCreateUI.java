@@ -43,9 +43,10 @@ public class ProjectCreateUI extends FlatForm {
         descriptionField.setText("");
         dueDateField.setText("");
     }
+
     private void setupComponent() {
         setConstraints("insets 10% 14% 8% 12%, fillx", "", "[]6%[]2%[]4%[]2%[]4%[]2%[]8%[]");
-        setFormSize(450, 520);
+        setFormSize(430, 500);
 
         FlatLabel title = new FlatLabel("Create Project")
                 .setFontStyle(FlatLabel.H1_120)

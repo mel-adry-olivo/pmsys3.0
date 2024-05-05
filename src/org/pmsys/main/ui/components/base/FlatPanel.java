@@ -46,6 +46,9 @@ public class FlatPanel extends JPanel implements MouseListener {
     public void setRowConstraints(String rowConstraints) {
         layout.setRowConstraints(rowConstraints);
     }
+    public void setColumnConstraints(String columnConstraints) {
+        layout.setColumnConstraints(columnConstraints);
+    }
 
     public FlatPanel setLineBorder(int top, int right, int bottom, int left, int radius) {
         setLineBorder(top,right,bottom,left, "#8F8F8F", radius);

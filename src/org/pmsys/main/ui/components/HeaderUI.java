@@ -75,8 +75,8 @@ public class HeaderUI extends FlatPanel {
             case "projectListView" -> {
                 viewIcon.setIcon(AppIcons.PROJECT_LIST_ICON_SMALL);
                 viewName.setText("Projects");
-                separator.setVisible(true);
-                projectName.setVisible(true);
+                separator.setVisible(false);
+                projectName.setVisible(false);
             }
         }
     }

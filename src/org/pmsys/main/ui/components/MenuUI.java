@@ -4,6 +4,7 @@ import net.miginfocom.swing.MigLayout;
 import org.pmsys.constants.AppColors;
 import org.pmsys.constants.AppIcons;
 import org.pmsys.main.ui.components.base.FlatButton;
+import org.pmsys.main.ui.components.base.FlatButtonFactory;
 import org.pmsys.main.ui.components.base.FlatLabel;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
@@ -16,14 +17,14 @@ public class MenuUI extends FlatPanel{
 
     private final MigLayout layout = new MigLayout("flowy, fillx, insets 18", "center");
     private final HeaderUI header;
-    private final FlatPanel mainContentArea;
+    private final JLayeredPane mainContentArea;
 
     private FlatLabel logoIcon;
     private FlatButton dashboardButton;
     private FlatButton projectListButton;
     private FlatButton selectedButton;
 
-    public MenuUI(HeaderUI header, FlatPanel mainContentArea) {
+    public MenuUI(HeaderUI header, JLayeredPane mainContentArea) {
         this.header = header;
         this.mainContentArea = mainContentArea;
 
@@ -59,15 +60,15 @@ public class MenuUI extends FlatPanel{
 
     private void setupComponent() {
         setConstraints("flowy, fillx, insets 18", "center");
-        setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.decode("#8F8F8F")));
+        setMatteBorder(0, 0, 0, 1);
 
         logoIcon = new FlatLabel(AppIcons.LOGO);
-        logoIcon.setName("logoIcon");
+        //logoIcon.setName("logoIcon");
 
-        dashboardButton = new FlatButton(AppIcons.DASHBOARD_ICON_MEDIUM);
+        dashboardButton = FlatButtonFactory.createHoverableIconButton(AppIcons.DASHBOARD_ICON_MEDIUM);
+        projectListButton = FlatButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
+
         dashboardButton.setName("dashboardButton");
-
-        projectListButton = new FlatButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
         projectListButton.setName("projectListButton");
 
         add(logoIcon, "wmin 36, wmax 36, hmin 36, hmax 36");
