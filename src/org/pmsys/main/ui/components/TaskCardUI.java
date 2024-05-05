@@ -8,6 +8,7 @@ import org.pmsys.main.ui.components.base.FlatLabelFactory;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class TaskCardUI extends FlatPanel {
 
@@ -15,16 +16,14 @@ public class TaskCardUI extends FlatPanel {
 
     public TaskCardUI(Task task) {
         this.task = task;
-        setupTaskCard();
-        setupComponents();
+        setupComponent();
     }
 
-    private void setupTaskCard() {
+    private void setupComponent() {
+        setPreferredSize(new Dimension(getWidth(), 100));
         setConstraints("insets 12", "", "[]12[]12[]12[]12[]");
         setLineBorder(1,1,1,1, 8);
-    }
-
-    private void setupComponents() {
+        applyFlatStyle();
 
         String title = task.getTitle();
         String priority = task.getPriority();
@@ -59,7 +58,7 @@ public class TaskCardUI extends FlatPanel {
 //        JButton optionButton = ComponentFactory.Buttons.createIconButton();
 //        optionButton.setIcon(new FlatSVGIcon("org/pmsys/resources/icons/kebab.svg", 18,18));
 //
-//        add(taskTitle, "pushx");
+        add(taskTitle, "pushx");
 //        add(optionButton, "wrap");
 //        add(taskPriority, "split 2, gapright 4");
 //        add(taskDue, "wrap");
@@ -67,8 +66,14 @@ public class TaskCardUI extends FlatPanel {
 //        add(taskProgressBar, "wrap, grow, span 2 1");
 //        add(taskProgress, "");
 //    }
-//
-//    private class TaskTag extends FlatPanel {
+    }
+
+    public String getStatus() {
+        return task.getStatus();
+    }
+}
+
+//private class TaskTag extends FlatPanel {
 //
 //
 //
@@ -96,7 +101,7 @@ public class TaskCardUI extends FlatPanel {
 //            return this;
 //        }
 //    }
-//
+
 //    private enum Tag {
 //        LOW("#5190B2", "#CEECFD"),
 //        NORMAL("#277153", "#D0FBE9"),
@@ -111,5 +116,3 @@ public class TaskCardUI extends FlatPanel {
 //            this.color = color;
 //            this.backgroundColor = backgroundColor;
 //        }
-    }
-}

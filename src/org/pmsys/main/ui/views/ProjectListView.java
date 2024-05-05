@@ -24,7 +24,7 @@ import java.awt.event.MouseListener;
  * <li>Pagination through multiple pages of projects</li>
  * <li>Embedded project creation form</li>
  */
-public class ProjectListView extends FlatPanel {
+public class ProjectListView extends FlatPanel{
 
     private int currentProjectPage = 0;
     private int currentTotalPage = 0;
@@ -43,7 +43,7 @@ public class ProjectListView extends FlatPanel {
     private ProjectCreateUI projectCreateForm;
 
     public ProjectListView() {
-        setupComponent();
+        setupView();
     }
 
     /**
@@ -174,7 +174,8 @@ public class ProjectListView extends FlatPanel {
      * <li>Create page container</li>
      * <li>Create project list</li>
      */
-    private void setupComponent() {
+
+    public void setupView() {
         this.setConstraints("insets 28, fill");
 
         FlatPanel mainContent = new FlatPanel()
@@ -269,4 +270,5 @@ public class ProjectListView extends FlatPanel {
     public ProjectListUI createProjectList() {
         return new ProjectListUI();
     }
+
 }

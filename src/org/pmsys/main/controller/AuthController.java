@@ -7,33 +7,33 @@ import org.pmsys.main.manager.SessionManager;
 import org.pmsys.main.service.AuthService;
 import org.pmsys.main.ui.forms.SignInUI;
 import org.pmsys.main.ui.forms.SignUpUI;
-import org.pmsys.main.ui.windows.AuthWindow;
+import org.pmsys.main.ui.views.AuthView;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
-public class AuthController {
+public class AuthController{
 
     private final AuthService authService;
 
     private final Application application;
-    private final AuthWindow authWindow;
+    private final AuthView authView;
     private final SignInUI signInUI;
     private final SignUpUI signUpUI;
     private Result result;
 
-    public AuthController(AuthService authService,AuthWindow authWindow, Application application) {
+    public AuthController(AuthService authService, AuthView authView, Application application) {
         this.authService = authService;
-        this.authWindow = authWindow;
+        this.authView = authView;
         this.application = application;
 
-        signInUI = authWindow.getSignInForm();
-        signUpUI = authWindow.getSignUpForm();
+        signInUI = authView.getSignInForm();
+        signUpUI = authView.getSignUpForm();
 
         attachListeners();
     }
 
-    private void attachListeners() {
+    public void attachListeners() {
         // sign up
         signUpUI.handleLinkClick(this::handleChangeView);
         signUpUI.handleButtonClick(this::handleSignUpClick);
@@ -46,7 +46,7 @@ public class AuthController {
     private void handleChangeView() {
         FlatAnimatedLafChange.showSnapshot();
 
-        authWindow.getCardLayout().show(authWindow.getContentPanel(), signInUI.isVisible() ? "signUpPanel" : "signInPanel");
+        authView.getCardLayout().show(authView.getContentPanel(), signInUI.isVisible() ? "signUpPanel" : "signInPanel");
         resetForms();
 
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
@@ -67,8 +67,8 @@ public class AuthController {
         String username = signInUI.getUsername();
         String password = new String(signInUI.getPassword());
 
-        authWindow.getContentPanel().setVisible(false);
-        authWindow.getGlassPane().setVisible(true);
+        authView.getContentPanel().setVisible(false);
+        authView.getGlassPane().setVisible(true);
 
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
@@ -89,14 +89,14 @@ public class AuthController {
 
             @Override
             protected void done() {
-                authWindow.getGlassPane().setVisible(false);
+                authView.getGlassPane().setVisible(false);
 
                 if (application.isApplicationLoaded()) {
-                    authWindow.dispose();
+                    authView.dispose();
                     application.showApplication();
 
                 } else {
-                    authWindow.getContentPanel().setVisible(true);
+                    authView.getContentPanel().setVisible(true);
                     signInUI.showErrorMessage(result.getErrorMessage());
                 }
             }
@@ -119,8 +119,8 @@ public class AuthController {
             return;
         }
 
-        authWindow.getContentPanel().setVisible(false);
-        authWindow.getGlassPane().setVisible(true);
+        authView.getContentPanel().setVisible(false);
+        authView.getGlassPane().setVisible(true);
 
 
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
@@ -133,9 +133,9 @@ public class AuthController {
 
             @Override
             protected void done() {
-                authWindow.getGlassPane().setVisible(false);
-                authWindow.getContentPanel().setVisible(true);
-                authWindow.getCardLayout().show(authWindow.getContentPanel(), "signInPanel");
+                authView.getGlassPane().setVisible(false);
+                authView.getContentPanel().setVisible(true);
+                authView.getCardLayout().show(authView.getContentPanel(), "signInPanel");
             }
         };
         worker.execute();

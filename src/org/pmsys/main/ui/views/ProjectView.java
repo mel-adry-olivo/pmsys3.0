@@ -1,14 +1,17 @@
 package org.pmsys.main.ui.views;
 
 import org.pmsys.constants.AppIcons;
-import org.pmsys.main.ui.components.TaskSectionHeaderUI;
+import org.pmsys.main.ui.components.TaskCardUI;
+import org.pmsys.main.ui.components.TaskSectionUI;
 import org.pmsys.main.ui.components.base.FlatButtonFactory;
 import org.pmsys.main.ui.components.base.FlatLabelFactory;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class ProjectView extends FlatPanel {
+public class ProjectView extends FlatPanel{
 
     private JPanel headerOne;
     private JPanel headerTwo;
@@ -23,26 +26,36 @@ public class ProjectView extends FlatPanel {
     private JButton boardButton;
     private JButton listButton;
     private JButton sortButton;
-    private JButton addButton;
+    private JButton addTaskButton;
 
-    private final String[] STATUS = {"Ready", "In Progress", "To Do", "Done"};
+    private final String[] STATUS = {"Ready", "In Progress", "To Review", "Done"};
 
     public ProjectView() {
         super("insets 0, wrap, fillx", "[]", "[]0[]0[]");
-        setupComponent();
+        setupView();
         setupContentArea();
     }
 
-    private void setupContentArea() {
-        //contentArea.removeAll();
-        for (String status : STATUS) {
-            FlatPanel sectionPanel = createTaskCardSection(status);
-            contentArea.add(sectionPanel, "w 25%, h 100%");
+    public void addTaskToSection(TaskCardUI task) {
+        for (Component component : contentArea.getComponents()) {
+            if (component instanceof TaskSectionUI) {
+                if(((TaskSectionUI) component).getSectionName().equals(task.getStatus())) {
+                    ((TaskSectionUI) component).addTaskCard(task);
+                    break;
+                }
+            }
         }
+        repaint();
+        revalidate();
+        contentArea.repaint();
+        contentArea.revalidate();
     }
 
-    private void setupComponent() {
+    public void addAddTaskButtonListener(ActionListener listener) {
+        addTaskButton.addActionListener(listener);
+    }
 
+    public void setupView() {
         headerOne = createHeader("[]push[]2%[]");
         projectTitle = FlatLabelFactory.createH1Label("Project Title");
         exportButton = FlatButtonFactory.createDefaultButton("Export", AppIcons.EXPORT_ICON_SMALL);
@@ -52,10 +65,7 @@ public class ProjectView extends FlatPanel {
         boardButton = FlatButtonFactory.createBorderlessButton("Board");
         listButton = FlatButtonFactory.createBorderlessButton("List");
         sortButton = FlatButtonFactory.createDefaultButton("Sort");
-        addButton = FlatButtonFactory.createFilledButton("Add Task", AppIcons.ADD_ICON_SMALL);
-
-        contentArea = createContentArea();
-        scrollPane = createScrollPane(contentArea);
+        addTaskButton = FlatButtonFactory.createFilledButton("Add Task", AppIcons.ADD_ICON_SMALL);
 
         add(headerOne, "h 14%, growx");
         headerOne.add(projectTitle, "grow");
@@ -66,54 +76,43 @@ public class ProjectView extends FlatPanel {
         headerTwo.add(boardButton, "grow");
         headerTwo.add(listButton, "grow");
         headerTwo.add(sortButton, "grow");
-        headerTwo.add(addButton, "grow");
+        headerTwo.add(addTaskButton, "grow");
+
+        contentArea = createContentArea();
+        contentArea.setPreferredSize(new Dimension(
+
+        ));
+        scrollPane = createScrollPane();
+        scrollPane.getViewport().add(contentArea);
 
         add(scrollPane, "h 100%, grow");
     }
-
+    private void setupContentArea() {
+        for (String status : STATUS) {
+            FlatPanel sectionPanel = createTaskCardSection(status);
+            sectionPanel.setName(status);
+            sectionPanel.setPreferredSize(new Dimension(sectionPanel.getWidth(), contentArea.getHeight()));
+            contentArea.add(sectionPanel, "w 25%, h 100%");
+        }
+    }
     private FlatPanel createHeader(String columnConstraint) {
         return new FlatPanel("insets 16 26 16 26, filly", columnConstraint, "[]")
                 .setMatteBorder(0, 0, 1, 0)
                 .applyFlatStyle();
     }
-
-    private JScrollPane createScrollPane(FlatPanel panel) {
-        JScrollPane scrollPane = new JScrollPane(panel);
+    private JScrollPane createScrollPane() {
+        JScrollPane scrollPane = new JScrollPane();
         scrollPane.setBorder(null);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         return scrollPane;
     }
-
     private FlatPanel createContentArea() {
-        return new FlatPanel("insets 28 18 0 18, fillx", "[]16[]16[]16[]", "");
+        FlatPanel panel = new FlatPanel("insets 24 18 0 18, fillx", "[]16[]16[]16[]", "");
+        panel.setPreferredSize(new Dimension(panel.getPreferredSize()));
+        return panel;
     }
-
     private FlatPanel createTaskCardSection(String sectionName) {
-
-        FlatPanel section = new FlatPanel("insets 25, wrap")
-                .setLineBorder(1,1,1,1, 8)
-                .applyFlatStyle();
-
-        TaskSectionHeaderUI header = new TaskSectionHeaderUI(sectionName);
-        section.add(header, "w 100%, h 0%");
-
-        return section;
+        return new TaskSectionUI(sectionName);
     }
-
-//        MigLayout layout = new MigLayout("insets 0, wrap");
-//        JPanel sectionPanel = ComponentFactory.Panels.createDefaultPanel(layout, ComponentFactory.TASK_SECTION_SIZE);
-//        TaskSectionHeader header = ComponentFactory.Custom.createTaskStatusHeader(section.getName());
-//
-//        sectionPanel.add(header);
-//        for (Task task : section.getTasks()) {
-//            TaskCard taskCard = ComponentFactory.Custom.createTaskCard(task);
-//            sectionPanel.add(taskCard);
-//        }
-//
-//
-//        return sectionPanel;
-
-
-
 }

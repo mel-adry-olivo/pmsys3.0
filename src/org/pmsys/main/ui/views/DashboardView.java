@@ -5,14 +5,15 @@ import org.pmsys.main.entity.User;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
 
-public class DashboardView extends FlatPanel {
+public class DashboardView extends FlatPanel{
 
     public DashboardView() {
-        setupComponent();
+        setupView();
     }
 
-    private void setupComponent() {
+    public void setupView() {
         setOpaque(false);
         setVisible(true);
     }
+
 }

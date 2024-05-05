@@ -1,10 +1,8 @@
-package org.pmsys.main.ui.windows;
+package org.pmsys.main.ui;
 
 import net.miginfocom.swing.MigLayout;
-import org.pmsys.main.entity.User;
 import org.pmsys.main.ui.components.HeaderUI;
 import org.pmsys.main.ui.components.MenuUI;
-import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,8 +19,9 @@ public class MainWindow extends JFrame {
         setupComponents();
     }
 
-    public void addView(FlatPanel panel, String name) {
-        mainContentArea.add(panel, name);
+    public void addView(JComponent view, String name) {
+        view.setPreferredSize(new Dimension(mainContentArea.getWidth(), mainContentArea.getHeight()));
+        mainContentArea.add(view, name);
     }
 
     private void setupComponents() {

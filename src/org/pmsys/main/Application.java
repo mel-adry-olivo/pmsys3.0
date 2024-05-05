@@ -5,14 +5,12 @@ import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import org.pmsys.main.controller.AuthController;
 import org.pmsys.main.controller.ProjectController;
+import org.pmsys.main.controller.ProjectListController;
 import org.pmsys.main.service.AuthService;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.service.UserService;
-import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.windows.AuthWindow;
-import org.pmsys.main.ui.views.DashboardView;
-import org.pmsys.main.ui.views.ProjectListView;
-import org.pmsys.main.ui.windows.MainWindow;
+import org.pmsys.main.ui.views.*;
+import org.pmsys.main.ui.MainWindow;
 
 
 import javax.swing.*;
@@ -26,14 +24,17 @@ public class Application {
     public void loadApplication() {
         mainWindow = new MainWindow();
 
-        ProjectListView projectListView = new ProjectListView();
         ProjectService projectService = new ProjectService();
-        ProjectController projectController = new ProjectController(projectService, projectListView, mainWindow);
-        projectController.loadProjectFromFile();
+        ProjectListView projectListView = new ProjectListView();
+        ProjectListController projectListController = new ProjectListController(projectService, projectListView, mainWindow);
+        projectListController.loadProjectFromFile();
+
+        ProjectView projectView = new ProjectView();
+        ProjectController projectController = new ProjectController(projectView, projectService);
 
         DashboardView dashboardView = new DashboardView();
 
-        ProjectView projectView = new ProjectView();
+
 
         mainWindow.addView(projectListView, "projectListView");
         mainWindow.addView(dashboardView, "dashboardView");
@@ -50,9 +51,9 @@ public class Application {
     }
 
     public void authenticateUser() {
-        AuthWindow authWindow = new AuthWindow();
+        AuthView authView = new AuthView();
         AuthService authService = new AuthService(new UserService());
-        AuthController authController = new AuthController(authService, authWindow, this);
+        AuthController authController = new AuthController(authService, authView, this);
     }
 
     public static void main(String[] args) {

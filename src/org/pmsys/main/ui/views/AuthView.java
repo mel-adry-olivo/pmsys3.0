@@ -1,24 +1,21 @@
-package org.pmsys.main.ui.windows;
+package org.pmsys.main.ui.views;
 
-import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
-import org.pmsys.main.Application;
 import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.ui.forms.SignInUI;
 import org.pmsys.main.ui.forms.SignUpUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 
-public class AuthWindow extends JFrame {
+public class AuthView extends JFrame{
 
     private FlatPanel contentPanel;
     private CardLayout cardLayout;
     private SignInUI signInUI;
     private SignUpUI signUpUI;
 
-    public AuthWindow() {
-        setupWindow();
+    public AuthView() {
+        setupView();
         setupForms();
     }
 
@@ -27,7 +24,7 @@ public class AuthWindow extends JFrame {
         contentPanel.add(signUpUI = new SignUpUI(), "signUpPanel");
     }
 
-    private void setupWindow() {
+    public void setupView() {
         setLayout(new BorderLayout());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Sign in");
@@ -58,4 +55,5 @@ public class AuthWindow extends JFrame {
     public SignUpUI getSignUpForm() {
         return signUpUI;
     }
+
 }
