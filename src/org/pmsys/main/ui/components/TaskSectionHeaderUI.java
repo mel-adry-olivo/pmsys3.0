@@ -32,8 +32,8 @@ public class TaskSectionHeaderUI extends FlatPanel {
     }
 
     private void setupSectionHeader() {
-        setConstraints("insets 4 12 4 12, filly", "[]push[]");
-        setBackgroundColor("#FFFFFF"); // TODO: CHANGE TO CONSTANTS
+        setConstraints("insets 8 12 8 12, filly", "[]push[]");
+        setBackgroundColor(AppColors.WHITE);
         setLineBorder(1,1,1,1, 8);
         applyFlatStyle();
     }

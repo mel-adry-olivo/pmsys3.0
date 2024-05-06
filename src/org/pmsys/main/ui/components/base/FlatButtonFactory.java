@@ -29,6 +29,7 @@ public class FlatButtonFactory {
 
     public static FlatButton createBorderlessButton(String text) {
         return new FlatButton(text, true)
+                .setHoverBackgroundColor("null")
                 .setForegroundColor(AppColors.DARK_GREY)
                 .applyFlatStyle();
     }

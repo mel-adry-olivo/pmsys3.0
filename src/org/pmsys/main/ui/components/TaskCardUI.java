@@ -19,8 +19,9 @@ public class TaskCardUI extends FlatPanel {
         setupComponent();
     }
 
+
     private void setupComponent() {
-        setPreferredSize(new Dimension(getWidth(), 100));
+        //setPreferredSize(new Dimension(getWidth(), 100));
         setConstraints("insets 12", "", "[]12[]12[]12[]12[]");
         setLineBorder(1,1,1,1, 8);
         applyFlatStyle();

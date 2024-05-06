@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FlatPanel extends JPanel implements MouseListener {
+public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>, MouseListener {
 
     private final Map<String, String> flatStyles;
     private final MigLayout layout;
@@ -33,6 +33,7 @@ public class FlatPanel extends JPanel implements MouseListener {
         setVisible(true);
     }
 
+    @Override
     public FlatPanel setConstraints(String... constraints ) {
         layout.setLayoutConstraints(constraints[0]);
         if ( constraints.length > 1 ) {
@@ -43,11 +44,20 @@ public class FlatPanel extends JPanel implements MouseListener {
         }
         return this;
     }
-    public void setRowConstraints(String rowConstraints) {
+    @Override
+    public FlatPanel setRowConstraints(String rowConstraints) {
         layout.setRowConstraints(rowConstraints);
+        return this;
     }
-    public void setColumnConstraints(String columnConstraints) {
+    @Override
+    public FlatPanel setColumnConstraints(String columnConstraints) {
         layout.setColumnConstraints(columnConstraints);
+        return this;
+    }
+    @Override
+    public FlatPanel setLayoutConstraints(String layoutConstraints) {
+        layout.setLayoutConstraints(layoutConstraints);
+        return this;
     }
 
     public FlatPanel setLineBorder(int top, int right, int bottom, int left, int radius) {

@@ -28,8 +28,7 @@ public class ProjectController{
     }
 
     private TaskCardUI randomTaskCard() {
-        //return new TaskCardUI(new Task("Title", "Description", "Due Date", "Priority", randomStatusGenerator()));
-        return new TaskCardUI(new Task("Title", "Description", "Due Date", "Priority", "Done"));
+        return new TaskCardUI(new Task("Title", "Description", "Due Date", "Priority", randomStatusGenerator()));
     }
 
     private String randomStatusGenerator() {
