@@ -13,9 +13,13 @@ import java.util.Map;
 
 public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>, MouseListener {
 
-    private final Map<String, String> flatStyles;
     private final MigLayout layout;
     private final FlatStyler styler;
+
+    private String layoutConstraints = "";
+    private String columnConstraints = "";
+    private String rowConstraints = "";
+
     private boolean isHoverable = false;
 
     public FlatPanel() {
@@ -23,7 +27,6 @@ public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>,
     }
     public FlatPanel(String... constraints) {
         layout = new MigLayout();
-        flatStyles = new HashMap<>();
         styler = new FlatStyler();
 
         setConstraints(constraints);
@@ -34,28 +37,34 @@ public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>,
     }
 
     @Override
-    public FlatPanel setConstraints(String... constraints ) {
-        layout.setLayoutConstraints(constraints[0]);
-        if ( constraints.length > 1 ) {
-            layout.setColumnConstraints(constraints[1]);
+    public FlatPanel setConstraints(String... constraints) {
+        layoutConstraints = constraints[0];
+        layout.setLayoutConstraints(layoutConstraints);
+        if (constraints.length > 1) {
+            columnConstraints = constraints[1];
+            layout.setColumnConstraints(columnConstraints);
         }
-        if ( constraints.length > 2 ) {
-            layout.setRowConstraints(constraints[2]);
+        if (constraints.length > 2) {
+            rowConstraints = constraints[2];
+            layout.setRowConstraints(rowConstraints);
         }
         return this;
     }
     @Override
     public FlatPanel setRowConstraints(String rowConstraints) {
+        this.rowConstraints = rowConstraints;
         layout.setRowConstraints(rowConstraints);
         return this;
     }
     @Override
     public FlatPanel setColumnConstraints(String columnConstraints) {
+        this.columnConstraints = columnConstraints;
         layout.setColumnConstraints(columnConstraints);
         return this;
     }
     @Override
     public FlatPanel setLayoutConstraints(String layoutConstraints) {
+        this.layoutConstraints = layoutConstraints;
         layout.setLayoutConstraints(layoutConstraints);
         return this;
     }
@@ -138,5 +147,17 @@ public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>,
         if (isHoverable) {
             putClientProperty("FlatLaf.style", "background: #ffffff;");
         }
+    }
+
+    public String getLayoutConstraints() {
+        return layoutConstraints;
+    }
+
+    public String getColumnConstraints() {
+        return columnConstraints;
+    }
+
+    public String getRowConstraints() {
+        return rowConstraints;
     }
 }

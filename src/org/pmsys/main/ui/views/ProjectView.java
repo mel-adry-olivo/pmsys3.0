@@ -1,22 +1,19 @@
 package org.pmsys.main.ui.views;
 
-import com.formdev.flatlaf.FlatClientProperties;
-import net.miginfocom.swing.MigLayout;
 import org.pmsys.constants.AppIcons;
-import org.pmsys.main.ui.components.TaskBoard;
+import org.pmsys.main.entity.Task;
+import org.pmsys.main.ui.components.TaskBoardUI;
 import org.pmsys.main.ui.components.TaskCardUI;
-import org.pmsys.main.ui.components.TaskSectionUI;
 import org.pmsys.main.ui.components.base.FlatButtonFactory;
 import org.pmsys.main.ui.components.base.FlatLabelFactory;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ProjectView extends FlatPanel{
 
-    private TaskBoard board;
+    private TaskBoardUI board;
 
     private JPanel headerOne;
     private JPanel headerTwo;
@@ -37,8 +34,8 @@ public class ProjectView extends FlatPanel{
         setupView();
     }
 
-    public void addTaskToSection(TaskCardUI task) {
-        board.addTaskCard(task);
+    public void addTask(Task task) {
+        board.addTask(task);
     }
 
     public void addAddTaskButtonListener(ActionListener listener) {
@@ -70,7 +67,7 @@ public class ProjectView extends FlatPanel{
         headerTwo.add(sortButton, "grow");
         headerTwo.add(addTaskButton, "grow");
 
-        board = new TaskBoard();
+        board = new TaskBoardUI();
         add(board, "h 100%");
     }
 

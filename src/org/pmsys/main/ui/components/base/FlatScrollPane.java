@@ -37,6 +37,10 @@ public class FlatScrollPane extends JScrollPane implements MigLayoutCompatible<F
         view.add(component);
     }
 
+    public String getColumnConstraints() {
+        return view.getColumnConstraints();
+    }
+
     @Override
     public FlatScrollPane setConstraints(String... params) {
         view.setConstraints(params);

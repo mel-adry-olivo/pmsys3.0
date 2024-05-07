@@ -24,11 +24,7 @@ public class ProjectController{
     }
 
     private void handleAddTaskClick(ActionEvent e) {
-        projectView.addTaskToSection(randomTaskCard());
-    }
-
-    private TaskCardUI randomTaskCard() {
-        return new TaskCardUI(new Task("Title", "Description", "Due Date", "Priority", randomStatusGenerator()));
+        projectView.addTask(new Task("Title", "Description", "Due Date", "Priority", randomStatusGenerator()));
     }
 
     private String randomStatusGenerator() {
