@@ -1,27 +1,38 @@
 package org.pmsys.main.ui.views;
 
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.forms.SignInUI;
-import org.pmsys.main.ui.forms.SignUpUI;
+import org.pmsys.main.ui.forms.LoginAuthForm;
+import org.pmsys.main.ui.forms.RegisterAuthForm;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AuthView extends JFrame{
+public class AuthWindow extends JFrame{
 
     private FlatPanel contentPanel;
     private CardLayout cardLayout;
-    private SignInUI signInUI;
-    private SignUpUI signUpUI;
+    private LoginAuthForm loginForm;
+    private RegisterAuthForm registerForm;
 
-    public AuthView() {
+    public AuthWindow() {
         setupView();
         setupForms();
     }
 
     private void setupForms() {
-        contentPanel.add(signInUI = new SignInUI(), "signInPanel");
-        contentPanel.add(signUpUI = new SignUpUI(), "signUpPanel");
+        loginForm = new LoginAuthForm();
+        loginForm.setWindow(this);
+
+        registerForm = new RegisterAuthForm();
+        registerForm.setWindow(this);
+
+        contentPanel.add(loginForm, "loginPanel");
+        contentPanel.add(registerForm, "registerPanel");
+    }
+
+    public void toggleLoadingState(boolean isLoading) {
+        getContentPanel().setVisible(!isLoading);
+        getGlassPane().setVisible(isLoading);
     }
 
     public void setupView() {
@@ -48,12 +59,12 @@ public class AuthView extends JFrame{
         return cardLayout;
     }
 
-    public SignInUI getSignInForm() {
-        return signInUI;
+    public LoginAuthForm getSignInForm() {
+        return loginForm;
     }
 
-    public SignUpUI getSignUpForm() {
-        return signUpUI;
+    public RegisterAuthForm getSignUpForm() {
+        return registerForm;
     }
 
 }

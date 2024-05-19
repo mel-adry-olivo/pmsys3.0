@@ -1,14 +1,18 @@
 package org.pmsys.main.ui.forms;
 
 import org.pmsys.constants.AppColors;
+import org.pmsys.main.model.request.AuthRequest;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.listeners.LinkClickListener;
+import org.pmsys.main.ui.views.AuthWindow;
+import org.pmsys.main.ui.views.UIView;
 
-import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class AbstractAuthUI extends FlatPanel {
+public abstract class AbstractAuthForm extends FlatPanel implements UIView {
+
+    private AuthWindow window;
 
     private FlatLabel linkLabel;
     private FlatLabel messageLabel;
@@ -16,7 +20,7 @@ public abstract class AbstractAuthUI extends FlatPanel {
     protected FlatPasswordField passwordField;
     protected FlatButton button;
 
-    public AbstractAuthUI() {
+    public AbstractAuthForm() {
         super("insets 10% 14% 10% 12%, fillx", "[]", "[]2%[]2%[]2%[]2%[]4%[]2%[]8%[]4%[]");
         setupTitles();
         setupInput();
@@ -24,6 +28,25 @@ public abstract class AbstractAuthUI extends FlatPanel {
         setupQuestion();
     }
 
+    public AuthRequest getAuthRequest() {
+        String username = getUsername();
+        String password = new String(getPassword());
+
+        if(username.isEmpty() || password.isEmpty()) {
+            showErrorMessage("Fields cannot be empty!");
+            showErrorInput(username.isEmpty(), password.isEmpty());
+            return null;
+        }
+        return new AuthRequest(username, password);
+    }
+
+    public void setWindow(AuthWindow parent) {
+        this.window = parent;
+    }
+
+    public AuthWindow getAuthParent() {
+        return window;
+    }
 
     abstract String getTitle();
     abstract String getSubtitle();
@@ -31,21 +54,16 @@ public abstract class AbstractAuthUI extends FlatPanel {
     abstract String getQuestion();
     abstract String getLink();
 
-    public abstract String getUsername();
-    public abstract char[] getPassword();
-
-    public final void handleLinkClick(LinkClickListener listener) {
-        linkLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                listener.onClick();
-            }
-        });
+    public String getUsername() {
+        return usernameField.getText();
+    }
+    public char[] getPassword() {
+        return passwordField.getPassword();
     }
 
-    public final void handleButtonClick(ActionListener listener) {
-        button.addActionListener(listener);
-    }
+    abstract void handleLinkClick(MouseEvent e);
+
+    abstract void handleButtonClick(ActionEvent e);
 
     public final void resetForm() {
         usernameField.setText("");
@@ -105,11 +123,18 @@ public abstract class AbstractAuthUI extends FlatPanel {
     }
     private void setupButton() {
         button = FlatButtonFactory.createFilledButton(getButtonName());
+        button.addActionListener(this::handleButtonClick);
         add(button, "wrap, growx");
     }
     private void setupQuestion() {
         FlatLabel questionLabel = FlatLabelFactory.createDefaultLabel(getQuestion());
         linkLabel = FlatLabelFactory.createLinkLabel(getLink());
+        linkLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleLinkClick(e);
+            }
+        });
 
         add(questionLabel, "al center, split 2");
         add(linkLabel, "al center, wrap");

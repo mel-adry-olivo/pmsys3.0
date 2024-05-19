@@ -6,7 +6,7 @@ import org.pmsys.main.model.Project;
 import org.pmsys.main.model.request.Request;
 import org.pmsys.main.ui.components.ProjectCard;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.forms.ProjectFormUI;
+import org.pmsys.main.ui.forms.ProjectForm;
 import org.pmsys.main.ui.components.ProjectList;
 import org.pmsys.main.ui.listeners.ProjectOpenListener;
 
@@ -31,7 +31,7 @@ public class ProjectListView extends FlatPanel{
     private FlatButton nextButton;
 
     private ProjectList currentProjectList;
-    private ProjectFormUI projectCreateForm;
+    private ProjectForm projectCreateForm;
 
     public ProjectListView() {
         setupView();
@@ -41,7 +41,7 @@ public class ProjectListView extends FlatPanel{
         projectCreateForm.showForm();
     }
 
-    public ProjectFormUI getProjectForm() {
+    public ProjectForm getProjectForm() {
         return projectCreateForm;
     }
 
@@ -142,7 +142,7 @@ public class ProjectListView extends FlatPanel{
                 .setLineBorder(1,1,1,1, 8)
                 .applyFlatStyle();
 
-        projectCreateForm = new ProjectFormUI();
+        projectCreateForm = new ProjectForm();
         projectPagesContainer = createPageContainer();
 
         FlatPanel headerSection = createHeaderSection();

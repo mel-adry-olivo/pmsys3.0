@@ -11,8 +11,8 @@ public class AuthService {
 
     private final UserService userService;
 
-    public AuthService(UserService userService) {
-        this.userService = userService;
+    public AuthService() {
+        this.userService = (UserService) ServiceManager.getService("user");
     }
 
     public AuthResult signIn(AuthRequest request) {

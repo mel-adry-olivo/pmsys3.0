@@ -6,7 +6,7 @@ import org.pmsys.main.model.request.TaskRequest;
 import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.utils.DateUtils;
 
-public class TaskFormUI extends AbstractFormUI {
+public class TaskForm extends AbstractForm {
 
     private FlatTextField titleField;
     private FlatTextField descriptionField;
@@ -14,12 +14,12 @@ public class TaskFormUI extends AbstractFormUI {
     private FlatComboBox<String> priorityComboBox;
     private FlatComboBox<String> statusComboBox;
 
-    public TaskFormUI() {
+    public TaskForm() {
         setFormTitle("Task Create");
         setButtonText("Create");
     }
 
-    public TaskFormUI(Task task) {
+    public TaskForm(Task task) {
         setFormTitle("Task Update");
         setButtonText("Update");
     }

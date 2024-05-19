@@ -2,9 +2,9 @@ package org.pmsys.main.manager;
 
 import org.pmsys.constants.FormType;
 import org.pmsys.main.model.request.Request;
-import org.pmsys.main.ui.forms.AbstractFormUI;
-import org.pmsys.main.ui.forms.ProjectFormUI;
-import org.pmsys.main.ui.forms.TaskFormUI;
+import org.pmsys.main.ui.forms.AbstractForm;
+import org.pmsys.main.ui.forms.ProjectForm;
+import org.pmsys.main.ui.forms.TaskForm;
 
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -12,15 +12,15 @@ import java.util.Map;
 
 public class FormManager {
 
-    private final Map<FormType, AbstractFormUI> formMap = new HashMap<>();
+    private final Map<FormType, AbstractForm> formMap = new HashMap<>();
 
     public FormManager() {
-        formMap.put(FormType.PROJECT, new ProjectFormUI());
-        formMap.put(FormType.TASK, new TaskFormUI());
+        formMap.put(FormType.PROJECT, new ProjectForm());
+        formMap.put(FormType.TASK, new TaskForm());
     }
 
     public void showForm(FormType formType, Object data) {
-        AbstractFormUI formUI = formMap.get(formType);
+        AbstractForm formUI = formMap.get(formType);
 
         if(data != null) {
             formUI.setFormData(data);
@@ -43,7 +43,7 @@ public class FormManager {
         return formMap.get(formType).getFormData();
     }
 
-    public AbstractFormUI getFormUI(FormType formType) {
+    public AbstractForm getFormUI(FormType formType) {
         return formMap.get(formType);
     }
 

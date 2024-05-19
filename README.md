@@ -1,5 +1,13 @@
 ### TODO
 
+CONVERT TO ACTIONS
+
+Converted:
+- Authentication
+
+
+
+
 **Logout**
 - create logout button on menu
 - add functionality in user service

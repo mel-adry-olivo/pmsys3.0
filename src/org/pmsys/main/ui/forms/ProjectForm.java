@@ -1,27 +1,20 @@
 package org.pmsys.main.ui.forms;
 
 import org.pmsys.constants.AppColors;
-import org.pmsys.constants.FormType;
 import org.pmsys.main.model.Project;
 import org.pmsys.main.model.request.ProjectRequest;
 import org.pmsys.main.model.request.Request;
-import org.pmsys.main.model.request.TaskRequest;
 import org.pmsys.main.ui.components.base.*;
 
-public class ProjectFormUI extends AbstractFormUI{
+public class ProjectForm extends AbstractForm {
 
     private FlatTextField nameField;
     private FlatTextField descriptionField;
     private FlatDatePicker datePicker;
 
-    public ProjectFormUI() {
+    public ProjectForm() {
         setFormTitle("Project Create");
         setButtonText("Create");
-    }
-
-    public ProjectFormUI(Project project) {
-        setFormTitle("Project Edit");
-        setButtonText("Update");
     }
 
     @Override
@@ -41,7 +34,6 @@ public class ProjectFormUI extends AbstractFormUI{
         descriptionField.setText(project.getDescription());
         datePicker.setDate(project.getDueDate());
     }
-
 
     public void showInvalidDateError() {
         datePicker.setBorderColor(AppColors.ERROR).applyFlatStyle();

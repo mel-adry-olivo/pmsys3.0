@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public abstract class AbstractFormUI extends FlatForm{
+public abstract class AbstractForm extends FlatForm{
 
     protected FlatLabel errorLabel;
     protected FlatButton actionButton;
@@ -17,7 +17,7 @@ public abstract class AbstractFormUI extends FlatForm{
 
     private ActionListener currentListener = null;
 
-    public AbstractFormUI() {
+    public AbstractForm() {
         setConstraints("insets 8% 10% 8% 10%, fill", colConstraints(), "[]2%[]2%" + rowConstraints() + "8%[]");
         setFormSize(430, 500);
         setupLabels();

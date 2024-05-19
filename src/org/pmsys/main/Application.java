@@ -4,15 +4,14 @@ import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.extras.FlatInspector;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import org.pmsys.constants.View;
-import org.pmsys.main.controller.AuthController;
+import org.pmsys.main.actions.ActionManager;
+import org.pmsys.main.actions.auth.LoginAction;
+import org.pmsys.main.actions.auth.RegisterAction;
+import org.pmsys.main.actions.auth.SwitchFormAction;
 import org.pmsys.main.controller.ProjectController;
 import org.pmsys.main.controller.ProjectListController;
 import org.pmsys.main.manager.FormManager;
-import org.pmsys.main.service.AuthService;
-import org.pmsys.main.service.ProjectService;
-import org.pmsys.main.service.TaskService;
-import org.pmsys.main.service.UserService;
-import org.pmsys.main.ui.utils.Benchmark;
+import org.pmsys.main.service.*;
 import org.pmsys.main.ui.views.*;
 import org.pmsys.main.ui.MainWindow;
 
@@ -20,6 +19,14 @@ import org.pmsys.main.ui.MainWindow;
 import javax.swing.SwingUtilities;
 
 public class Application {
+
+    private static Application instance;
+    public static Application start() {
+        if (instance == null) {
+            instance = new Application();
+        }
+        return instance;
+    }
 
     private MainWindow mainWindow;
 
@@ -33,7 +40,10 @@ public class Application {
     private ProjectListController projectListController;
     private ProjectController projectController;
 
-    public Application() { }
+    private Application() {
+        load();
+        authenticateUser();
+    }
 
     public void launchApplication() {
         mainWindow = new MainWindow();
@@ -43,10 +53,17 @@ public class Application {
         mainWindow.setVisible(true);
     }
 
+    private void load() {
+        ServiceManager.registerService("user", new UserService());
+        ServiceManager.registerService("authentication", new AuthService());
+
+        ActionManager.registerAction("login", new LoginAction());
+        ActionManager.registerAction("register", new RegisterAction());
+        ActionManager.registerAction("switchAuthForm", new SwitchFormAction());
+    }
+
     public void authenticateUser() {
-        AuthView authView = new AuthView();
-        AuthService authService = new AuthService(new UserService());
-        AuthController authController = new AuthController(authService, authView, this);
+        AuthWindow authWindow = new AuthWindow();
     }
 
     private void initializeViews() {
@@ -79,8 +96,7 @@ public class Application {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             setupLookAndFeel();
-            Application application = new Application();
-            application.authenticateUser();
+            Application.start();
         });
     }
 

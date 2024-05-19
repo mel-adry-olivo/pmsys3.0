@@ -1,6 +1,7 @@
 package org.pmsys.main.controller;
 
 import org.pmsys.constants.ProjectRequestStatus;
+import org.pmsys.constants.Status;
 import org.pmsys.main.model.Project;
 import org.pmsys.main.model.request.ProjectRequest;
 import org.pmsys.main.model.result.ProjectResult;
@@ -89,12 +90,12 @@ public class ProjectListController{
 
     public void handleProjectCreationError(ProjectResult result) {
         projectListView.getProjectForm().showErrorMessage(result.getErrorMessage());
-
-        switch (result.getStatus()) {
-            case ProjectRequestStatus.BLANK_FIELDS:
+        ProjectRequestStatus status = (ProjectRequestStatus) result.getStatus();
+        switch (status) {
+            case BLANK_FIELDS:
                 projectListView.getProjectForm().showErrorFields();
                 break;
-            case ProjectRequestStatus.INVALID_DATE:
+            case INVALID_DATE:
                 projectListView.getProjectForm().showInvalidDateError();
                 break;
             default:
