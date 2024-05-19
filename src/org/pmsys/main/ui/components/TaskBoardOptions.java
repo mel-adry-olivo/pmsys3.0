@@ -2,7 +2,7 @@ package org.pmsys.main.ui.components;
 
 public class TaskBoardOptions {
 
-    public int getSectionHeightWithoutHeader() {
+    public int getTotalHeaderSpace() {
         return Integer.parseInt(getHeaderHeight()) + Integer.parseInt(getCardGap()) + Integer.parseInt(getCardGap());
     }
 
@@ -11,7 +11,7 @@ public class TaskBoardOptions {
     }
 
     private String getCardHeight() {
-        return "120";
+        return "0";
     }
 
     public String getCardGap() {
@@ -23,7 +23,7 @@ public class TaskBoardOptions {
     }
 
     public String getCardConstraints() {
-        return "w 100%, h " + getCardHeight() + "!, gapbottom " + getCardGap() + "!";
+        return "w 100%, h " + getCardHeight() + "%, gapbottom " + getCardGap() + "!";
     }
 
     public String getHeaderConstraints() {

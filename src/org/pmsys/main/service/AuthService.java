@@ -3,8 +3,9 @@ package org.pmsys.main.service;
 
 import com.password4j.Hash;
 import com.password4j.Password;
-import org.pmsys.main.entity.Result;
-import org.pmsys.main.entity.User;
+import org.pmsys.main.model.request.AuthRequest;
+import org.pmsys.main.model.result.AuthResult;
+import org.pmsys.main.model.User;
 
 public class AuthService {
 
@@ -14,28 +15,28 @@ public class AuthService {
         this.userService = userService;
     }
 
-    public Result signIn(String username, String password) {
-        User storedUser = userService.findAccountByUsername(username);
+    public AuthResult signIn(AuthRequest request) {
+        User storedUser = userService.findAccountByUsername(request.getUsername());
 
         if (storedUser == null) {
-            return Result.USER_NOT_FOUND();
+            return AuthResult.USER_NOT_FOUND();
         }
 
-        boolean isValidPassword = Password.check(password, storedUser.getHashedPassword()).withArgon2();
-        return isValidPassword ? Result.SUCCESS(storedUser) : Result.WRONG_PASSWORD();
+        boolean isValidPassword = Password.check(request.getPassword(), storedUser.getHashedPassword()).withArgon2();
+        return isValidPassword ? AuthResult.SUCCESS(storedUser) : AuthResult.WRONG_PASSWORD();
     }
 
-    public Result signUp(String username, String password) {
+    public AuthResult signUp(AuthRequest request) {
         // TODO: validate username
 
-        Hash hash = Password.hash(password)
+        Hash hash = Password.hash(request.getPassword())
                 .addRandomSalt(12)
                 .withArgon2();
 
-        User user = new User(username, hash.getResult());
+        User user = new User(request.getUsername(), hash.getResult());
         userService.storeUserData(user);
 
-        return Result.SUCCESS();
+        return AuthResult.SUCCESS();
     }
 
     public void signOut() {

@@ -37,10 +37,11 @@ public class FlatForm extends JDialog{
     }
 
 
-    public void showForm() {
+    public FlatForm showForm() {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        return this;
     }
 
 

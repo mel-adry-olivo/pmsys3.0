@@ -1,61 +1,70 @@
 package org.pmsys.main.service;
 
-import org.pmsys.main.entity.User;
+import org.pmsys.main.model.User;
 import org.pmsys.main.manager.SessionManager;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 
 public abstract class FileService {
 
-    private final String USER_DATA_DIRECTORY = "userdata";
-    private final String USER_ACCTS_FILE = USER_DATA_DIRECTORY + File.separator + "useraccounts.txt";
+    private static final String DATA_DIR = "data";
+    private static final String USER_DIR = DATA_DIR + File.separator + "userdata";
+    private static final String PROJ_DIR = DATA_DIR + File.separator + "projectdata";
+    private static final String TASK_DIR = DATA_DIR + File.separator + "taskdata";
+    private static final String USER_FILE = USER_DIR + File.separator + "useraccounts.txt";
 
-    public FileService(){
-        createDirectory(USER_DATA_DIRECTORY);
-        createFile(USER_ACCTS_FILE);
-    }
-
-    protected BufferedWriter createWriterFor(String filename) throws IOException {
-        return new BufferedWriter(new FileWriter(filename, true));
-    }
-    protected BufferedReader createReaderFor(String filename) throws IOException {
-        return new BufferedReader(new FileReader(filename));
+    public FileService() {
+        createDirectories(USER_DIR, PROJ_DIR, TASK_DIR);
+        createFileIfNotExists(USER_FILE);
     }
 
-    protected String getUserAccountFile() {
-        return USER_ACCTS_FILE;
+    protected Path getUserAccountFile() {
+        return Paths.get(USER_FILE);
     }
 
-    protected String getFileOfUser() {
-        return getFileOf(getCurrentUser());
-    }
-    protected String getFileOfUser(User user) {
-        return getFileOf(user);
+    protected Path getTaskFileOfUser() {
+        return getTaskFileOf(getCurrentUser());
     }
 
-    private void createFile(String path) {
-        try {
-            File file = new File(path);
-            if (!file.exists()) {
-                if (!file.createNewFile()) {
-                    System.out.println("Failed to create file: " + file);
-                }
-            }
-        } catch (IOException e) { throw new RuntimeException(e); }
+    protected Path getTaskFileOf(User user) {
+        return Paths.get(TASK_DIR, user.getId() + ".txt");
     }
-    private void createDirectory(String path) {
-        File directory = new File(path);
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                System.out.println("Failed to create directory: " + directory);
-            }
-        }
+
+    protected Path getProjectFileOfUser() {
+        return getProjectFileOf(getCurrentUser());
+    }
+
+    protected Path getProjectFileOf(User user) {
+        return Paths.get(PROJ_DIR, user.getId() + ".txt");
     }
 
     private User getCurrentUser() {
         return SessionManager.getInstance().getCurrentUser();
     }
-    private String getFileOf(User user) {
-        return USER_DATA_DIRECTORY + File.separator + user.getId() + ".txt";
+
+    private void createFileIfNotExists(String path) {
+        Path filePath = Paths.get(path);
+        if (Files.notExists(filePath)) {
+            try {
+                Files.createFile(filePath);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to create file: " + path, e);
+            }
+        }
+    }
+
+    private void createDirectories(String... paths) {
+        for (String path : paths) {
+            Path dirPath = Paths.get(path);
+            if (Files.notExists(dirPath)) {
+                try {
+                    Files.createDirectories(dirPath);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to create directory: " + path, e);
+                }
+            }
+        }
     }
 }

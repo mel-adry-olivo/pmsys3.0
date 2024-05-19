@@ -32,7 +32,7 @@ public class AuthView extends JFrame{
         setSize(450, 520);
         setLocationRelativeTo(null);
         setVisible(true);
-        setGlassPane(FlatLoadingSpinner.getInstance());
+        setGlassPane(new FlatLoadingIcon());
 
         contentPanel = new FlatPanel();
         contentPanel.setLayout(cardLayout = new CardLayout());

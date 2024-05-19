@@ -1,144 +1,167 @@
 package org.pmsys.main.controller;
 
 import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
+import org.pmsys.constants.AuthRequestStatus;
 import org.pmsys.main.Application;
-import org.pmsys.main.entity.Result;
+import org.pmsys.main.model.request.AuthRequest;
+import org.pmsys.main.model.result.AuthResult;
 import org.pmsys.main.manager.SessionManager;
 import org.pmsys.main.service.AuthService;
+import org.pmsys.main.ui.forms.AbstractAuthUI;
 import org.pmsys.main.ui.forms.SignInUI;
 import org.pmsys.main.ui.forms.SignUpUI;
 import org.pmsys.main.ui.views.AuthView;
+import org.pmsys.main.utils.TimeUtils;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import java.awt.event.ActionEvent;
 
-public class AuthController{
+/**
+ * This class is the controller for handling authentication actions such as sign in and sign up.
+ */
+public final class AuthController{
 
     private final AuthService authService;
-
-    private final Application application;
     private final AuthView authView;
+    private final Application application;
     private final SignInUI signInUI;
     private final SignUpUI signUpUI;
-    private Result result;
 
+    /**
+     * Constructs an AuthController with the specified services and views.
+     *
+     * @param authService the authentication service
+     * @param authView the authentication view
+     * @param application the main application instance
+     */
     public AuthController(AuthService authService, AuthView authView, Application application) {
         this.authService = authService;
         this.authView = authView;
         this.application = application;
-
-        signInUI = authView.getSignInForm();
-        signUpUI = authView.getSignUpForm();
-
+        this.signInUI = authView.getSignInForm();
+        this.signUpUI = authView.getSignUpForm();
         attachListeners();
     }
 
+    /**
+     * Attaches listeners to the sign in and sign up forms.
+     */
     public void attachListeners() {
-        // sign up
+        // Sign up
         signUpUI.handleLinkClick(this::handleChangeView);
-        signUpUI.handleButtonClick(this::handleSignUpClick);
-
-        // sign in
+        signUpUI.handleButtonClick(this::handleAuthClick);
+        // Sign in
         signInUI.handleLinkClick(this::handleChangeView);
-        signInUI.handleButtonClick(this::handleSignInClick);
+        signInUI.handleButtonClick(this::handleAuthClick);
     }
 
+    /**
+     * Handles changing the view between sign in and sign up forms.
+     */
     private void handleChangeView() {
         FlatAnimatedLafChange.showSnapshot();
-
         authView.getCardLayout().show(authView.getContentPanel(), signInUI.isVisible() ? "signUpPanel" : "signInPanel");
         resetForms();
-
         FlatAnimatedLafChange.hideSnapshotWithAnimation();
     }
 
+    /**
+     * Resets the fields and error messages in both sign in and sign up forms.
+     */
     private void resetForms() {
-        signInUI.resetErrorMessage();
-        signInUI.resetErrorInput();
-        signInUI.resetFields();
-
-        signUpUI.resetErrorMessage();
-        signUpUI.resetErrorInput();
-        signUpUI.resetFields();
+        signInUI.resetForm();
+        signUpUI.resetForm();
     }
 
-    private void handleSignInClick(ActionEvent e) {
+    /**
+     * Handles authentication actions for sign in and sign up.
+     *
+     * @param e the action event triggered by the button click
+     */
+    private void handleAuthClick(ActionEvent e) {
+        AbstractAuthUI authUI = signInUI.isVisible() ? signInUI : signUpUI;
+        AuthRequest request = getUserCredentials(authUI);
+        if (request == null) return;
 
-        String username = signInUI.getUsername();
-        String password = new String(signInUI.getPassword());
+        toggleLoadingState(true);
 
-        authView.getContentPanel().setVisible(false);
-        authView.getGlassPane().setVisible(true);
-
-        SwingWorker<Void, Void> worker = new SwingWorker<>() {
+        new SwingWorker<Void, Void>() {
             @Override
-            protected Void doInBackground(){
+            protected Void doInBackground() {
 
-                result = authService.signIn(username, password);
+                AuthResult authResult = authUI == signInUI ?
+                        authService.signIn(request) : authService.signUp(request);
 
-                if(result.getStatus() == Result.Status.SUCCESS) {
-
-                    SessionManager.getInstance().setCurrentUser(result.getUser());
-
-                    application.loadApplication();
-                    application.showApplication();
-                }
-
-                return null;
-            }
-
-            @Override
-            protected void done() {
-                authView.getGlassPane().setVisible(false);
-
-                if (application.isApplicationLoaded()) {
-                    authView.dispose();
-                    application.showApplication();
-
+                if (authUI == signInUI) {
+                    handleSignInResult(authResult);
                 } else {
-                    authView.getContentPanel().setVisible(true);
-                    signInUI.showErrorMessage(result.getErrorMessage());
+                    handleSignUpResult(authResult);
                 }
-            }
-        };
-        worker.execute();
 
-    }
-
-    private void handleSignUpClick(ActionEvent e) {
-
-        String username = signUpUI.getUsername();
-        String password = new String(signUpUI.getPassword());
-
-        boolean usernameIsEmpty = username.isEmpty();
-        boolean passwordIsEmpty = password.isEmpty();
-
-        if(usernameIsEmpty || passwordIsEmpty) {
-            signUpUI.showErrorMessage("Fields cannot be empty!");
-            signUpUI.showErrorInput(usernameIsEmpty, usernameIsEmpty);
-            return;
-        }
-
-        authView.getContentPanel().setVisible(false);
-        authView.getGlassPane().setVisible(true);
-
-
-        SwingWorker<Void, Void> worker = new SwingWorker<>() {
-            @Override
-            protected Void doInBackground() throws Exception {
-
-                Result result = authService.signUp(username, password);
+                TimeUtils.delayInMillis(300);
                 return null;
             }
 
             @Override
             protected void done() {
-                authView.getGlassPane().setVisible(false);
-                authView.getContentPanel().setVisible(true);
-                authView.getCardLayout().show(authView.getContentPanel(), "signInPanel");
+                toggleLoadingState(false);
             }
-        };
-        worker.execute();
+        }.execute();
+    }
 
+    /**
+     * Retrieves user credentials from the current UI.
+     *
+     * @param authUI the authentication UI (sign in or sign up)
+     * @return an AuthRequest containing the user credentials, or null if validation fails
+     */
+    private AuthRequest getUserCredentials(AbstractAuthUI authUI) {
+        String username = authUI.getUsername();
+        String password = new String(authUI.getPassword());
+
+        if(username.isEmpty() || password.isEmpty()) {
+            authUI.showErrorMessage("Fields cannot be empty!");
+            authUI.showErrorInput(username.isEmpty(), password.isEmpty());
+            return null;
+        }
+        return new AuthRequest(username, password);
+    }
+
+    /**
+     * Handles the result of a sign in attempt.
+     *
+     * @param authResult the result of the sign in attempt
+     */
+    private void handleSignInResult(AuthResult authResult) {
+        if (authResult.getStatus() == AuthRequestStatus.SUCCESS) {
+            SessionManager.getInstance().setCurrentUser(authResult.getUser());
+            application.launchApplication();
+            authView.dispose();
+        } else {
+            signInUI.showErrorMessage(authResult.getErrorMessage());
+        }
+    }
+
+    /**
+     * Handles the result of a sign up attempt.
+     *
+     * @param authResult the result of the sign up attempt
+     */
+    private void handleSignUpResult(AuthResult authResult) {
+        if (authResult.getStatus() == AuthRequestStatus.SUCCESS) {
+            handleChangeView();
+        } else {
+            signUpUI.showErrorMessage(authResult.getErrorMessage());
+        }
+    }
+
+    /**
+     * Toggles the loading state of the authentication view.
+     *
+     * @param isLoading true to show the loading state, false to hide it
+     */
+    private void toggleLoadingState(boolean isLoading) {
+        authView.getContentPanel().setVisible(!isLoading);
+        authView.getGlassPane().setVisible(isLoading);
     }
 }

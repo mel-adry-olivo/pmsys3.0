@@ -138,7 +138,7 @@ public class FlatPanel extends JPanel implements MigLayoutCompatible<FlatPanel>,
     @Override
     public void mouseEntered(MouseEvent e) {
         if (isHoverable) {
-            putClientProperty("FlatLaf.style", "background: darken(#ffffff, 2%);");
+            putClientProperty("FlatLaf.style", "background: darken(#ffffff, 4%);");
         }
     }
 

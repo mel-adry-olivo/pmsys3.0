@@ -3,7 +3,6 @@ package org.pmsys.main.ui.components.base;
 import com.formdev.flatlaf.FlatClientProperties;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class FlatScrollPane extends JScrollPane implements MigLayoutCompatible<FlatScrollPane>{
 
@@ -23,7 +22,7 @@ public class FlatScrollPane extends JScrollPane implements MigLayoutCompatible<F
         setBorder(BorderFactory.createEmptyBorder());
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        getVerticalScrollBar().setUnitIncrement(10);
+        getVerticalScrollBar().setUnitIncrement(12);
         getVerticalScrollBar().putClientProperty(FlatClientProperties.STYLE,
                 "width:10;" +
                         "trackArc:999;");
@@ -31,10 +30,6 @@ public class FlatScrollPane extends JScrollPane implements MigLayoutCompatible<F
 
     public void addToView(JComponent component, String constraint) {
         view.add(component, constraint);
-    }
-
-    public void addToView(JComponent component) {
-        view.add(component);
     }
 
     public String getColumnConstraints() {

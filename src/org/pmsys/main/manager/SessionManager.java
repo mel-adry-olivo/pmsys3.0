@@ -1,6 +1,6 @@
 package org.pmsys.main.manager;
 
-import org.pmsys.main.entity.User;
+import org.pmsys.main.model.User;
 
 public class SessionManager {
 

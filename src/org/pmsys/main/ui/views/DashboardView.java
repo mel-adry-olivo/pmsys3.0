@@ -1,7 +1,6 @@
 package org.pmsys.main.ui.views;
 
 
-import org.pmsys.main.entity.User;
 import org.pmsys.main.ui.components.base.FlatPanel;
 
 

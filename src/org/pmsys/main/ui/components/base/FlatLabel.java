@@ -1,6 +1,5 @@
 package org.pmsys.main.ui.components.base;
 
-import com.formdev.flatlaf.extras.FlatAnimatedLafChange;
 import org.pmsys.main.ui.utils.FlatStyler;
 import javax.swing.*;
 import java.awt.*;
@@ -24,6 +23,25 @@ public class FlatLabel extends JLabel{
     public FlatLabel(String text) {
         super(text);
         styler = new FlatStyler();
+    }
+
+    // only wraps two lines
+    public FlatLabel wrapOnIndex(int atIndex) {
+        String text = getText();
+
+        if (text.length() <= atIndex) {
+            return this;
+        }
+        int breakIndex = text.lastIndexOf(' ', atIndex);
+
+        if (breakIndex == -1) {
+            breakIndex = atIndex;
+        }
+
+        String wrappedText = String.format("<html>%s<br>%s</html>", text.substring(0, breakIndex), text.substring(breakIndex + 1));
+        setText(wrappedText);
+
+        return this;
     }
 
     public FlatLabel setForegroundColor(String colorCode) {
@@ -66,6 +84,7 @@ public class FlatLabel extends JLabel{
     public static final String H4 = "$h4.font";
 
     public static final String SEMIBOLD = "$semibold.font";
+    public static final String LARGE_SEMIBOLD = "130% $semibold.font";
     public static final String EXTRA_LARGE = " 120% $large.font";
     public static final String LARGE = "$large.font";
     public static final String DEFAULT = "$defaultFont";

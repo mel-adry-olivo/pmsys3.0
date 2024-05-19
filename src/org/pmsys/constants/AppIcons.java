@@ -25,4 +25,5 @@ public class AppIcons {
     public static final FlatSVGIcon SORT_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/sort.svg", SMALL, SMALL);
 
     public static final FlatSVGIcon CLOSE_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/close.svg", SMALL, SMALL);
+    public static final FlatSVGIcon CLOSE_2_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/close2.svg", SMALL, SMALL);
 }

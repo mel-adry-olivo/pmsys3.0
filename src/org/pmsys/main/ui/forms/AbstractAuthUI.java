@@ -2,7 +2,7 @@ package org.pmsys.main.ui.forms;
 
 import org.pmsys.constants.AppColors;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.listeners.ClickListener;
+import org.pmsys.main.ui.listeners.LinkClickListener;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,11 +15,6 @@ public abstract class AbstractAuthUI extends FlatPanel {
     protected FlatTextField usernameField;
     protected FlatPasswordField passwordField;
     protected FlatButton button;
-    private FlatLabel titleLabel;
-    private FlatLabel subtitleLabel;
-    private FlatLabel usernameLabel;
-    private FlatLabel passwordLabel;
-    private FlatLabel questionLabel;
 
     public AbstractAuthUI() {
         super("insets 10% 14% 10% 12%, fillx", "[]", "[]2%[]2%[]2%[]2%[]4%[]2%[]8%[]4%[]");
@@ -29,16 +24,17 @@ public abstract class AbstractAuthUI extends FlatPanel {
         setupQuestion();
     }
 
+
     abstract String getTitle();
     abstract String getSubtitle();
     abstract String getButtonName();
     abstract String getQuestion();
     abstract String getLink();
 
-    abstract String getUsername();
-    abstract char[] getPassword();
+    public abstract String getUsername();
+    public abstract char[] getPassword();
 
-    public void handleLinkClick(ClickListener listener) {
+    public final void handleLinkClick(LinkClickListener listener) {
         linkLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -47,25 +43,30 @@ public abstract class AbstractAuthUI extends FlatPanel {
         });
     }
 
-    public void handleButtonClick(ActionListener listener) {
+    public final void handleButtonClick(ActionListener listener) {
         button.addActionListener(listener);
     }
 
-    public void resetFields() {
+    public final void resetForm() {
         usernameField.setText("");
         passwordField.setText("");
+
+        messageLabel.setText("This is a message label");
+        messageLabel.setForegroundColor(AppColors.WHITE).applyFlatStyle();
+
+        usernameField.setBorderColor("darken(#ffffff, 5%)")
+                .applyFlatStyle();
+        passwordField.setBorderColor("darken(#ffffff, 5%)")
+                .applyFlatStyle();
     }
 
-    public void showErrorMessage(String message) {
+    public final void showErrorMessage(String message) {
         messageLabel.setText(message);
         messageLabel.setForegroundColor(AppColors.ERROR).applyFlatStyle();
     }
-    public void resetErrorMessage() {
-        messageLabel.setText("This is a message label");
-        messageLabel.setForegroundColor(AppColors.WHITE).applyFlatStyle();
-    }
 
-    public void showErrorInput(boolean username, boolean password) {
+
+    public final void showErrorInput(boolean username, boolean password) {
         if(username) {
             usernameField
                     .setBorderColor(AppColors.ERROR)
@@ -78,68 +79,39 @@ public abstract class AbstractAuthUI extends FlatPanel {
                     .applyFlatStyle();
         }
     }
-    public void resetErrorInput() {
-        usernameField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
-        passwordField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
-    }
-
-    protected FlatLabel createLabel(String text, String fontStyle, String foregroundColor) {
-        return new FlatLabel(text)
-                .setFontStyle(fontStyle)
-                .setForegroundColor(foregroundColor)
-                .applyFlatStyle();
-    }
-    protected FlatButton createButton(String text) {
-        return new FlatButton(text, false)
-                .setArc(100)
-                .setBorderWidth(2)
-                .setHoverBorderColor(AppColors.ACCENT)
-                .setBorderColor(AppColors.ACCENT)
-                .setPressedBackgroundColor(AppColors.ACCENT)
-                .setPressedForegroundColor(AppColors.WHITE)
-                .setHoverBackgroundColor(AppColors.WHITE)
-                .setHoverForegroundColor(AppColors.ACCENT)
-                .setBackgroundColor(AppColors.ACCENT)
-                .setForegroundColor(AppColors.WHITE)
-                .setFontStyle(FlatLabel.SEMIBOLD)
-                .setTextMargin(10,18,10,18)
-                .applyFlatStyle();
-    }
 
     private void setupTitles() {
-        titleLabel = createLabel(getTitle(), FlatLabel.H1_120, AppColors.BLACK);
-        subtitleLabel = createLabel(getSubtitle(), FlatLabel.DEFAULT, AppColors.DARK_GREY);
+        FlatLabel titleLabel = FlatLabelFactory.createScaledH1Label(getTitle());
+        FlatLabel subtitleLabel = FlatLabelFactory.createDefaultLabel(getSubtitle());
 
-        add(titleLabel, "al left, wrap, growx");
-        add(subtitleLabel, "al left, wrap, growx");
+        add(titleLabel, "wrap, growx");
+        add(subtitleLabel, "wrap, growx");
     }
     private void setupInput() {
-        usernameLabel = createLabel("Username", FlatLabel.DEFAULT, AppColors.DARK_GREY);
-        messageLabel = createLabel("This is a message label", FlatLabel.DEFAULT, AppColors.WHITE);
-        usernameField = FlatFieldFactory.createTextField("Enter your username");
+        messageLabel = FlatLabelFactory.createDefaultLabel("This is a message label", AppColors.WHITE);
+        FlatLabel usernameLabel = FlatLabelFactory.createDefaultLabel("Username", AppColors.DARK_GREY);
+        FlatLabel passwordLabel = FlatLabelFactory.createDefaultLabel("Password", AppColors.DARK_GREY);
 
-        passwordLabel = createLabel("Password", FlatLabel.DEFAULT, AppColors.DARK_GREY);
+        usernameField = FlatFieldFactory.createTextField("Enter your username");
         passwordField = FlatFieldFactory.createPasswordField("Enter your password");
 
-        add(messageLabel, "h 0%, al left, wrap, growx");
-        add(usernameLabel, "al left, wrap, growx");
-        add(usernameField, "al left, wrap, growx");
+        add(messageLabel, "h 0%, wrap, growx");
 
-        add(passwordLabel, "al left, wrap, growx");
-        add(passwordField, "al left, wrap, growx");
+        add(usernameLabel, "wrap, growx");
+        add(usernameField, "wrap, growx");
+
+        add(passwordLabel, "wrap, growx");
+        add(passwordField, "wrap, growx");
     }
     private void setupButton() {
-        button = createButton(getButtonName());
-        add(button, "al left, wrap, growx");
+        button = FlatButtonFactory.createFilledButton(getButtonName());
+        add(button, "wrap, growx");
     }
     private void setupQuestion() {
-        questionLabel = createLabel(getQuestion(), FlatLabel.DEFAULT, AppColors.DARK_GREY);
-        linkLabel = createLabel(getLink(), FlatLabel.DEFAULT, AppColors.ACCENT).isLink();
+        FlatLabel questionLabel = FlatLabelFactory.createDefaultLabel(getQuestion());
+        linkLabel = FlatLabelFactory.createLinkLabel(getLink());
 
         add(questionLabel, "al center, split 2");
         add(linkLabel, "al center, wrap");
     }
-
 }

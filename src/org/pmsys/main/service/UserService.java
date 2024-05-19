@@ -1,31 +1,42 @@
 package org.pmsys.main.service;
 
-import org.pmsys.main.entity.User;
+import org.pmsys.main.model.User;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.logging.Logger;
 
 public class UserService extends FileService {
 
     public void storeUserData(User user) {
-        try (BufferedWriter writer = createWriterFor( getFileOfUser(user) );
-             BufferedWriter writer2 = createWriterFor( getUserAccountFile() )) {
+        try {
+            Files.createFile(getProjectFileOf(user));
+            Files.createFile(getTaskFileOf(user));
 
-            writer.write("");
-            writer2.write(user.toString());
-            writer2.newLine();
-
-        } catch (IOException _) {}
+            Files.writeString(
+                    getUserAccountFile(),
+                    user.toString() + System.lineSeparator(),
+                    StandardOpenOption.APPEND,
+                    StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            Logger.getGlobal().warning(e.getMessage());
+        }
     }
 
     public User findAccountByUsername(String username) {
-        try (BufferedReader reader = createReaderFor( getUserAccountFile() )) {
-            return reader.lines()
+        try {
+            return Files.readAllLines(getUserAccountFile())
+                    .stream()
                     .map(line -> line.split(":::"))
                     .filter(data -> data[1].equals(username))
                     .map(User::new)
                     .findFirst()
                     .orElse(null);
-
-         } catch (IOException _) { return null; }
+         } catch (IOException e) {
+            Logger.getGlobal().warning(e.getMessage());
+            return null;
+        }
     }
 }

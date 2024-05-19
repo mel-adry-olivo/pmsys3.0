@@ -23,7 +23,7 @@ public class FlatButtonFactory {
         return new FlatButton(text, false)
                 .setForegroundColor(AppColors.WHITE)
                 .setBackgroundColor(AppColors.ACCENT)
-                .setTextMargin(6,14,6,14)
+                .setTextMargin(9,14,9,14)
                 .applyFlatStyle();
     }
 

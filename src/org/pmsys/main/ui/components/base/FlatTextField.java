@@ -6,7 +6,7 @@ import org.pmsys.main.ui.utils.FlatStyler;
 import javax.swing.*;
 import java.awt.*;
 
-public class FlatTextField extends JTextField {
+public class FlatTextField extends JTextField implements FlatColorable<FlatTextField>{
 
     private final FlatStyler styler;
 
@@ -16,15 +16,16 @@ public class FlatTextField extends JTextField {
         setBorderWidth(1);
         setFocusedBorderColor(AppColors.ACCENT);
 
+        setupDocumentListener();
+        applyFlatStyle();
+
+
         setForeground(Color.decode(AppColors.DARK_GREY));
         setOpaque(false);
     }
 
-    public FlatTextField setMinimumWidth(int width) {
-        styler.getStyleMap().put("minimumWidth", String.valueOf(width));
-        return this;
-    }
 
+    @Override
     public FlatTextField setInactiveBackgroundColor(String color) {
         styler.getStyleMap().put("inactiveBackground", color);
         return this;
@@ -44,21 +45,25 @@ public class FlatTextField extends JTextField {
         return this;
     }
 
+    @Override
     public FlatTextField setBorderColor(String color) {
         styler.getStyleMap().put("borderColor", color);
         return this;
     }
 
+    @Override
     public FlatTextField setBackgroundColor(String color) {
         styler.getStyleMap().put("background", color);
         return this;
     }
 
+    @Override
     public FlatTextField setFocusedBackgroundColor(String color) {
         styler.getStyleMap().put("focusedBackground", color);
         return this;
     }
 
+    @Override
     public FlatTextField setFocusedBorderColor(String color) {
         styler.getStyleMap().put("focusedBorderColor", color);
         return this;
@@ -77,5 +82,10 @@ public class FlatTextField extends JTextField {
     public FlatTextField applyFlatStyle() {
         styler.applyFlatStyle(this);
         return this;
+    }
+
+
+    private void setupDocumentListener() {
+        getDocument().addDocumentListener(new FlatDocumentListener(this,this));
     }
 }
