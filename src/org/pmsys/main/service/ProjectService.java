@@ -1,33 +1,28 @@
 package org.pmsys.main.service;
 
-import org.pmsys.main.model.Project;
-import org.pmsys.main.model.Task;
-import org.pmsys.main.model.request.ProjectRequest;
-import org.pmsys.main.model.result.ProjectResult;
+import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.request.ProjectRequest;
+import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.utils.DateUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProjectService extends FileService {
 
-    private Map<String, Project> projectCache = null;
+    private Map<String, Project> projectCache = new HashMap<>();
 
     public void cacheProjects() {
-        if (projectCache == null) {
+        if (projectCache.isEmpty()) {
             projectCache = getAllProjects();
         }
-    }
-
-    public void clearCache() {
-        projectCache = null;
     }
 
     public void saveProject(Project project) {
@@ -54,13 +49,14 @@ public class ProjectService extends FileService {
                     content.toString(),
                     StandardOpenOption.WRITE,
                     StandardOpenOption.TRUNCATE_EXISTING);
+
         } catch (IOException e) {
             Logger.getGlobal().warning(e.getMessage());
         }
     }
 
     public Map<String, Project> getAllProjects() {
-        if(projectCache != null) {
+        if(!projectCache.isEmpty()) {
             return projectCache;
         }
 

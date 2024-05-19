@@ -1,12 +1,16 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.model.Project;
+import org.pmsys.main.actions.SimpleAction;
+import org.pmsys.main.entities.Project;
 import org.pmsys.main.ui.components.base.FlatLabel;
 import org.pmsys.main.ui.components.base.FlatLabelFactory;
 import org.pmsys.main.ui.components.base.FlatPanel;
 import org.pmsys.main.ui.listeners.ProjectOpenListener;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -26,13 +30,8 @@ public class ProjectCard extends FlatPanel{
         updateUIData();
     }
 
-    public void handleCardClick(ProjectOpenListener listener) {
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                listener.onProjectOpened(project);
-            }
-        });
+    public Project getProject() {
+        return project;
     }
 
     private void updateUIData() {

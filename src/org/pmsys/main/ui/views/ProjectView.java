@@ -1,9 +1,11 @@
 package org.pmsys.main.ui.views;
 
 import org.pmsys.constants.AppIcons;
+import org.pmsys.main.actions.Actions;
 import org.pmsys.main.controller.ProjectController;
-import org.pmsys.main.model.Project;
-import org.pmsys.main.model.Task;
+import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.Task;
+import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.ui.components.TaskBoard;
 import org.pmsys.main.ui.components.TaskCard;
 import org.pmsys.main.ui.components.base.*;
@@ -11,8 +13,9 @@ import org.pmsys.main.ui.components.base.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
-public class ProjectView extends FlatPanel{
+public class ProjectView extends FlatPanel implements UIView{
 
     private Project currentProjectOpened;
 
@@ -28,6 +31,7 @@ public class ProjectView extends FlatPanel{
     public ProjectView() {
         super("insets 0, flowy, fillx", "fill", "[]0[]0[]");
         setupView();
+        attachListeners(null);
     }
 
     public Project getCurrentProject() {
@@ -58,17 +62,21 @@ public class ProjectView extends FlatPanel{
         projectTitle.setText("Project Title");
     }
 
-    public void updateProjectView(Project project) {
+    public void initProjectView(Project project) {
         taskBoard.resetBoard();
         currentProjectOpened = project;
         projectTitle.setText(currentProjectOpened.getTitle());
     }
 
     public void attachListeners(ProjectController controller) {
-        exportButton.addActionListener(controller::handleExportClick);
-        optionButton.addActionListener(controller::handleProjectOptionsClick);
-        addTaskButton.addActionListener(controller::handleTaskAddClick);
-        closeButton.addActionListener(controller::handleCloseClick);
+//        exportButton.addActionListener(controller::handleExportClick);
+        optionButton.addActionListener(e -> {
+            ActionManager.executeAction(Actions.SHOW_PROJECT_OPTIONS, optionButton, this);
+        });
+//        addTaskButton.addActionListener(controller::handleTaskAddClick);
+        closeButton.addActionListener(e -> {
+            ActionManager.executeAction(Actions.CLOSE_PROJECT, closeButton, this);
+        });
     }
 
     private void setupView() {
@@ -104,20 +112,19 @@ public class ProjectView extends FlatPanel{
 
     public static class OptionsPopup extends JPopupMenu {
 
-        private final ProjectController projectController;
-
         private JMenuItem editProject;
         private JMenuItem deleteProject;
 
-        public OptionsPopup(ProjectController projectController) {
-            this.projectController = projectController;
+        public OptionsPopup() {
             setupComponent();
-            setupListeners();
         }
 
-        private void setupListeners() {
-            editProject.addActionListener(projectController::handleProjectEditClick);
-            deleteProject.addActionListener(projectController::handleProjectDeleteClick);
+        public void handleEditProjectClick(ActionListener listener) {
+            editProject.addActionListener(listener);
+        }
+
+        public void handleDeleteProjectClick(ActionListener listener) {
+            deleteProject.addActionListener(listener);
         }
 
         private void setupComponent() {

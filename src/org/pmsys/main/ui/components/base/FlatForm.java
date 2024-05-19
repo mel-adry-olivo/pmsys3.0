@@ -7,13 +7,18 @@ import java.awt.event.WindowAdapter;
 
 public class FlatForm extends JDialog{
 
-    private FlatPanel contentPanel;
+    private final FlatPanel myContentPanel;
 
     public FlatForm() {
-        setContentPane(contentPanel = new FlatPanel());
+        myContentPanel =  new FlatPanel();
+        setContentPane(myContentPanel);
         setModal(true);
         setFocusable(true);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }
+
+    public FlatPanel getContentPanel() {
+        return myContentPanel;
     }
 
     public FlatForm addCloseBehavior(WindowAdapter closeBehavior) {
@@ -22,7 +27,7 @@ public class FlatForm extends JDialog{
     }
 
     public FlatForm setConstraints(String... constraints ) {
-        contentPanel.setConstraints(constraints);
+        myContentPanel.setConstraints(constraints);
         return this;
     }
 
@@ -36,7 +41,6 @@ public class FlatForm extends JDialog{
         return this;
     }
 
-
     public FlatForm showForm() {
         pack();
         setLocationRelativeTo(null);
@@ -44,5 +48,9 @@ public class FlatForm extends JDialog{
         return this;
     }
 
-
+    public FlatForm hideForm() {
+        setVisible(false);
+        dispose();
+        return this;
+    }
 }

@@ -1,6 +1,6 @@
 package org.pmsys.main.ui.listeners;
 
-import org.pmsys.main.model.Project;
+import org.pmsys.main.entities.Project;
 
 @FunctionalInterface
 public interface ProjectOpenListener {

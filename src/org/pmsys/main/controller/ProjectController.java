@@ -1,17 +1,15 @@
 package org.pmsys.main.controller;
 
-import org.pmsys.constants.FormType;
-import org.pmsys.constants.ProjectRequestStatus;
-import org.pmsys.constants.TaskRequestStatus;
-import org.pmsys.constants.View;
-import org.pmsys.main.manager.FormManager;
-import org.pmsys.main.model.Project;
-import org.pmsys.main.model.Task;
-import org.pmsys.main.manager.ViewManager;
-import org.pmsys.main.model.request.ProjectRequest;
-import org.pmsys.main.model.request.TaskRequest;
-import org.pmsys.main.model.result.ProjectResult;
-import org.pmsys.main.model.result.TaskResult;
+import org.pmsys.main.ui.forms.FormType;
+import org.pmsys.main.entities.request.ProjectRequestStatus;
+import org.pmsys.main.entities.request.TaskRequestStatus;
+import org.pmsys.main.managers.FormManager;
+import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.Task;
+import org.pmsys.main.entities.request.ProjectRequest;
+import org.pmsys.main.entities.request.TaskRequest;
+import org.pmsys.main.entities.result.ProjectResult;
+import org.pmsys.main.entities.result.TaskResult;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.service.TaskService;
 import org.pmsys.main.ui.components.TaskCard;
@@ -31,21 +29,14 @@ public final class ProjectController implements ProjectOpenListener {
     private final ProjectService projectService;
     private final TaskService taskService;
     private final ProjectView projectView;
-    private final FormManager formManager;
-    private final ViewManager viewManager;
 
-    private ProjectListController projectListController;
 
     public ProjectController(ProjectService projectService,
                              TaskService taskService,
-                             ProjectView projectView,
-                             FormManager formManager,
-                             ViewManager viewManager) {
+                             ProjectView projectView) {
         this.projectService = projectService;
         this.taskService = taskService;
         this.projectView = projectView;
-        this.formManager = formManager;
-        this.viewManager = viewManager;
         projectView.attachListeners(this);
     }
 
@@ -54,23 +45,20 @@ public final class ProjectController implements ProjectOpenListener {
         taskService.cacheTasks();
         project.setTasks(taskService.getTasksOf(project));
         displayProjectDetails(project);
-        viewManager.showView(View.PROJECT);
+        //viewManager.showView(Views.PROJECT);
     }
 
-    public void setProjectListController(ProjectListController projectListController) {
-        this.projectListController = projectListController;
-    }
 
     public void displayProjectDetails(Project project) {
-        projectView.updateProjectView(project);
+        projectView.initProjectView(project);
         project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard, this)));
     }
 
     // ui events
     public void handleCloseClick(ActionEvent e) {
         taskService.clearCache();
-        viewManager.showView(View.PROJECT_LIST);
-        projectListController.loadAllProjectsFromFile();
+        //viewManager.showView(Views.PROJECT_LIST);
+        //projectListController.loadAllProjectsFromFile();
     }
 
     public void handleExportClick(ActionEvent e) {
@@ -78,13 +66,13 @@ public final class ProjectController implements ProjectOpenListener {
     }
 
     public void handleTaskAddClick(ActionEvent e) {
-        formManager.setFormActionHandler(FormType.TASK, this::handleTaskCreationEvent);
-        formManager.showForm(FormType.TASK, null);
+        //FormManager.setFormActionHandler(FormType.TASK, this::handleTaskCreationEvent);
+        FormManager.INSTANCE.showForm(FormType.TASK, null);
     }
 
     public void handleTaskEditClick(TaskCard taskCard) {
-        formManager.setFormActionHandler(FormType.TASK, e -> handleTaskEditEvent(taskCard));
-        formManager.showForm(FormType.TASK, taskCard.get());
+        //FormManager.setFormActionHandler(FormType.TASK, e -> handleTaskEditEvent(taskCard));
+        FormManager.INSTANCE.showForm(FormType.TASK, taskCard.get());
     }
     public void handleTaskDeleteClick(TaskCard taskCard) {
         if (confirmDeletion("task")) {
@@ -107,15 +95,15 @@ public final class ProjectController implements ProjectOpenListener {
     }
 
     public void handleProjectEditClick(ActionEvent e) {
-        formManager.setFormActionHandler(FormType.PROJECT, this::handleProjectEditEvent);
-        formManager.showForm(FormType.PROJECT, projectView.getCurrentProject());
+        //FormManager.setFormActionHandler(FormType.PROJECT, this::handleProjectEditEvent);
+        FormManager.INSTANCE.showForm(FormType.PROJECT, projectView.getCurrentProject());
     }
 
     // edit and creation events
     private void handleTaskEditEvent(TaskCard taskCard) {
         Task taskToEdit = taskCard.get();
         String oldStatus = taskToEdit.getStatus();
-        TaskRequest taskRequest = (TaskRequest) formManager.getFormData(FormType.TASK, taskToEdit.getId());
+        TaskRequest taskRequest = (TaskRequest) FormManager.INSTANCE.getFormData(FormType.TASK, taskToEdit.getId());
         TaskResult result = taskService.validateTaskRequest(taskRequest);
 
         if(result.getStatus() != TaskRequestStatus.SUCCESS) {
@@ -130,7 +118,7 @@ public final class ProjectController implements ProjectOpenListener {
     }
 
     private void handleTaskCreationEvent(ActionEvent e) {
-        TaskRequest taskRequest = (TaskRequest) formManager.getFormData(FormType.TASK);
+        TaskRequest taskRequest = (TaskRequest) FormManager.INSTANCE.getFormData(FormType.TASK);
         TaskResult result = taskService.validateTaskRequest(taskRequest);
 
         if(result.getStatus() != TaskRequestStatus.SUCCESS) {
@@ -146,11 +134,11 @@ public final class ProjectController implements ProjectOpenListener {
 
     private void handleProjectEditEvent(ActionEvent e) {
         Project currentProject = projectView.getCurrentProject();
-        ProjectRequest projectRequest = (ProjectRequest) formManager.getFormData(FormType.PROJECT, currentProject.getId());
+        ProjectRequest projectRequest = (ProjectRequest) FormManager.INSTANCE.getFormData(FormType.PROJECT, currentProject.getId());
         ProjectResult result = projectService.validateProjectRequest(projectRequest);
 
         if(result.getStatus() != ProjectRequestStatus.SUCCESS) {
-            projectListController.handleProjectCreationError(result);
+            //projectListController.handleProjectCreationError(result);
             return;
         }
 
@@ -179,8 +167,8 @@ public final class ProjectController implements ProjectOpenListener {
 
     private void deleteProject() {
         projectService.deleteProjectFromFile(projectView.getCurrentProject());
-        projectListController.loadAllProjectsFromFile();
-        viewManager.showView(View.PROJECT_LIST);
+        //projectListController.loadAllProjectsFromFile();
+        //viewManager.showView(Views.PROJECT_LIST);
     }
 
     private void updateTaskInFile(Task taskToEdit, Task validatedTask) {
@@ -189,14 +177,14 @@ public final class ProjectController implements ProjectOpenListener {
     }
 
     private void updateProjectInFile(Project existingProject, Project updatedProject) {
-        existingProject.updateTask(updatedProject);
+        existingProject.updateProject(updatedProject);
         projectService.updateProjectInFile(updatedProject);
     }
 
     private void refreshProjectView(Project project) {
-        projectListController.loadAllProjectsFromFile();
-        projectView.updateProjectView(project);
-        formManager.hideForm(FormType.PROJECT);
+        projectView.initProjectView(project);
+        //projectListController.loadAllProjectsFromFile();
+        FormManager.INSTANCE.hideForm(FormType.PROJECT);
     }
 
     private void refreshProjectProgress(Task task, String action) {
@@ -222,19 +210,19 @@ public final class ProjectController implements ProjectOpenListener {
     private void displayTaskInUI(Task task) {
         TaskCard taskCard = projectView.createTaskCard(task, this);
         projectView.addTaskToView(taskCard);
-        formManager.hideForm(FormType.TASK);
+        FormManager.INSTANCE.hideForm(FormType.TASK);
     }
 
     private void updateTaskInUI(Task task, String oldStatus) {
         TaskCard taskCard = projectView.createTaskCard(task, this);
         projectView.updateTaskInView(taskCard, oldStatus);
-        formManager.hideForm(FormType.TASK);
+        FormManager.INSTANCE.hideForm(FormType.TASK);
     }
 
     private void handleTaskCreationError(TaskResult result) {
-        formManager.getFormUI(FormType.TASK).showErrorMessage(result.getErrorMessage());
+        FormManager.INSTANCE.getForm(FormType.TASK).showErrorMessage(result.getErrorMessage());
         if (result.getStatus() == TaskRequestStatus.BLANK_FIELDS) {
-            formManager.getFormUI(FormType.TASK).showErrorFields();
+            FormManager.INSTANCE.getForm(FormType.TASK).showErrorFields();
         }
     }
 
@@ -245,7 +233,7 @@ public final class ProjectController implements ProjectOpenListener {
     }
 
     private void showProjectOptionsPopup(ActionEvent e) {
-        ProjectView.OptionsPopup optionsPopup = new ProjectView.OptionsPopup(this);
+        ProjectView.OptionsPopup optionsPopup = new ProjectView.OptionsPopup();
         FlatButton button = (FlatButton) e.getSource();
         optionsPopup.show(button, 0, button.getHeight());
     }

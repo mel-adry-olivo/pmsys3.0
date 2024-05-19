@@ -3,9 +3,12 @@ package org.pmsys.main.ui;
 import net.miginfocom.swing.MigLayout;
 import org.pmsys.constants.AppColors;
 import org.pmsys.constants.AppIcons;
-import org.pmsys.constants.View;
-import org.pmsys.main.manager.SessionManager;
-import org.pmsys.main.manager.ViewManager;
+import org.pmsys.main.actions.Actions;
+import org.pmsys.main.managers.ActionManager;
+import org.pmsys.main.managers.ViewManager;
+import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.views.Views;
+import org.pmsys.main.managers.SessionManager;
 import org.pmsys.main.ui.components.base.FlatButton;
 import org.pmsys.main.ui.components.base.FlatButtonFactory;
 import org.pmsys.main.ui.components.base.FlatLabel;
@@ -17,38 +20,46 @@ import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainWindow extends JFrame implements ViewManager {
+public class MainWindow extends JFrame{
 
     private final WindowMenu menu;
     private final WindowHeader header;
     private final WindowContent content;
 
-    private final Map<View, JComponent> views = new HashMap<>();
+    private final Map<Views, JComponent> views = new HashMap<>();
 
     public MainWindow( ) {
         content = new WindowContent();
         header = new WindowHeader();
-        menu = new WindowMenu(this);
 
+        ViewManager.INSTANCE.setViewWindow(this); // was in this line because the menu needs the view manager
+
+        menu = new WindowMenu();
         setupComponent();
-
     }
 
-    @Override
-    public void showView(View view) {
-        JComponent viewComponent = views.get(view);
-        if (viewComponent != null) {
-            content.getLayout().show(content, view.name());
-            header.updateViewName(view);
-        }
+    public WindowContent getViewContent() {
+        return content;
     }
 
-    @Override
-    public void addView(View view, JComponent component) {
-        component.setPreferredSize(new Dimension(content.getWidth(), content.getHeight()));
-        content.add(component, view.name());
-        views.put(view, component);
+    public WindowHeader getViewHeader() {
+        return header;
     }
+
+//    public void showView(Views views) {
+//        JComponent viewComponent = this.views.get(views);
+//        if (viewComponent != null) {
+//            content.getLayout().show(content, views.name());
+//            header.updateViewName(views);
+//        }
+//    }
+//
+//
+//    public void addView(Views views, JComponent component) {
+//        component.setPreferredSize(new Dimension(content.getWidth(), content.getHeight()));
+//        content.add(component, views.name());
+//        this.views.put(views, component);
+//    }
 
     private void setupComponent() {
         setLayout(new MigLayout("insets 0, fill", "[grow 0]0[]", "[]0[grow]"));
@@ -62,24 +73,32 @@ public class MainWindow extends JFrame implements ViewManager {
         add(content, "cell 1 1, grow");
     }
 
-    private static class WindowContent extends JLayeredPane {
+    public static class WindowContent extends JLayeredPane {
 
         public WindowContent() {
             setupComponent();
         }
 
         private void setupComponent() {
-            setLayout(new CardLayout());
+            setLayout(new BorderLayout());
             setOpaque(true);
             setVisible(true);
         }
 
-        public CardLayout getLayout() {
-            return (CardLayout) super.getLayout();
+        @Override
+        public Component add(Component comp) {
+            add(comp, BorderLayout.CENTER);
+            repaint();
+            revalidate();
+            return this;
         }
+
+//        public CardLayout getLayout() {
+//            return (CardLayout) super.getLayout();
+//        }
     }
 
-    private static class WindowHeader extends FlatPanel {
+    public static class WindowHeader extends FlatPanel {
 
         private FlatLabel viewIcon;
         private FlatLabel viewName;
@@ -115,7 +134,7 @@ public class MainWindow extends JFrame implements ViewManager {
                     .setForegroundColor(AppColors.BLACK)
                     .applyFlatStyle();
 
-            userName = new FlatLabel("hi "+ SessionManager.getInstance().getCurrentUser().getUsername())
+            userName = new FlatLabel("hi "+ SessionManager.getUser().getUsername())
                     .setFontStyle(FlatLabel.SEMIBOLD)
                     .setForegroundColor(AppColors.BLACK)
                     .applyFlatStyle();
@@ -134,8 +153,8 @@ public class MainWindow extends JFrame implements ViewManager {
             add(userAvatar);
         }
 
-        public void updateViewName(View view) {
-            switch (view) {
+        public void updateViewName(Views views) {
+            switch (views) {
                 case DASHBOARD -> {
                     viewIcon.setIcon(AppIcons.DASHBOARD_ICON_SMALL);
                     viewName.setText("Dashboard");
@@ -151,30 +170,22 @@ public class MainWindow extends JFrame implements ViewManager {
             }
         }
 
-        public void handleOpenedProject(String projectName) {
-            separator.setVisible(true);
-            this.projectName.setVisible(true);
-            this.projectName.setText(projectName);
-        }
-
         private class SearchBar extends JPanel {
 
         }
     }
 
-    private static class WindowMenu extends FlatPanel{
+    public static class WindowMenu extends FlatPanel implements UIView{
 
-        private final MainWindow mainWindow;
 
         private FlatButton dashboardButton;
         private FlatButton projectListButton;
         private FlatButton selectedButton;
 
-        public WindowMenu(MainWindow mainWindow) {
-            this.mainWindow = mainWindow;
+        public WindowMenu() {
+
 
             setupComponent();
-            attachListeners();
 
             // initial view
             projectListButton.setSelected(true);
@@ -184,18 +195,21 @@ public class MainWindow extends JFrame implements ViewManager {
 
         }
 
-        private void attachListeners() {
-            dashboardButton.addActionListener(this::handleButtonClick);
-            projectListButton.addActionListener(this::handleButtonClick);
+        public FlatButton getSelectedButton() {
+            return selectedButton;
         }
 
-        private void handleViewChange(JButton selectedButton) {
+        public void setSelectedButton(FlatButton selectedButton) {
+            if(this.selectedButton != null) {
+                this.selectedButton = selectedButton;
+            }
+        }
 
+
+        public void handleViewChange(FlatButton selectedButton) {
             String actionCommand = selectedButton.getActionCommand();
-            View selectedView = View.valueOf(actionCommand);
-
-            mainWindow.showView(selectedView);
-
+            Views selectedView = Views.valueOf(actionCommand);
+            ViewManager.INSTANCE.showView(selectedView);
         }
 
         private void setupComponent() {
@@ -205,31 +219,19 @@ public class MainWindow extends JFrame implements ViewManager {
             FlatLabel logoIcon = new FlatLabel(AppIcons.LOGO);
 
             dashboardButton = FlatButtonFactory.createHoverableIconButton(AppIcons.DASHBOARD_ICON_MEDIUM);
-            projectListButton = FlatButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
+            dashboardButton.setActionCommand(Views.DASHBOARD.name());
+            dashboardButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, dashboardButton, this));
 
-            dashboardButton.setActionCommand(View.DASHBOARD.name());
-            projectListButton.setActionCommand(View.PROJECT_LIST.name());
+            projectListButton = FlatButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
+            projectListButton.setActionCommand(Views.PROJECT_LIST.name());
+            projectListButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, projectListButton, this));
+
 
             add(logoIcon, "wmin 36, wmax 36, hmin 36, hmax 36");
             add(dashboardButton, "gaptop 45, wmin 36, wmax 36, hmin 36, hmax 36");
             add(projectListButton, "gaptop 24, wmin 36, wmax 36, hmin 36, hmax 36");
         }
 
-        private void handleButtonClick(ActionEvent e) {
-            FlatButton clickedButton = (FlatButton) e.getSource();
-
-            if (selectedButton != clickedButton && selectedButton != null) {
-                selectedButton.setSelected(false);
-                selectedButton.setBackground(new Color(255,255,255));
-            }
-
-            selectedButton = clickedButton;
-            selectedButton.setPressedBackgroundColor(AppColors.PRESSED_GREY);
-            selectedButton.setSelected(true);
-            selectedButton.setBackground(new Color(80,80,80));
-
-            handleViewChange(selectedButton);
-        }
 
     }
 }

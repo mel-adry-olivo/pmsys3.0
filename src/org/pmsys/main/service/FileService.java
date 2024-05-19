@@ -1,7 +1,7 @@
 package org.pmsys.main.service;
 
-import org.pmsys.main.model.User;
-import org.pmsys.main.manager.SessionManager;
+import org.pmsys.main.entities.User;
+import org.pmsys.main.managers.SessionManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public abstract class FileService {
     }
 
     private User getCurrentUser() {
-        return SessionManager.getInstance().getCurrentUser();
+        return SessionManager.getUser();
     }
 
     private void createFileIfNotExists(String path) {

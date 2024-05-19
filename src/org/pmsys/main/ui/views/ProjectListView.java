@@ -1,22 +1,23 @@
 package org.pmsys.main.ui.views;
 
 import org.pmsys.constants.AppIcons;
-import org.pmsys.main.controller.ProjectListController;
-import org.pmsys.main.model.Project;
-import org.pmsys.main.model.request.Request;
+import org.pmsys.main.actions.Actions;
+import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.request.Request;
+import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.ui.components.ProjectCard;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.forms.ProjectForm;
+import org.pmsys.main.ui.forms.ProjectSimpleForm;
 import org.pmsys.main.ui.components.ProjectList;
-import org.pmsys.main.ui.listeners.ProjectOpenListener;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
- * <h1>ProjectListView</h1>
  * This class represents the main view for displaying a list of projects.
  */
-public class ProjectListView extends FlatPanel{
+public class ProjectListView extends FlatPanel implements UIView{
 
     private int currentProjectPage = 0;
     private int currentTotalPage = 0;
@@ -31,17 +32,15 @@ public class ProjectListView extends FlatPanel{
     private FlatButton nextButton;
 
     private ProjectList currentProjectList;
-    private ProjectForm projectCreateForm;
+    private ProjectSimpleForm projectCreateForm;
 
     public ProjectListView() {
         setupView();
+        attachListeners();
+        requestFocusInWindow();
     }
 
-    public void showProjectForm() {
-        projectCreateForm.showForm();
-    }
-
-    public ProjectForm getProjectForm() {
+    public ProjectSimpleForm getProjectForm() {
         return projectCreateForm;
     }
 
@@ -49,9 +48,16 @@ public class ProjectListView extends FlatPanel{
         return projectCreateForm.getFormData();
     }
 
-    public ProjectCard createProjectCard(Project project, ProjectOpenListener listener) {
+    public ProjectCard createProjectCard(Project project) {
         ProjectCard projectCard = new ProjectCard(project);
-        projectCard.handleCardClick(listener);
+        projectCard.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ActionManager.executeAction(Actions.OPEN_PROJECT, projectCard, ProjectListView.this);
+            }
+        });
+
+        projectCard.requestFocusInWindow();
         return projectCard;
     }
 
@@ -93,6 +99,7 @@ public class ProjectListView extends FlatPanel{
             projectPagesLayout.next(projectPagesContainer);
             updatePageLabel();
         }
+        updateButtonState();
     }
 
     public void showPreviousPage() {
@@ -101,6 +108,7 @@ public class ProjectListView extends FlatPanel{
             currentProjectPage--;
             updatePageLabel();
         }
+        updateButtonState();
     }
 
     public boolean hasNextPage() {
@@ -120,12 +128,19 @@ public class ProjectListView extends FlatPanel{
         pageLabel.setText("Page " + currentProjectPage + " of " + currentTotalPage);
     }
 
-    public void attachListeners(ProjectListController controller) {
-        nextButton.addActionListener(controller::handleNextButtonClick);
-        previousButton.addActionListener(controller::handlePreviousButtonClick);
-        exportButton.addActionListener(controller::handleExportButtonClick);
-        addProjectButton.addActionListener(controller::handleAddProjectButtonClick);
-        projectCreateForm.handleActionButton(controller::handleProjectCreationEvent);
+    public void attachListeners() {
+        nextButton.addActionListener(e -> {
+            ActionManager.executeAction(Actions.NEXT_PAGE, nextButton, this);
+        });
+        previousButton.addActionListener(e -> {
+            ActionManager.executeAction(Actions.PREVIOUS_PAGE, nextButton, this);
+        });
+//        exportButton.addActionListener(controller::handleExportButtonClick);
+
+        addProjectButton.addActionListener(e -> {
+            ActionManager.executeAction(Actions.SHOW_PROJECT_ADD_FORM, addProjectButton, this);
+        });
+
     }
 
     public void goToFirstPage() {
@@ -133,6 +148,23 @@ public class ProjectListView extends FlatPanel{
         projectPagesLayout.first(projectPagesContainer);
         updateButtonState();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void setupView() {
         this.setConstraints("insets 28, fill");
@@ -142,13 +174,13 @@ public class ProjectListView extends FlatPanel{
                 .setLineBorder(1,1,1,1, 8)
                 .applyFlatStyle();
 
-        projectCreateForm = new ProjectForm();
+        projectCreateForm = new ProjectSimpleForm();
         projectPagesContainer = createPageContainer();
 
         FlatPanel headerSection = createHeaderSection();
         FlatPanel sortSection = createSortSection();
         FlatPanel footerSection = createFooterSection();
-        FlatPanel listHeader = createProjectListHeader();
+        FlatPanel listHeader = ComponentFactory.createListHeader();
 
         if (currentProjectList == null) {
             addListToUI(currentProjectList = createProjectList(), String.valueOf((currentTotalPage)));
@@ -163,7 +195,6 @@ public class ProjectListView extends FlatPanel{
         add(mainContent, "grow");
 
     }
-
     private FlatPanel createHeaderSection() {
 
         FlatPanel header = new FlatPanel("insets 16 3% 16 3%, filly", "[]push[]2%[]", "center");
@@ -179,13 +210,11 @@ public class ProjectListView extends FlatPanel{
 
         return header;
     }
-
     private FlatPanel createSortSection() {
         return new FlatPanel()
                 .setConstraints("insets 16 28 16 28, filly", "", "center")
                 .setMatteBorder(1,0,0,0);
     }
-
     private FlatPanel createFooterSection() {
         FlatPanel footer = new FlatPanel()
                 .setConstraints("insets 4 28 4 28, filly", "", "center")
@@ -207,28 +236,28 @@ public class ProjectListView extends FlatPanel{
         pageContainer.setLayout(projectPagesLayout);
         return pageContainer;
     }
-    private FlatPanel createProjectListHeader() {
-
-        FlatPanel projectListHeader = new FlatPanel()
-                .setConstraints("insets 6px 3% 6px 3%, fill", "", "center")
-                .setMatteBorder(1,0,1,0);
-
-        FlatLabel nameColumn = FlatLabelFactory.createSmallLabel("Project Name");
-        FlatLabel descriptionColumn = FlatLabelFactory.createSmallLabel("Description");
-        FlatLabel taskProgressColumn = FlatLabelFactory.createSmallLabel("Task Progress");
-        FlatLabel statusColumn = FlatLabelFactory.createSmallLabel("Status");
-        FlatLabel dueDateColumn = FlatLabelFactory.createSmallLabel("Due Date");
-
-        projectListHeader.add(nameColumn, "w 20%");
-        projectListHeader.add(descriptionColumn, "w 20%");
-        projectListHeader.add(taskProgressColumn, "w 20%");
-        projectListHeader.add(statusColumn, "w 20%");
-        projectListHeader.add(dueDateColumn, "w 20%");
-
-        return projectListHeader;
-    }
     public ProjectList createProjectList() {
         return new ProjectList();
     }
 
+    private static class ComponentFactory {
+        private static FlatPanel createListHeader() {
+            FlatPanel projectListHeader = new FlatPanel()
+                    .setConstraints("insets 6px 3% 6px 3%, fill", "", "center")
+                    .setMatteBorder(1,0,1,0);
+
+            FlatLabel nameColumn = FlatLabelFactory.createSmallLabel("Project Name");
+            FlatLabel descriptionColumn = FlatLabelFactory.createSmallLabel("Description");
+            FlatLabel taskProgressColumn = FlatLabelFactory.createSmallLabel("Task Progress");
+            FlatLabel statusColumn = FlatLabelFactory.createSmallLabel("Status");
+            FlatLabel dueDateColumn = FlatLabelFactory.createSmallLabel("Due Date");
+
+            projectListHeader.add(nameColumn, "w 20%");
+            projectListHeader.add(descriptionColumn, "w 20%");
+            projectListHeader.add(taskProgressColumn, "w 20%");
+            projectListHeader.add(statusColumn, "w 20%");
+            projectListHeader.add(dueDateColumn, "w 20%");
+            return projectListHeader;
+        }
+    }
 }

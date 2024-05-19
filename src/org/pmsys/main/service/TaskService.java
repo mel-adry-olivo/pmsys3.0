@@ -1,9 +1,9 @@
 package org.pmsys.main.service;
 
-import org.pmsys.main.model.Project;
-import org.pmsys.main.model.Task;
-import org.pmsys.main.model.request.TaskRequest;
-import org.pmsys.main.model.result.TaskResult;
+import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.Task;
+import org.pmsys.main.entities.request.TaskRequest;
+import org.pmsys.main.entities.result.TaskResult;
 
 import java.io.IOException;
 import java.nio.file.Files;

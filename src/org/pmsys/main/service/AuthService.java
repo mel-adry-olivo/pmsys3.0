@@ -3,16 +3,17 @@ package org.pmsys.main.service;
 
 import com.password4j.Hash;
 import com.password4j.Password;
-import org.pmsys.main.model.request.AuthRequest;
-import org.pmsys.main.model.result.AuthResult;
-import org.pmsys.main.model.User;
+import org.pmsys.main.managers.ServiceManager;
+import org.pmsys.main.entities.request.AuthRequest;
+import org.pmsys.main.entities.result.AuthResult;
+import org.pmsys.main.entities.User;
 
 public class AuthService {
 
     private final UserService userService;
 
     public AuthService() {
-        this.userService = (UserService) ServiceManager.getService("user");
+        this.userService = (UserService) ServiceManager.getService(Services.USER);
     }
 
     public AuthResult signIn(AuthRequest request) {

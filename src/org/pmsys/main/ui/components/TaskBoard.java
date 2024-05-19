@@ -1,7 +1,7 @@
 package org.pmsys.main.ui.components;
 
 import org.pmsys.constants.AppColors;
-import org.pmsys.main.model.Task;
+import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.components.base.*;
 
 import java.awt.*;

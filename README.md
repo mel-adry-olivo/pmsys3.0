@@ -1,31 +1,20 @@
 ### TODO
 
-CONVERT TO ACTIONS
-
-Converted:
+CONVERTED:
 - Authentication
+- Project CRUD
 
+TODO:
+- Task CRUD
 
-
-
-**Logout**
-- create logout button on menu
-- add functionality in user service
-
-**Searching:**
-
-**Generate Report:**
-- Individual Project
-- Overall Project
-
-**Dashboard:**
-- Num of proj
-- Upcoming deadlines
-- Recent projects
-- etc.
+FUTURE: 
+- Logout
+- Searching
+- Report Generation
+- Dashboard(if possible)
 
 bugs:
-- project view show scroll bar on first open, following are not (fixed - removed all components then re-initialize all child components)
+- project views show scroll bar on first open, following are not (fixed - removed all components then re-initialize all child components)
 - task board scroll bar not showing (fixed - dynamically updating viewport whenever a task is added)
 
 future optimizations:

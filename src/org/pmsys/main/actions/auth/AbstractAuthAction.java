@@ -1,24 +1,25 @@
 package org.pmsys.main.actions.auth;
 
-import org.pmsys.constants.AuthRequestStatus;
-import org.pmsys.main.actions.Action;
-import org.pmsys.main.model.request.AuthRequest;
-import org.pmsys.main.model.result.AuthResult;
+import org.pmsys.main.entities.request.AuthRequestStatus;
+import org.pmsys.main.actions.SimpleAction;
+import org.pmsys.main.entities.request.AuthRequest;
+import org.pmsys.main.entities.result.AuthResult;
 import org.pmsys.main.service.AuthService;
-import org.pmsys.main.service.ServiceManager;
-import org.pmsys.main.ui.forms.AbstractAuthForm;
-import org.pmsys.main.ui.views.AuthWindow;
+import org.pmsys.main.managers.ServiceManager;
+import org.pmsys.main.service.Services;
+import org.pmsys.main.ui.auth.AbstractAuthPanel;
+import org.pmsys.main.ui.auth.AuthWindow;
 import org.pmsys.main.ui.views.UIView;
-import org.pmsys.main.utils.TimeUtils;
 
 import javax.swing.*;
 
 
-public abstract class AbstractAuthAction implements Action {
+public abstract class AbstractAuthAction implements SimpleAction {
+
     protected final AuthService authService;
 
     protected AbstractAuthAction() {
-        authService = (AuthService) ServiceManager.getService("authentication");
+        authService = (AuthService) ServiceManager.getService(Services.AUTHENTICATION);
     }
 
     protected abstract AuthResult executeAction(AuthRequest request);
@@ -26,19 +27,22 @@ public abstract class AbstractAuthAction implements Action {
     protected abstract void handleSuccess(UIView view, AuthResult authResult);
 
     protected abstract void handleFailure(UIView view, AuthResult authResult);
-
+    
     @Override
     public final void execute(JComponent source, UIView view) {
-        AuthWindow authWindow = ((AbstractAuthForm) view).getAuthParent();
-        AuthRequest request = ((AbstractAuthForm) view).getAuthRequest();
+        AbstractAuthPanel authForm = (AbstractAuthPanel) view;
+        AuthWindow authWindow = authForm.getAuthWindow();
 
-        if (request == null) return;
+        AuthRequest request = authForm.getAuthRequest();
 
-        authWindow.toggleLoadingState(true);
+        if (request == null) {
+            return;
+        }
 
         new SwingWorker<Void, Void>() {
             @Override
             protected Void doInBackground() throws Exception {
+                authWindow.toggleLoadingState(true);
                 AuthResult authResult = executeAction(request);
 
                 if (authResult.getStatus() == AuthRequestStatus.SUCCESS) {
@@ -47,7 +51,6 @@ public abstract class AbstractAuthAction implements Action {
                     handleFailure(view, authResult);
                 }
 
-                TimeUtils.delayInMillis(300);
                 return null;
             }
 
