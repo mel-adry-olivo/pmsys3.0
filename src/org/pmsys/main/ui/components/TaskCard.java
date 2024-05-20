@@ -10,13 +10,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class TaskCard extends FlatPanel implements CComponent {
+public class TaskCard extends CPanel implements CComponent {
 
     private final Task task;
 
-    private final FlatLabel title;
-    private final FlatButton optionButton;
-    private final FlatLabel description;
+    private final CLabel title;
+    private final CButton optionButton;
+    private final CLabel description;
     private final Tag priority;
     private final Tag dueDate;
 
@@ -26,9 +26,9 @@ public class TaskCard extends FlatPanel implements CComponent {
         setLineBorder(1, 1, 1, 1, 8);
         applyFlatStyle();
 
-        title = FlatLabelFactory.createSemiBoldLabel(task.getTitle()).wrapOnIndex(28);
-        optionButton = FlatButtonFactory.createIconButton(AppIcons.KEBAB_ICON_SMALL);
-        description = FlatLabelFactory.createMediumLabel(task.getDescription(), AppColors.DARK_GREY).wrapOnIndex(28);
+        title = CLabelFactory.createSemiBoldLabel(task.getTitle()).wrapOnIndex(28);
+        optionButton = CButtonFactory.createIconButton(AppIcons.KEBAB_ICON_SMALL);
+        description = CLabelFactory.createMediumLabel(task.getDescription(), AppColors.DARK_GREY).wrapOnIndex(28);
         priority = new Tag(task.getPriority());
         dueDate = new Tag(task.getDueDate());
 
@@ -61,15 +61,15 @@ public class TaskCard extends FlatPanel implements CComponent {
         optionButton.addActionListener(listener);
     }
 
-    private static class Tag extends FlatPanel {
+    private static class Tag extends CPanel {
 
-        private FlatLabel label;
+        private CLabel label;
 
         private Tag(String text) {
             setConstraints("insets 2 12 2 12", "center", "center");
             String[] tagColor = getTagColor(text);
             if (tagColor  != null) {
-                label = FlatLabelFactory.createSmallLabel(text, tagColor[0]);
+                label = CLabelFactory.createSmallLabel(text, tagColor[0]);
                 setLineBorder(1,1,1,1, tagColor[0], 6);
                 setBackgroundColor(tagColor[1]);
                 applyFlatStyle();

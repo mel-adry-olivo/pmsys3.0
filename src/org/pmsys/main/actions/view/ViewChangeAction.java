@@ -3,7 +3,7 @@ package org.pmsys.main.actions.view;
 import org.pmsys.constants.AppColors;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.ui.MainWindow;
-import org.pmsys.main.ui.components.base.FlatButton;
+import org.pmsys.main.ui.components.base.CButton;
 import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
@@ -14,10 +14,10 @@ public class ViewChangeAction implements SimpleAction {
     @Override
     public void execute(JComponent source, CComponent view) {
         MainWindow.WindowMenu menu = (MainWindow.WindowMenu) view;
-        FlatButton clickedButton = (FlatButton) source;
+        CButton clickedButton = (CButton) source;
 
         if (!clickedButton.equals(menu.getSelectedButton())) {
-            FlatButton previousButton = menu.getSelectedButton();
+            CButton previousButton = menu.getSelectedButton();
             if (previousButton != null) {
                 previousButton.setSelected(false);
                 previousButton.setBackground(Color.WHITE);

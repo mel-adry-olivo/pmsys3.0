@@ -8,6 +8,8 @@ public class AppIcons {
     private static final int MEDIUM = 22;
     private static final int LARGE = 36;
 
+    public static final FlatSVGIcon USER_ICON = new FlatSVGIcon("org/pmsys/resources/icons/user.svg", 200, 200);
+
     public static final FlatSVGIcon LOGO = new FlatSVGIcon("org/pmsys/resources/icons/logo.svg", LARGE, LARGE);
 
     public static final FlatSVGIcon DASHBOARD_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/dashboard.svg", SMALL, SMALL);
@@ -21,6 +23,8 @@ public class AppIcons {
     public static final FlatSVGIcon EXPORT_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/export.svg", SMALL, SMALL);
 
     public static final FlatSVGIcon KEBAB_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/kebab.svg", SMALL, SMALL);
+
+    public static final FlatSVGIcon SEARCH_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/search.svg", SMALL, SMALL);
 
     public static final FlatSVGIcon SORT_ICON_SMALL = new FlatSVGIcon("org/pmsys/resources/icons/sort.svg", SMALL, SMALL);
 

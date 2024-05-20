@@ -18,7 +18,7 @@ import java.util.Map;
  *
  */
 
-public class TaskBoard extends FlatScrollPane {
+public class TaskBoard extends CScrollPane {
 
     private TaskBoardOptions options;
     private Map<String, Section> sections; // map status to section
@@ -120,8 +120,8 @@ public class TaskBoard extends FlatScrollPane {
     // wrapper class for the task header and container
     private static class Section {
 
-        private FlatPanel header;
-        private FlatPanel container;
+        private CPanel header;
+        private CPanel container;
         private String rowConstraints = "";
         private Map<Task, TaskCard> cards;
 
@@ -168,24 +168,24 @@ public class TaskBoard extends FlatScrollPane {
             return container.getSize().height;
         }
 
-        private FlatPanel getSection() {
+        private CPanel getSection() {
             return container;
         }
 
-        private FlatPanel getHeader() {
+        private CPanel getHeader() {
             return header;
         }
 
         private void initSection(String name) {
             cards = new HashMap<>();
-            header = new FlatPanel();
-            container = new FlatPanel("insets 0, flowy", "", rowConstraints);
+            header = new CPanel();
+            container = new CPanel("insets 0, flowy", "", rowConstraints);
 
             header.setConstraints("insets 10 12 10 12, filly", "[]push[]");
             header.setBackgroundColor(AppColors.WHITE);
             header.setLineBorder(1,1,1,1, 8);
             header.applyFlatStyle();
-            header.add(FlatLabelFactory.createMediumLabel(name, AppColors.BLACK));
+            header.add(CLabelFactory.createMediumLabel(name, AppColors.BLACK));
         }
     }
 }

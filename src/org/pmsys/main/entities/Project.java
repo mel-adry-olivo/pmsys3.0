@@ -49,6 +49,10 @@ public class Project {
         taskDoneCount = Integer.parseInt(data[6]);
     }
 
+    public static Project EmptyProject() {
+        return new Project("", "", "", "");
+    }
+
     public void addTask(Task task) {
         tasks.add(task);
         overallTaskCount++;

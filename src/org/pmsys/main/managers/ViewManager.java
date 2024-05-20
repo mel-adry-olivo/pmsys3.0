@@ -1,7 +1,7 @@
 package org.pmsys.main.managers;
 
 import org.pmsys.main.ui.MainWindow;
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CPanel;
 import org.pmsys.main.ui.views.Views;
 
 import java.awt.*;
@@ -14,10 +14,9 @@ public enum ViewManager {
 
     INSTANCE;
 
-    private final Map<Views, FlatPanel> views = new EnumMap<>(Views.class);
+    private final Map<Views, CPanel> views = new EnumMap<>(Views.class);
     private final Set<Views> addedViews = new HashSet<>();
     private final CardLayout cardLayout = new CardLayout();;
-
 
     private MainWindow.WindowContent viewContent;
     private MainWindow.WindowHeader viewHeader;
@@ -31,7 +30,7 @@ public enum ViewManager {
     }
 
     public void showView(Views view) {
-        FlatPanel viewComponent = views.get(view);
+        CPanel viewComponent = views.get(view);
         if (viewComponent != null && currentView != view) {
             if (addedViews.add(view)) {
                 viewContent.add(viewComponent, view.name());
@@ -42,7 +41,7 @@ public enum ViewManager {
         }
     }
 
-    public FlatPanel getViewComponent(Views view) {
+    public CPanel getViewComponent(Views view) {
         return views.get(view);
     }
 

@@ -6,6 +6,7 @@ import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import org.pmsys.main.managers.*;
 import org.pmsys.main.ui.auth.AuthWindow;
 import org.pmsys.main.ui.MainWindow;
+import org.pmsys.main.ui.utils.WarmUp;
 
 
 import javax.swing.SwingUtilities;
@@ -31,8 +32,9 @@ public class Application {
 
     public void launchApplication() {
         MainWindow mainWindow = new MainWindow();
-        mainWindow.setVisible(true);
         ProjectManager.INSTANCE.reloadProjectList();
+        WarmUp.DO_THE_WARMUP();
+        mainWindow.setVisible(true);
     }
 
     public static void main(String[] args) {

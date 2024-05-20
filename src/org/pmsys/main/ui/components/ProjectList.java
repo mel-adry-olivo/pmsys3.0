@@ -1,12 +1,12 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CPanel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProjectList extends FlatPanel {
+public class ProjectList extends CPanel {
 
     private static final int MAX_ITEMS = 5;
 

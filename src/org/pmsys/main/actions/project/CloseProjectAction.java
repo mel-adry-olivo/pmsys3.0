@@ -11,8 +11,8 @@ public class CloseProjectAction extends AbstractProjectAction{
     @Override
     public void execute(JComponent source, CComponent view) {
         taskService.clearCache();
-        projectView.resetProjectView();
         ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
         ProjectManager.INSTANCE.reloadProjectList();
+        projectView.resetProjectView();
     }
 }

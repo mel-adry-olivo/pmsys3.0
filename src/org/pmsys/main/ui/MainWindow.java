@@ -6,12 +6,14 @@ import org.pmsys.constants.AppIcons;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.managers.ViewManager;
+import org.pmsys.main.ui.components.AvatarIcon;
+import org.pmsys.main.ui.components.SearchBar;
 import org.pmsys.main.ui.views.Views;
 import org.pmsys.main.managers.SessionManager;
-import org.pmsys.main.ui.components.base.FlatButton;
-import org.pmsys.main.ui.components.base.FlatButtonFactory;
-import org.pmsys.main.ui.components.base.FlatLabel;
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CButton;
+import org.pmsys.main.ui.components.base.CButtonFactory;
+import org.pmsys.main.ui.components.base.CLabel;
+import org.pmsys.main.ui.components.base.CPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -90,22 +92,18 @@ public class MainWindow extends JFrame{
             revalidate();
             return this;
         }
-
-//        public CardLayout getLayout() {
-//            return (CardLayout) super.getLayout();
-//        }
     }
 
-    public static class WindowHeader extends FlatPanel {
+    public static class WindowHeader extends CPanel {
 
-        private FlatLabel viewIcon;
-        private FlatLabel viewName;
-        private FlatLabel separator;
-        private FlatLabel projectName;
-        private FlatLabel userName;
+        private CLabel viewIcon;
+        private CLabel viewName;
+        private CLabel separator;
+        private CLabel projectName;
 
         private SearchBar searchBar;
-        private JLabel userAvatar;
+        private AvatarIcon userAvatarIcon;
+        private CLabel userAvatarContainer;
 
         public WindowHeader() {
             setupComponent();
@@ -113,42 +111,36 @@ public class MainWindow extends JFrame{
         }
 
         private void setupComponent() {
-            setConstraints("insets 24, filly", "[]8[]8[]8[]push[]0[]");
-            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#8F8F8F")));
+            setConstraints("insets 28 28 28 24 , filly", "[]8[]8[]8[]push[]8[]");
+            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(AppColors.BORDER)));
 
-            viewIcon = new FlatLabel(AppIcons.PROJECT_LIST_ICON_SMALL);
-            viewName = new FlatLabel("View")
-                    .setFontStyle(FlatLabel.DEFAULT)
+            viewIcon = new CLabel(AppIcons.PROJECT_LIST_ICON_SMALL);
+            viewName = new CLabel("View")
+                    .setFontStyle(CLabel.DEFAULT)
                     .setForegroundColor(AppColors.DARK_GREY)
                     .applyFlatStyle();
 
-            separator = new FlatLabel("/")
-                    .setFontStyle(FlatLabel.LARGE)
+            separator = new CLabel("/")
+                    .setFontStyle(CLabel.LARGE)
                     .setForegroundColor(AppColors.DARK_GREY)
                     .applyFlatStyle();
 
-            projectName = new FlatLabel("Project Name")
-                    .setFontStyle(FlatLabel.SEMIBOLD)
+            projectName = new CLabel("Project Name")
+                    .setFontStyle(CLabel.SEMIBOLD)
                     .setForegroundColor(AppColors.BLACK)
                     .applyFlatStyle();
 
-            userName = new FlatLabel("hi "+ SessionManager.INSTANCE.getUser().getUsername())
-                    .setFontStyle(FlatLabel.SEMIBOLD)
-                    .setForegroundColor(AppColors.BLACK)
-                    .applyFlatStyle();
-
-            searchBar = new SearchBar();
-            userAvatar = new JLabel("");
+            searchBar = new SearchBar("Search for a project's name");
+            userAvatarIcon = new AvatarIcon(AppIcons.USER_ICON, 38,38,999);
+            userAvatarContainer = new CLabel(userAvatarIcon);
 
             add(viewIcon);
             add(viewName, "");
             add(separator, "");
             add(projectName, "");
 
-
-            add(userName);
-            add(searchBar);
-            add(userAvatar);
+            add(searchBar, "h 0%");
+            add(userAvatarContainer, "w 0%, h 0%");
         }
 
         public void updateViewName(Views views) {
@@ -166,26 +158,21 @@ public class MainWindow extends JFrame{
                     projectName.setVisible(false);
                 }
             }
-        }
-
-        private class SearchBar extends JPanel {
-
+            searchBar.setText("");
         }
     }
 
-    public static class WindowMenu extends FlatPanel implements CComponent {
+    public static class WindowMenu extends CPanel implements CComponent {
 
 
-        private FlatButton dashboardButton;
-        private FlatButton projectListButton;
-        private FlatButton selectedButton;
+        private CButton dashboardButton;
+        private CButton projectListButton;
+        private CButton selectedButton;
 
         public WindowMenu() {
 
-
             setupComponent();
 
-            // initial view
             projectListButton.setSelected(true);
             selectedButton = projectListButton;
 
@@ -193,18 +180,18 @@ public class MainWindow extends JFrame{
 
         }
 
-        public FlatButton getSelectedButton() {
+        public CButton getSelectedButton() {
             return selectedButton;
         }
 
-        public void setSelectedButton(FlatButton selectedButton) {
+        public void setSelectedButton(CButton selectedButton) {
             if(this.selectedButton != null) {
                 this.selectedButton = selectedButton;
             }
         }
 
 
-        public void handleViewChange(FlatButton selectedButton) {
+        public void handleViewChange(CButton selectedButton) {
             String actionCommand = selectedButton.getActionCommand();
             Views selectedView = Views.valueOf(actionCommand);
             ViewManager.INSTANCE.showView(selectedView);
@@ -214,13 +201,13 @@ public class MainWindow extends JFrame{
             setConstraints("flowy, fillx, insets 18", "center");
             setMatteBorder(0, 0, 0, 1);
 
-            FlatLabel logoIcon = new FlatLabel(AppIcons.LOGO);
+            CLabel logoIcon = new CLabel(AppIcons.LOGO);
 
-            dashboardButton = FlatButtonFactory.createHoverableIconButton(AppIcons.DASHBOARD_ICON_MEDIUM);
+            dashboardButton = CButtonFactory.createHoverableIconButton(AppIcons.DASHBOARD_ICON_MEDIUM);
             dashboardButton.setActionCommand(Views.DASHBOARD.name());
             dashboardButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, dashboardButton, this));
 
-            projectListButton = FlatButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
+            projectListButton = CButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
             projectListButton.setActionCommand(Views.PROJECT_LIST.name());
             projectListButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, projectListButton, this));
 

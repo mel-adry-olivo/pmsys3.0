@@ -9,6 +9,7 @@ import org.pmsys.main.actions.project.*;
 import org.pmsys.main.actions.task.*;
 import org.pmsys.main.actions.view.ViewChangeAction;
 import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.utils.Benchmark;
 
 import javax.swing.*;
 import java.util.EnumMap;

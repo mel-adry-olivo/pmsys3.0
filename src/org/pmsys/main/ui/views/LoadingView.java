@@ -1,12 +1,12 @@
 package org.pmsys.main.ui.views;
 
-import org.pmsys.main.ui.components.base.FlatLoadingIcon;
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CLoadingIcon;
+import org.pmsys.main.ui.components.base.CPanel;
 
-public class LoadingView extends FlatPanel {
+public class LoadingView extends CPanel {
 
     public LoadingView() {
         setConstraints("fill, center, center", "center");
-        add(new FlatLoadingIcon());
+        add(new CLoadingIcon());
     }
 }

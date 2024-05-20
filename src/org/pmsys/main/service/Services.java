@@ -5,5 +5,4 @@ public enum Services {
     PROJECT,
     TASK,
     AUTHENTICATION
-
 }

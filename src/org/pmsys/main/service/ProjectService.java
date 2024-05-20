@@ -5,19 +5,21 @@ import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.utils.DateUtils;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProjectService extends FileService {
 
-    private Map<String, Project> projectCache = new HashMap<>();
+    private Map<String, Project> projectCache = new LinkedHashMap<>();
 
     public void cacheProjects() {
         if (projectCache.isEmpty()) {
@@ -37,23 +39,28 @@ public class ProjectService extends FileService {
         }
     }
 
-    private void batchSaveTasks() {
-        try {
-            StringBuilder content = new StringBuilder();
-            for (Project project : projectCache.values()) {
-                content.append(project.toString()).append(System.lineSeparator());
+    public void batchSaveTasks() {
+        new SwingWorker<Void, Void>() {
+            @Override
+            protected Void doInBackground() {
+                try {
+                    StringBuilder content = new StringBuilder();
+                    for (String projectId : projectCache.keySet()) {
+                        content.append(projectCache.get(projectId)).append(System.lineSeparator());
+                    }
+                    Files.writeString(
+                            getProjectFileOfUser(),
+                            content.toString(),
+                            StandardOpenOption.WRITE,
+                            StandardOpenOption.TRUNCATE_EXISTING);
+                } catch (IOException e) {
+                    Logger.getGlobal().warning(e.getMessage());
+                }
+                return null;
             }
-
-            Files.writeString(
-                    getProjectFileOfUser(),
-                    content.toString(),
-                    StandardOpenOption.WRITE,
-                    StandardOpenOption.TRUNCATE_EXISTING);
-
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-        }
+        }.execute();
     }
+
 
     public Map<String, Project> getAllProjects() {
         if(!projectCache.isEmpty()) {
@@ -64,7 +71,8 @@ public class ProjectService extends FileService {
             return Files.readAllLines(getProjectFileOfUser())
                     .stream()
                     .map(Project::parseLineToProject)
-                    .collect(Collectors.toMap(Project::getId, project -> project));
+                    // used linked hash map to maintain order from file
+                    .collect(LinkedHashMap::new, (map, project) -> map.put(project.getId(), project), Map::putAll);
 
         } catch (IOException e) {
             Logger.getGlobal().warning(e.getMessage());

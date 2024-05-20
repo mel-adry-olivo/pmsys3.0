@@ -8,6 +8,10 @@ import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
 
+import javax.swing.*;
+import java.util.List;
+import java.util.Map;
+
 public enum ProjectManager {
 
     INSTANCE;
@@ -26,8 +30,20 @@ public enum ProjectManager {
 
     public void reloadProjectList() {
         projectService.cacheProjects();
+        IndexingManager.INSTANCE.clearIndex();
+
         projectListView.removeAllProjectCards();
         for (Project project : projectService.getAllProjects().values()) {
+            IndexingManager.INSTANCE.indexProject(project);
+            projectListView.addProjectToUI(projectListView.createProjectCard(project));
+        }
+
+        projectListView.goToFirstPage();
+    }
+
+    public void reloadSearchedProjects(List<Project> projects) {
+        projectListView.removeAllProjectCards();
+        for (Project project : projects) {
             projectListView.addProjectToUI(projectListView.createProjectCard(project));
         }
         projectListView.goToFirstPage();

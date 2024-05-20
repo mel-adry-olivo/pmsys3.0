@@ -1,6 +1,5 @@
 package org.pmsys.main.ui.forms;
 
-import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.entities.request.Request;
 import org.pmsys.main.entities.request.TaskRequest;
@@ -11,11 +10,11 @@ public class TaskSimpleForm extends AbstractSimpleForm {
 
     private Task task;
 
-    private FlatTextField titleField;
-    private FlatTextField descriptionField;
-    private FlatNumberSpinner durationSpinner;
-    private FlatComboBox<String> priorityComboBox;
-    private FlatComboBox<String> statusComboBox;
+    private CTextField titleField;
+    private CTextField descriptionField;
+    private CNumberSpinner durationSpinner;
+    private CComboBox<String> priorityComboBox;
+    private CComboBox<String> statusComboBox;
 
     public TaskSimpleForm() {
         setFormTitle("Task Create");
@@ -86,20 +85,20 @@ public class TaskSimpleForm extends AbstractSimpleForm {
 
     @Override
     void setupForm() {
-        FlatLabel taskTitle = FlatLabelFactory.createDefaultLabel("Task Title");
-        FlatLabel description = FlatLabelFactory.createDefaultLabel("Description");
-        FlatLabel status = FlatLabelFactory.createDefaultLabel("Status");
-        FlatLabel priority = FlatLabelFactory.createDefaultLabel("Priority");
-        FlatLabel duration = FlatLabelFactory.createDefaultLabel("Duration (in days)");
+        CLabel taskTitle = CLabelFactory.createDefaultLabel("Task Title");
+        CLabel description = CLabelFactory.createDefaultLabel("Description");
+        CLabel status = CLabelFactory.createDefaultLabel("Status");
+        CLabel priority = CLabelFactory.createDefaultLabel("Priority");
+        CLabel duration = CLabelFactory.createDefaultLabel("Duration (in days)");
 
-        titleField = FlatFieldFactory.createTextField("Enter the task title");
-        descriptionField = FlatFieldFactory.createTextField("Provide a short description");
+        titleField = CFieldFactory.createTextField("Enter the task title");
+        descriptionField = CFieldFactory.createTextField("Provide a short description");
 
-        FlatPanel wrapper = new FlatPanel("insets 0, fillx");
+        CPanel wrapper = new CPanel("insets 0, fillx");
 
-        priorityComboBox = new FlatComboBox<>(new String[]{"Low", "Normal", "High"});
-        statusComboBox = new FlatComboBox<>(new String[]{"Ready", "In Progress", "To Review", "Done"});
-        durationSpinner = new FlatNumberSpinner();
+        priorityComboBox = new CComboBox<>(new String[]{"Low", "Normal", "High"});
+        statusComboBox = new CComboBox<>(new String[]{"Ready", "In Progress", "To Review", "Done"});
+        durationSpinner = new CNumberSpinner();
 
         wrapper.add(priorityComboBox, "w 100%");
         wrapper.add(statusComboBox, "w 100%");

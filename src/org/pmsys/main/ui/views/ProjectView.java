@@ -15,18 +15,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ProjectView extends FlatPanel implements CComponent {
+public class ProjectView extends CPanel implements CComponent {
 
     private Project currentProjectOpened;
 
     private TaskBoard taskBoard;
 
-    private FlatLabel projectTitle;
+    private CLabel projectTitle;
 
-    private FlatButton exportButton;
-    private FlatButton optionButton;
-    private FlatButton closeButton;
-    private FlatButton addTaskButton;
+    private CButton exportButton;
+    private CButton optionButton;
+    private CButton closeButton;
+    private CButton addTaskButton;
 
     public ProjectView() {
         super("insets 0, flowy, fillx", "fill", "[]0[]0[]");
@@ -52,7 +52,7 @@ public class ProjectView extends FlatPanel implements CComponent {
 
     public TaskCard createTaskCard(Task task) {
         TaskCard taskCard = new TaskCard(task);
-        taskCard.handleOptionClick((e) -> ActionManager.executeAction(Actions.SHOW_TASK_OPTIONS, (FlatButton)e.getSource(), taskCard));
+        taskCard.handleOptionClick((e) -> ActionManager.executeAction(Actions.SHOW_TASK_OPTIONS, (CButton)e.getSource(), taskCard));
         return taskCard;
     }
 
@@ -76,16 +76,16 @@ public class ProjectView extends FlatPanel implements CComponent {
     }
 
     private void setupView() {
-        FlatPanel headerOne = createHeader("[]push[]2%[]2%[]");
-        projectTitle = FlatLabelFactory.createH1Label("Project Title");
-        exportButton = FlatButtonFactory.createHoverableIconButton(AppIcons.EXPORT_ICON_SMALL);
-        optionButton = FlatButtonFactory.createHoverableIconButton(AppIcons.KEBAB_ICON_SMALL);
-        closeButton = FlatButtonFactory.createHoverableIconButton(AppIcons.CLOSE_2_ICON_SMALL);
+        CPanel headerOne = createHeader("[]push[]2%[]2%[]");
+        projectTitle = CLabelFactory.createH1Label("Project Title");
+        exportButton = CButtonFactory.createHoverableIconButton(AppIcons.EXPORT_ICON_SMALL);
+        optionButton = CButtonFactory.createHoverableIconButton(AppIcons.KEBAB_ICON_SMALL);
+        closeButton = CButtonFactory.createHoverableIconButton(AppIcons.CLOSE_2_ICON_SMALL);
 
-        FlatPanel headerTwo = createHeader("[]push[]1%[]");
-        FlatButton boardButton = FlatButtonFactory.createBorderlessButton("Board");
+        CPanel headerTwo = createHeader("[]push[]1%[]");
+        CButton boardButton = CButtonFactory.createBorderlessButton("Board");
         boardButton.setSelected(true);
-        addTaskButton = FlatButtonFactory.createFilledButton("Add Task", AppIcons.ADD_ICON_SMALL);
+        addTaskButton = CButtonFactory.createFilledButton("Add Task", AppIcons.ADD_ICON_SMALL);
 
         add(headerOne, "h 14%, growx");
         headerOne.add(projectTitle, "grow");
@@ -100,8 +100,8 @@ public class ProjectView extends FlatPanel implements CComponent {
         taskBoard = new TaskBoard();
         add(taskBoard, "h 100%");
     }
-    private FlatPanel createHeader(String columnConstraint) {
-        return new FlatPanel("insets 16 24 16 24, filly", columnConstraint, "[]")
+    private CPanel createHeader(String columnConstraint) {
+        return new CPanel("insets 16 24 16 24, filly", columnConstraint, "[]")
                 .setMatteBorder(0, 0, 1, 0)
                 .applyFlatStyle();
     }

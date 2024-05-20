@@ -1,6 +1,6 @@
 package org.pmsys.main.ui.views;
 
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CPanel;
 
 public enum Views {
     DASHBOARD(new DashboardView()),
@@ -8,13 +8,13 @@ public enum Views {
     PROJECT(new ProjectView()),
     LOADING(new LoadingView());
 
-    private final FlatPanel component;
+    private final CPanel component;
 
-    Views(FlatPanel viewComponent) {
+    Views(CPanel viewComponent) {
         this.component = viewComponent;
     }
 
-    public FlatPanel getComponent() {
+    public CPanel getComponent() {
         return component;
     }
 }

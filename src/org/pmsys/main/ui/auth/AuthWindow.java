@@ -33,7 +33,7 @@ public class AuthWindow extends JFrame {
         setResizable(false);
         setSize(450, 520);
         setLocationRelativeTo(null);
-        setGlassPane(new FlatLoadingIcon());
+        setGlassPane(new CLoadingIcon());
         setLayout(cardLayout = new CardLayout());
         setVisible(true);
     }

@@ -37,11 +37,11 @@ public class DateUtils {
                 "July", "August", "September", "October", "November", "December" };
     }
 
-    public static Integer[] getYearsStartingToday(int yearCount) {
-        Integer[] years = new Integer[yearCount];
+    public static Integer[] getYearsStartingToday(int howManyYears) {
+        Integer[] years = new Integer[howManyYears];
         int currentYear = Year.now().getValue();
 
-        for (int i = 0; i < yearCount; i++) {
+        for (int i = 0; i < howManyYears; i++) {
             years[i] = currentYear + i;
         }
 

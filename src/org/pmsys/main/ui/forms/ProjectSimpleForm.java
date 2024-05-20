@@ -1,19 +1,16 @@
 package org.pmsys.main.ui.forms;
 
 import org.pmsys.constants.AppColors;
-import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.Request;
 import org.pmsys.main.ui.components.base.*;
 
-import java.awt.event.ActionEvent;
-
 public class ProjectSimpleForm extends AbstractSimpleForm {
 
-    private FlatTextField nameField;
-    private FlatTextField descriptionField;
-    private FlatDatePicker datePicker;
+    private CTextField nameField;
+    private CTextField descriptionField;
+    private CDatePicker datePicker;
 
     public ProjectSimpleForm() {
 
@@ -89,13 +86,13 @@ public class ProjectSimpleForm extends AbstractSimpleForm {
 
     @Override
     void setupForm() {
-        FlatLabel projectName = FlatLabelFactory.createSmallLabel("Project Name");
-        FlatLabel description = FlatLabelFactory.createSmallLabel("Description");
-        FlatLabel dueDate = FlatLabelFactory.createSmallLabel("Due Date");
+        CLabel projectName = CLabelFactory.createSmallLabel("Project Name");
+        CLabel description = CLabelFactory.createSmallLabel("Description");
+        CLabel dueDate = CLabelFactory.createSmallLabel("Due Date");
 
-        nameField = FlatFieldFactory.createTextField("Enter your project name");
-        descriptionField = FlatFieldFactory.createTextField("Provide a short description");
-        datePicker = new FlatDatePicker();
+        nameField = CFieldFactory.createTextField("Enter your project name");
+        descriptionField = CFieldFactory.createTextField("Provide a short description");
+        datePicker = new CDatePicker();
 
         add(projectName, "wrap, growx");
         add(nameField, "wrap, growx");
