@@ -94,7 +94,6 @@ public class FlatDatePicker extends FlatPanel{
         return dayPicker.getSelectedIndex() + 1;
     }
 
-
     public void setDate(String dueDate) {
         LocalDate date = DateUtils.parseFormattedDate(dueDate);
 
@@ -103,7 +102,7 @@ public class FlatDatePicker extends FlatPanel{
         int year = date.getYear();
 
         monthPicker.setSelectedIndex(monthIndex);
-        yearPicker.setSelectedItem(findYearIndex(year));
+        yearPicker.setSelectedItem(year);
         dayPicker.setSelectedItem(day);
     }
 

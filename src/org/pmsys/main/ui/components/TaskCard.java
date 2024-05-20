@@ -2,15 +2,15 @@ package org.pmsys.main.ui.components;
 
 import org.pmsys.constants.AppColors;
 import org.pmsys.constants.AppIcons;
-import org.pmsys.main.controller.ProjectController;
 import org.pmsys.main.entities.Task;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.base.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class TaskCard extends FlatPanel {
+public class TaskCard extends FlatPanel implements CComponent {
 
     private final Task task;
 
@@ -92,22 +92,22 @@ public class TaskCard extends FlatPanel {
 
     public static class OptionsPopup extends JPopupMenu {
 
-        private final ProjectController projectController;
         private final TaskCard currentCard;
 
         private JMenuItem editTask;
         private JMenuItem deleteTask;
 
-        public OptionsPopup(ProjectController projectController, TaskCard currentCard) {
-            this.projectController = projectController;
+        public OptionsPopup(TaskCard currentCard) {
             this.currentCard = currentCard;
             setupComponent();
-            setupListeners();
         }
 
-        private void setupListeners() {
-            editTask.addActionListener(e -> projectController.handleTaskEditClick(currentCard));
-            deleteTask.addActionListener(e -> projectController.handleTaskDeleteClick(currentCard));
+        public void handleEditProjectClick(ActionListener listener) {
+            editTask.addActionListener(listener);
+        }
+
+        public void handleDeleteProjectClick(ActionListener listener) {
+            deleteTask.addActionListener(listener);
         }
 
         private void setupComponent() {

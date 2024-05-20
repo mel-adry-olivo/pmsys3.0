@@ -6,7 +6,6 @@ import org.pmsys.constants.AppIcons;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.ui.views.UIView;
 import org.pmsys.main.ui.views.Views;
 import org.pmsys.main.managers.SessionManager;
 import org.pmsys.main.ui.components.base.FlatButton;
@@ -16,7 +15,6 @@ import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,7 +132,7 @@ public class MainWindow extends JFrame{
                     .setForegroundColor(AppColors.BLACK)
                     .applyFlatStyle();
 
-            userName = new FlatLabel("hi "+ SessionManager.getUser().getUsername())
+            userName = new FlatLabel("hi "+ SessionManager.INSTANCE.getUser().getUsername())
                     .setFontStyle(FlatLabel.SEMIBOLD)
                     .setForegroundColor(AppColors.BLACK)
                     .applyFlatStyle();
@@ -175,7 +173,7 @@ public class MainWindow extends JFrame{
         }
     }
 
-    public static class WindowMenu extends FlatPanel implements UIView{
+    public static class WindowMenu extends FlatPanel implements CComponent {
 
 
         private FlatButton dashboardButton;

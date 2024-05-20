@@ -9,6 +9,8 @@ import org.pmsys.main.utils.DateUtils;
 
 public class TaskSimpleForm extends AbstractSimpleForm {
 
+    private Task task;
+
     private FlatTextField titleField;
     private FlatTextField descriptionField;
     private FlatNumberSpinner durationSpinner;
@@ -20,9 +22,8 @@ public class TaskSimpleForm extends AbstractSimpleForm {
         setButtonText("Create");
     }
 
-    public TaskSimpleForm(Task task) {
-        setFormTitle("Task Update");
-        setButtonText("Update");
+    public Task getTaskFromForm() {
+        return task;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class TaskSimpleForm extends AbstractSimpleForm {
 
     @Override
     public void setFormData(Object data) {
-        Task task = (Task) data;
+        task = (Task) data;
         titleField.setText(task.getTitle());
         descriptionField.setText(task.getDescription());
         priorityComboBox.setSelectedItem(task.getPriority());

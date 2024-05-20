@@ -5,13 +5,13 @@ import org.pmsys.constants.AppColors;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class AbstractAuthPanel extends FlatPanel implements UIView {
+public abstract class AbstractAuthPanel extends FlatPanel implements CComponent {
 
     protected boolean isLogin;
 

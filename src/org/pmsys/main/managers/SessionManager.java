@@ -2,20 +2,18 @@ package org.pmsys.main.managers;
 
 import org.pmsys.main.entities.User;
 
-public class SessionManager {
+public enum SessionManager {
 
-    private static final SessionManager instance = new SessionManager();
+    INSTANCE;
 
     private User currentUser;
 
-    private SessionManager() { /* empty */ }
-
-    public static void setUser(User user) {
-        instance.currentUser = user;
+    public void setUser(User user) {
+        currentUser = user;
     }
 
-    public static User getUser() {
-        return instance.currentUser;
+    public User getUser() {
+        return currentUser;
     }
 
     public boolean isLoggedIn() {

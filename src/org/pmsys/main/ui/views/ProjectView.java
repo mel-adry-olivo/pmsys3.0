@@ -2,10 +2,10 @@ package org.pmsys.main.ui.views;
 
 import org.pmsys.constants.AppIcons;
 import org.pmsys.main.actions.Actions;
-import org.pmsys.main.controller.ProjectController;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.managers.ActionManager;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.TaskBoard;
 import org.pmsys.main.ui.components.TaskCard;
 import org.pmsys.main.ui.components.base.*;
@@ -15,7 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ProjectView extends FlatPanel implements UIView{
+public class ProjectView extends FlatPanel implements CComponent {
 
     private Project currentProjectOpened;
 
@@ -31,7 +31,7 @@ public class ProjectView extends FlatPanel implements UIView{
     public ProjectView() {
         super("insets 0, flowy, fillx", "fill", "[]0[]0[]");
         setupView();
-        attachListeners(null);
+        attachListeners();
     }
 
     public Project getCurrentProject() {
@@ -50,9 +50,9 @@ public class ProjectView extends FlatPanel implements UIView{
         taskBoard.updateTask(taskCard, oldStatus);
     }
 
-    public TaskCard createTaskCard(Task task, ProjectController controller) {
+    public TaskCard createTaskCard(Task task) {
         TaskCard taskCard = new TaskCard(task);
-        taskCard.handleOptionClick(e -> controller.handleTaskOptionClick(e, taskCard));
+        taskCard.handleOptionClick((e) -> ActionManager.executeAction(Actions.SHOW_TASK_OPTIONS, (FlatButton)e.getSource(), taskCard));
         return taskCard;
     }
 
@@ -68,15 +68,11 @@ public class ProjectView extends FlatPanel implements UIView{
         projectTitle.setText(currentProjectOpened.getTitle());
     }
 
-    public void attachListeners(ProjectController controller) {
+    public void attachListeners() {
 //        exportButton.addActionListener(controller::handleExportClick);
-        optionButton.addActionListener(e -> {
-            ActionManager.executeAction(Actions.SHOW_PROJECT_OPTIONS, optionButton, this);
-        });
-//        addTaskButton.addActionListener(controller::handleTaskAddClick);
-        closeButton.addActionListener(e -> {
-            ActionManager.executeAction(Actions.CLOSE_PROJECT, closeButton, this);
-        });
+        optionButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_PROJECT_OPTIONS, optionButton, this));
+        addTaskButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_TASK_ADD_FORM, addTaskButton, this));
+        closeButton.addActionListener(e -> ActionManager.executeAction(Actions.CLOSE_PROJECT, closeButton, this));
     }
 
     private void setupView() {

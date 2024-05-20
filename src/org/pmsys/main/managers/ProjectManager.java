@@ -39,13 +39,13 @@ public enum ProjectManager {
 
         taskService.cacheTasks();
         project.setTasks(taskService.getTasksOf(project));
-        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard, null)));
+        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard)));
     }
 
     public void loadProject(Project project) {
         projectView.initProjectView(project);
         taskService.cacheTasks();
         project.setTasks(taskService.getTasksOf(project));
-        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard, null)));
+        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard)));
     }
 }

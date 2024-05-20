@@ -1,9 +1,9 @@
 package org.pmsys.main.actions;
 
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
 public interface SimpleAction {
-    void execute(JComponent source, UIView view);
+    void execute(JComponent source, CComponent view);
 }

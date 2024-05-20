@@ -7,13 +7,13 @@ import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ProjectManager;
 import org.pmsys.main.ui.forms.FormType;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
 public class EditProjectAction extends AbstractProjectAction{
     @Override
-    public void execute(JComponent source, UIView view) {
+    public void execute(JComponent source, CComponent view) {
         Project currentProject = getCurrentProject();
         ProjectRequest projectRequest = (ProjectRequest) projectForm.getFormData(currentProject.getId());
         ProjectResult result = projectService.validateProjectRequest(projectRequest);

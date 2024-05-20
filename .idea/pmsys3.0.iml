@@ -18,5 +18,6 @@
     <orderEntry type="library" name="password4j-1.8.2" level="project" />
     <orderEntry type="library" name="slf4j-api-2.1.0-alpha1" level="project" />
     <orderEntry type="library" name="slf4j-simple-2.1.0-alpha1" level="project" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
   </component>
 </module>

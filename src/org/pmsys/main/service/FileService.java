@@ -41,7 +41,7 @@ public abstract class FileService {
     }
 
     private User getCurrentUser() {
-        return SessionManager.getUser();
+        return SessionManager.INSTANCE.getUser();
     }
 
     private void createFileIfNotExists(String path) {

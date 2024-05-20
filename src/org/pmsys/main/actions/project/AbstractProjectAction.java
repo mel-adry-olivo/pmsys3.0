@@ -14,10 +14,11 @@ import org.pmsys.main.ui.forms.FormType;
 import org.pmsys.main.ui.forms.ProjectSimpleForm;
 import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public abstract class AbstractProjectAction implements SimpleAction {
 
@@ -35,25 +36,20 @@ public abstract class AbstractProjectAction implements SimpleAction {
         this.projectForm = (ProjectSimpleForm) FormManager.INSTANCE.getForm(FormType.PROJECT);
     }
 
-    public abstract void execute(JComponent source, UIView view);
+    public abstract void execute(JComponent source, CComponent view);
 
     protected Project getCurrentProject() {
         return projectView.getCurrentProject();
     }
 
     protected void handleProjectFormError(ProjectResult result) {
-        ProjectSimpleForm projectForm = (ProjectSimpleForm)FormManager.INSTANCE.getForm(FormType.PROJECT);
         projectForm.showErrorMessage(result.getErrorMessage());
-        ProjectRequestStatus status = (ProjectRequestStatus) result.getStatus();
-        switch (status) {
-            case BLANK_FIELDS:
-                projectForm.showErrorFields();
-                break;
-            case INVALID_DATE:
-                projectForm.showInvalidDateError();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + result.getStatus());
+        if (result.getStatus() == ProjectRequestStatus.BLANK_FIELDS) {
+            projectForm.showErrorFields();
+        } else if (result.getStatus() == ProjectRequestStatus.INVALID_DATE) {
+            projectForm.showInvalidDateError();
+        } else {
+            throw new IllegalStateException("Unexpected value: " + result.getStatus());
         }
     }
 }

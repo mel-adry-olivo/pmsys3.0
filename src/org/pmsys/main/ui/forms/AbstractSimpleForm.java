@@ -5,16 +5,17 @@ import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.request.Request;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
-import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
  * Simple form with a title and action button
  */
-public abstract class AbstractSimpleForm extends FlatForm implements UIView {
+public abstract class AbstractSimpleForm extends FlatForm implements CComponent {
 
     protected FlatLabel errorLabel;
     protected FlatButton actionButton;
@@ -76,8 +77,11 @@ public abstract class AbstractSimpleForm extends FlatForm implements UIView {
 
     private void setupButton() {
         actionButton = FlatButtonFactory.createFilledButton("Create");
-        actionButton.addActionListener(e -> {
-            ActionManager.executeAction(action, actionButton, this);
+        actionButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                ActionManager.executeAction(action, actionButton, AbstractSimpleForm.this);
+            }
         });
         add(actionButton, "growx, gapbottom 5, wrap, span 3 1");
     }

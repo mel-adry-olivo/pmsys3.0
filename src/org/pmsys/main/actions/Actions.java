@@ -6,7 +6,8 @@ public enum Actions {
     SWITCH_AUTH,
     SHOW_PROJECT_ADD_FORM,
     SHOW_PROJECT_EDIT_FORM,
-    SHOW_TASK_FORM,
+    SHOW_TASK_ADD_FORM,
+    SHOW_TASK_EDIT_FORM,
     SHOW_PROJECT_OPTIONS,
     SHOW_TASK_OPTIONS,
     SHOW_PROJECT_LIST,
@@ -24,5 +25,4 @@ public enum Actions {
     PREVIOUS_PAGE,
     EXPORT,
     VIEW_CHANGE,
-
 }

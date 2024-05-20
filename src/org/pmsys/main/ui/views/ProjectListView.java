@@ -5,6 +5,7 @@ import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.Request;
 import org.pmsys.main.managers.ActionManager;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.ProjectCard;
 import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.ui.forms.ProjectSimpleForm;
@@ -17,7 +18,7 @@ import java.awt.event.MouseEvent;
 /**
  * This class represents the main view for displaying a list of projects.
  */
-public class ProjectListView extends FlatPanel implements UIView{
+public class ProjectListView extends FlatPanel implements CComponent {
 
     private int currentProjectPage = 0;
     private int currentTotalPage = 0;

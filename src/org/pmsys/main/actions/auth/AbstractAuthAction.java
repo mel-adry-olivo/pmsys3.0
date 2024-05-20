@@ -9,7 +9,7 @@ import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.service.Services;
 import org.pmsys.main.ui.auth.AbstractAuthPanel;
 import org.pmsys.main.ui.auth.AuthWindow;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
@@ -24,12 +24,12 @@ public abstract class AbstractAuthAction implements SimpleAction {
 
     protected abstract AuthResult executeAction(AuthRequest request);
 
-    protected abstract void handleSuccess(UIView view, AuthResult authResult);
+    protected abstract void handleSuccess(CComponent view, AuthResult authResult);
 
-    protected abstract void handleFailure(UIView view, AuthResult authResult);
+    protected abstract void handleFailure(CComponent view, AuthResult authResult);
     
     @Override
-    public final void execute(JComponent source, UIView view) {
+    public final void execute(JComponent source, CComponent view) {
         AbstractAuthPanel authForm = (AbstractAuthPanel) view;
         AuthWindow authWindow = authForm.getAuthWindow();
 

@@ -58,12 +58,12 @@ public class TaskService extends FileService {
         }
     }
 
-    public void updateTask(Task updatedTask){
+    public void updateTaskInFile(Task updatedTask){
         taskCache.put(updatedTask.getId(), updatedTask);
         batchSaveTasks();
     }
 
-    public void deleteTask(Task task) {
+    public void deleteTaskFromFile(Task task) {
         taskCache.remove(task.getId());
         batchSaveTasks();
     }

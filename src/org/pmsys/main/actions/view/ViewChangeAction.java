@@ -2,11 +2,9 @@ package org.pmsys.main.actions.view;
 
 import org.pmsys.constants.AppColors;
 import org.pmsys.main.actions.SimpleAction;
-import org.pmsys.main.managers.ViewManager;
 import org.pmsys.main.ui.MainWindow;
 import org.pmsys.main.ui.components.base.FlatButton;
-import org.pmsys.main.ui.views.UIView;
-import org.pmsys.main.ui.views.Views;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +12,7 @@ import java.awt.*;
 public class ViewChangeAction implements SimpleAction {
 
     @Override
-    public void execute(JComponent source, UIView view) {
+    public void execute(JComponent source, CComponent view) {
         MainWindow.WindowMenu menu = (MainWindow.WindowMenu) view;
         FlatButton clickedButton = (FlatButton) source;
 

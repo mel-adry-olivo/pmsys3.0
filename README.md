@@ -19,3 +19,7 @@ bugs:
 
 future optimizations:
 - word wrap on task cards (currently only wraps for two lines)
+
+TO CLEAN:
+- TaskAddAction class
+- 

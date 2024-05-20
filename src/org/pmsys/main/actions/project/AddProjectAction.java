@@ -4,15 +4,14 @@ import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.ProjectRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
-import org.pmsys.main.ui.forms.ProjectSimpleForm;
-import org.pmsys.main.ui.views.UIView;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
 public class AddProjectAction extends AbstractProjectAction {
 
     @Override
-    public void execute(JComponent source, UIView view) {
+    public void execute(JComponent source, CComponent view) {
         ProjectRequest projectRequest = (ProjectRequest) projectForm.getFormData();
         ProjectResult result = projectService.validateProjectRequest(projectRequest);
 
