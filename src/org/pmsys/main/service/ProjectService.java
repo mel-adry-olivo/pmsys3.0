@@ -5,17 +5,8 @@ import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.utils.DateUtils;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.*;
 
 public class ProjectService extends FileService {
 
@@ -26,88 +17,41 @@ public class ProjectService extends FileService {
             projectCache = getAllProjects();
         }
     }
-
     public void clearCache() {
         if(projectCache != null) {
             projectCache.clear();
         }
     }
 
-    public void saveProject(Project project) {
-        try {
-            Files.writeString(
-                    getProjectFileOfUser(),
-                    project.toString() + System.lineSeparator(),
-                    StandardOpenOption.APPEND);
-            projectCache.put(project.getId(), project);
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-        }
+    public void saveInFile(Project project) {
+        projectCache.put(project.getId(), project);
+        Utils.APPEND(getProjectFileOfCurrentUser(), project.toString());
     }
-
-    public void batchSaveTasks() {
-        new SwingWorker<Void, Void>() {
-            @Override
-            protected Void doInBackground() {
-                try {
-                    StringBuilder content = new StringBuilder();
-                    for (String projectId : projectCache.keySet()) {
-                        content.append(projectCache.get(projectId)).append(System.lineSeparator());
-                    }
-                    Files.writeString(
-                            getProjectFileOfUser(),
-                            content.toString(),
-                            StandardOpenOption.WRITE,
-                            StandardOpenOption.TRUNCATE_EXISTING);
-                } catch (IOException e) {
-                    Logger.getGlobal().warning(e.getMessage());
-                }
-                return null;
-            }
-        }.execute();
-    }
-
 
     public Map<String, Project> getAllProjects() {
-        if(!projectCache.isEmpty()) {
-            return projectCache;
-        }
-
-        try {
-            return Files.readAllLines(getProjectFileOfUser())
-                    .stream()
-                    .map(Project::parseLineToProject)
-                    // used linked hash map to maintain order from file
-                    .collect(LinkedHashMap::new, (map, project) -> map.put(project.getId(), project), Map::putAll);
-
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-            return Collections.emptyMap();
-        }
+        List<String> projectLines = Utils.READ(getProjectFileOfCurrentUser());
+        return Project.toMap(projectLines);
     }
 
     public Project getProjectById(String id) {
-        Project cachedProject = projectCache.get(id);
-
-        if (cachedProject != null) {
-            return cachedProject;
+        Project project = projectCache.get(id);
+        if (project == null) {
+            cacheProjects();
         }
-
-        cacheProjects();
         return projectCache.get(id);
     }
 
-    public void updateProjectInFile(Project updatedProject){
-        projectCache.put(updatedProject.getId(), updatedProject);
-        batchSaveTasks();
+    public void updateInFile(Project project){
+        projectCache.put(project.getId(), project);
+        batchSaveProjects();
     }
 
-    public void deleteProjectFromFile(Project project) {
+    public void deleteInFile(Project project) {
         projectCache.remove(project.getId());
-        batchSaveTasks();
+        batchSaveProjects();
     }
 
-    public ProjectResult validateProjectRequest(ProjectRequest projectRequest) {
+    public ProjectResult validateRequest(ProjectRequest projectRequest) {
         if (projectRequest.getTitle().isBlank() || projectRequest.getDescription().isBlank()) {
             return ProjectResult.BLANK_FIELDS();
         }
@@ -120,5 +64,8 @@ public class ProjectService extends FileService {
         return ProjectResult.SUCCESS(new Project(projectRequest));
     }
 
-
+    private void batchSaveProjects() {
+        String formattedProjects = Utils.FORMAT(projectCache);
+        Utils.OVERWRITE(getProjectFileOfCurrentUser(), formattedProjects);
+    }
 }

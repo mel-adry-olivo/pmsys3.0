@@ -5,94 +5,60 @@ import org.pmsys.main.entities.Task;
 import org.pmsys.main.entities.request.TaskRequest;
 import org.pmsys.main.entities.result.TaskResult;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.StandardOpenOption;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 public class TaskService extends FileService {
 
-    private Map<String, Task> taskCache = null;
+    private Map<String, Task> taskCache = new HashMap<>();
 
     public void cacheTasks() {
-        if (taskCache == null || taskCache.isEmpty()) {
+        if (taskCache.isEmpty()) {
             taskCache = getAllTasks();
         }
     }
-
     public void clearCache() {
         if (taskCache != null) {
             taskCache.clear();
         }
     }
 
-    public void saveTask(Task task) {
-        try {
-            Files.writeString(
-                    getTaskFileOfUser(),
-                    task.toString() + System.lineSeparator(),
-                    StandardOpenOption.APPEND);
-
-            taskCache.put(task.getId(), task);
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-        }
+    public void saveToFile(Task task) {
+        taskCache.put(task.getId(), task);
+        Utils.APPEND(getTaskFileOfCurrentUser(), task.toString());
     }
 
-    private void batchSaveTasks() {
-        try {
-            StringBuilder content = new StringBuilder();
-            for (Task task : taskCache.values()) {
-                content.append(task.toString()).append(System.lineSeparator());
-            }
-
-            Files.writeString(
-                    getTaskFileOfUser(),
-                    content.toString(),
-                    StandardOpenOption.WRITE,
-                    StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-        }
-    }
-
-    public void updateTaskInFile(Task updatedTask){
-        taskCache.put(updatedTask.getId(), updatedTask);
+    public void updateInFile(Task task){
+        taskCache.put(task.getId(), task);
         batchSaveTasks();
     }
 
-    public void deleteTaskFromFile(Task task) {
+    public void deleteInFile(Task task) {
         taskCache.remove(task.getId());
         batchSaveTasks();
     }
 
-    public Map<String, Task> getAllTasks() {
-        try {
-            return Files.readAllLines(getTaskFileOfUser())
-                    .stream()
-                    .map(Task::parseLineToTask)
-                    .collect(Collectors.toMap(Task::getId, task -> task));
-        } catch (IOException e) {
-            Logger.getGlobal().warning(e.getMessage());
-            return Collections.emptyMap();
-        }
-    }
-
-    public List<Task> getTasksOf(Project project) {
-        cacheTasks();
-        return taskCache.values().stream()
-                .filter(task -> task.getProjectId().equals(project.getId()))
-                .collect(Collectors.toList());
-    }
-
-    public TaskResult validateTaskRequest(TaskRequest taskRequest) {
+    public TaskResult validateRequest(TaskRequest taskRequest) {
         if (taskRequest.getTitle().isBlank() || taskRequest.getDescription().isBlank()) {
             return TaskResult.BLANK_FIELDS();
         }
         return TaskResult.SUCCESS(new Task(taskRequest));
     }
+
+    public List<Task> getTasksOf(Project project) {
+        cacheTasks();
+        return Task.tasksOf(project, taskCache);
+    }
+
+    private void batchSaveTasks() {
+        String formattedTasks = Utils.FORMAT(taskCache);
+        Utils.OVERWRITE(getTaskFileOfCurrentUser(), formattedTasks);
+    }
+
+    private Map<String, Task> getAllTasks() {
+        List<String> taskLines = Utils.READ(getTaskFileOfCurrentUser());
+        return Task.toMap(taskLines);
+    }
+
 }

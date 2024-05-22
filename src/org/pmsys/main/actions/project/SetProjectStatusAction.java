@@ -1,7 +1,6 @@
 package org.pmsys.main.actions.project;
 
 import org.pmsys.main.entities.Project;
-import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ProjectManager;
 import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.utils.PopupMessages;
@@ -20,7 +19,7 @@ public class SetProjectStatusAction extends AbstractProjectAction{
         }
 
         currentProject.setStatus(itemName);
-        projectService.updateProjectInFile(currentProject);
+        projectService.updateInFile(currentProject);
         ProjectManager.INSTANCE.loadProjectList();
         PopupMessages.SUCCESS("Project status updated");
     }

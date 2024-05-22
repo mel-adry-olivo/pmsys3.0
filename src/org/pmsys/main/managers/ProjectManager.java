@@ -1,7 +1,6 @@
 package org.pmsys.main.managers;
 
 import org.pmsys.main.entities.Project;
-import org.pmsys.main.entities.Task;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.service.Services;
 import org.pmsys.main.service.TaskService;

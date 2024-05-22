@@ -4,9 +4,7 @@ import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.ProjectRequestStatus;
-import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
-import org.pmsys.main.entities.result.TaskResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.managers.ViewManager;
@@ -21,7 +19,6 @@ import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;
-import java.util.Objects;
 
 public abstract class AbstractProjectAction implements SimpleAction {
 
@@ -46,7 +43,7 @@ public abstract class AbstractProjectAction implements SimpleAction {
     }
 
     protected ProjectResult validateProjectRequest(ProjectRequest projectRequest) {
-        ProjectResult result = projectService.validateProjectRequest(projectRequest);
+        ProjectResult result = projectService.validateRequest(projectRequest);
         if (result.getStatus() != ProjectRequestStatus.SUCCESS) {
             handleProjectFormError(result);
         }

@@ -40,7 +40,7 @@ public abstract class AbstractTaskAction implements SimpleAction {
     }
 
     protected TaskResult validateTaskRequest(TaskRequest taskRequest) {
-        TaskResult result = taskService.validateTaskRequest(taskRequest);
+        TaskResult result = taskService.validateRequest(taskRequest);
         if (result.getStatus() != TaskRequestStatus.SUCCESS) {
             handleTaskFormError(result);
         }
@@ -48,7 +48,7 @@ public abstract class AbstractTaskAction implements SimpleAction {
     }
 
     protected void updateProjectAndHideForm() {
-        projectService.updateProjectInFile(projectView.getCurrentProject());
+        projectService.updateInFile(projectView.getCurrentProject());
         taskForm.dispose();
     }
 }

@@ -13,8 +13,8 @@ public class DeleteTaskAction extends AbstractTaskAction{
             TaskCard taskCard = (TaskCard) comp;
             projectView.removeTaskFromView(taskCard);
             projectView.getCurrentProject().removeTask(taskCard.getTask());
-            taskService.deleteTaskFromFile(taskCard.getTask());
-            projectService.updateProjectInFile(projectView.getCurrentProject());
+            taskService.deleteInFile(taskCard.getTask());
+            projectService.updateInFile(projectView.getCurrentProject());
         }
     }
 }

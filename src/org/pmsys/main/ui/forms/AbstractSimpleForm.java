@@ -16,10 +16,10 @@ import java.awt.event.WindowEvent;
  */
 public abstract class AbstractSimpleForm extends CForm{
 
+    private CLabel titleLabel;
+
     protected CLabel errorLabel;
     protected CButton actionButton;
-
-    private CLabel titleLabel;
 
     protected Actions action;
 
@@ -37,7 +37,6 @@ public abstract class AbstractSimpleForm extends CForm{
         });
     }
 
-
     public final void showErrorMessage(String message) {
         errorLabel.setText(message);
         errorLabel.setForegroundColor(ColorConstants.ERROR).applyFlatStyle();
@@ -45,27 +44,28 @@ public abstract class AbstractSimpleForm extends CForm{
     public void setAction(Actions action) {
         this.action = action;
     }
+
     public abstract void showErrorFields();
     public abstract Request getFormData();
     public abstract Request getFormData(String id);
     public abstract void setFormData(Object data);
 
     abstract String getFormTitle();
-    abstract String getButtonText();
     abstract String rowConstraints();
     abstract String colConstraints();
     public abstract void clearFields();
     abstract void setupForm();
 
+    // resetting
     protected void setFieldError(CTextField c) {
         c.setBorderColor(ColorConstants.ERROR).applyStyles();
     }
-
     protected void resetError() {
         errorLabel.setText("This is a message label");
         errorLabel.setForegroundColor(ColorConstants.WHITE).applyFlatStyle();
     }
 
+    // ui
     private void setupLabels() {
         titleLabel = CLabelFactory.createScaledH1Label(getFormTitle());
         errorLabel = CLabelFactory.createDefaultLabel("This is an error label", ColorConstants.WHITE);
@@ -73,7 +73,6 @@ public abstract class AbstractSimpleForm extends CForm{
         add(titleLabel, "growx, wrap, span 3 1");
         add(errorLabel, "h 0%, growx, wrap , span 3 1");
     }
-
     private void setupButton() {
         actionButton = CButtonFactory.createFilledButton("Create");
         actionButton.addMouseListener(new MouseAdapter() {
@@ -84,14 +83,10 @@ public abstract class AbstractSimpleForm extends CForm{
         });
         add(actionButton, "growx, gapbottom 5, wrap, span 3 1");
     }
-
-    // New methods to update title and button text dynamically
     public void setFormTitle(String newTitle) {
         titleLabel.setText(newTitle);
     }
-
     public void setButtonText(String newText) {
         actionButton.setText(newText);
     }
-
 }

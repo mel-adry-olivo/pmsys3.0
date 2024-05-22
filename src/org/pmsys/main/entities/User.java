@@ -1,5 +1,7 @@
 package org.pmsys.main.entities;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
@@ -16,19 +18,21 @@ public class User {
         this.hashedPassword = hashedPassword;
     }
 
-    // Loading
-    public User(String id, String username, String hashedPassword, String displayName) {
-        this.id = id;
-        this.username = username;
-        this.hashedPassword = hashedPassword;
-        this.displayName = displayName;
-    }
 
     public User(String[] data) {
         this.id = data[0];
         this.username = data[1];
         this.hashedPassword = data[2];
         this.displayName = data[3];
+    }
+
+    public static List<User> parseLinesToUsers(List<String> lines) {
+        List<User> users = new ArrayList<>();
+        for (String line : lines) {
+            String[] data = line.split(":::");
+            users.add(new User(data));
+        }
+        return users;
     }
 
     @Override

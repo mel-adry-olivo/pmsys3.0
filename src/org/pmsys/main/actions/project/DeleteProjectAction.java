@@ -12,7 +12,7 @@ public class DeleteProjectAction extends AbstractProjectAction{
     @Override
     public void execute(JComponent source, CComponent comp) {
         if (PopupMessages.CONFIRM_DELETION("project")) {
-            projectService.deleteProjectFromFile(getCurrentProject());
+            projectService.deleteInFile(getCurrentProject());
             ProjectManager.INSTANCE.loadProjectList();
             ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
         }

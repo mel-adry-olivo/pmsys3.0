@@ -62,11 +62,6 @@ public class ProjectSimpleForm extends AbstractSimpleForm {
     }
 
     @Override
-    String getButtonText() {
-        return "Action";
-    }
-
-    @Override
     String rowConstraints() {
         return "[]2%[]4%[]2%[]4%[]2%[]";
     }

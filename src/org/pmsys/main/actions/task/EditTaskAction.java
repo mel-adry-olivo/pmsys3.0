@@ -19,8 +19,8 @@ public class EditTaskAction extends AbstractTaskAction{
 
         if(result.getStatus() == TaskRequestStatus.SUCCESS) {
             Task validatedTask = result.getTask();
-            taskToEdit.updateTaskDetails(validatedTask);
-            taskService.updateTaskInFile(taskToEdit);
+            taskToEdit.setUpdateFrom(validatedTask);
+            taskService.updateInFile(taskToEdit);
 
             TaskCard updatedTaskCard = projectView.createTaskCard(taskToEdit);
             projectView.updateTaskInView(updatedTaskCard, oldStatus);

@@ -4,7 +4,7 @@ import org.pmsys.main.entities.request.ProjectRequestStatus;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.Status;
 
-public class ProjectResult extends Result {
+public final class ProjectResult extends Result {
 
     private final Project project;
 

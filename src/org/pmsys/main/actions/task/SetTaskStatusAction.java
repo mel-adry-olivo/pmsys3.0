@@ -1,6 +1,5 @@
 package org.pmsys.main.actions.task;
 
-import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.TaskCard;
@@ -17,7 +16,7 @@ public class SetTaskStatusAction extends AbstractTaskAction{
         String oldStatus = currentTask.getStatus();
 
         currentTask.setStatus(itemName);
-        taskService.updateTaskInFile(currentTask);
+        taskService.updateInFile(currentTask);
 
         TaskCard updatedTaskCard = projectView.createTaskCard(currentTask);
         projectView.updateTaskInView(updatedTaskCard, oldStatus);

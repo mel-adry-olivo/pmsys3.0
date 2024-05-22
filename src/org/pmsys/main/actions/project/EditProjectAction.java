@@ -21,7 +21,7 @@ public class EditProjectAction extends AbstractProjectAction{
         if(result.getStatus() == ProjectRequestStatus.SUCCESS) {
             Project validatedProject = result.getProject();
             currentProject.updateProject(validatedProject);
-            projectService.updateProjectInFile(currentProject);
+            projectService.updateInFile(currentProject);
 
             ProjectManager.INSTANCE.loadProjectList();
             ProjectManager.INSTANCE.reloadCurrentProject();

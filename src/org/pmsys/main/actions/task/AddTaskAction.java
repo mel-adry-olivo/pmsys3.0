@@ -4,9 +4,7 @@ import org.pmsys.main.entities.Task;
 import org.pmsys.main.entities.request.TaskRequest;
 import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.result.TaskResult;
-import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.ui.CComponent;
-import org.pmsys.main.ui.forms.FormType;
 
 import javax.swing.*;
 
@@ -19,7 +17,7 @@ public class AddTaskAction extends AbstractTaskAction{
         if(result.getStatus() == TaskRequestStatus.SUCCESS) {
             Task validatedTask = result.getTask();
             validatedTask.setProjectId(projectView.getCurrentProject().getId());
-            taskService.saveTask(validatedTask);
+            taskService.saveToFile(validatedTask);
 
             projectView.addTaskToView(projectView.createTaskCard(validatedTask));
             projectView.getCurrentProject().addTask(validatedTask);

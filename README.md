@@ -5,9 +5,9 @@ CONVERTED TO ACTION-BASED:
 - Project CRUD
 - Task CRUD
 - Searching (by project name)
+- Edit project/task status
 
-FUTURE: 
-- Edit project status
+FUTURE:
 - Report Generation
 - Dashboard(if possible)
 
@@ -18,7 +18,5 @@ bugs:
 
 future optimizations:
 - word wrap on task cards (currently only wraps for two lines)
-
-TO CLEAN:
-- TaskAddAction class
-- 
+- project list is not sorted (could be fixed by comparator to sort in the getAllProjects method)
+- replace request/result system

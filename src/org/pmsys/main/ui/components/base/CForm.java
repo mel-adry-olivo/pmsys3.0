@@ -19,10 +19,6 @@ public class CForm extends JDialog implements CComponent {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public CPanel getContentPanel() {
-        return myContentPanel;
-    }
-
     public CForm addCloseBehavior(WindowAdapter closeBehavior) {
         addWindowListener(closeBehavior);
         return this;
@@ -30,11 +26,6 @@ public class CForm extends JDialog implements CComponent {
 
     public CForm setConstraints(String... constraints ) {
         myContentPanel.setConstraints(constraints);
-        return this;
-    }
-
-    public CForm setCloseBehavior(int behavior) {
-        setDefaultCloseOperation(behavior);
         return this;
     }
 
@@ -47,12 +38,6 @@ public class CForm extends JDialog implements CComponent {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        return this;
-    }
-
-    public CForm hideForm() {
-        setVisible(false);
-        dispose();
         return this;
     }
 }

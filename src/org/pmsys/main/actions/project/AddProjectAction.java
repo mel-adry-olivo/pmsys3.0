@@ -14,7 +14,7 @@ public class AddProjectAction extends AbstractProjectAction {
     @Override
     public void execute(JComponent source, CComponent comp) {
         ProjectRequest projectRequest = (ProjectRequest) projectForm.getFormData();
-        ProjectResult result = projectService.validateProjectRequest(projectRequest);
+        ProjectResult result = projectService.validateRequest(projectRequest);
 
         if(result.getStatus() != ProjectRequestStatus.SUCCESS) {
             handleProjectFormError(result);
@@ -22,7 +22,7 @@ public class AddProjectAction extends AbstractProjectAction {
         }
 
         Project validatedProject = result.getProject();
-        projectService.saveProject(validatedProject);
+        projectService.saveInFile(validatedProject);
         projectListView.addProjectToUI(projectListView.createProjectCard(validatedProject));
         IndexingManager.INSTANCE.indexProject(validatedProject);
         projectForm.dispose();
