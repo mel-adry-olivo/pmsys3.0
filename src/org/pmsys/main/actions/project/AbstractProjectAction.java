@@ -8,14 +8,14 @@ import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.service.ProjectService;
-import org.pmsys.main.service.Services;
-import org.pmsys.main.service.TaskService;
+import org.pmsys.main.services.ProjectService;
+import org.pmsys.main.services.Services;
+import org.pmsys.main.services.TaskService;
 import org.pmsys.main.ui.forms.FormType;
 import org.pmsys.main.ui.forms.ProjectSimpleForm;
 import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;

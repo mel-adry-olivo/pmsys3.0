@@ -1,4 +1,4 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 
 import com.password4j.Hash;

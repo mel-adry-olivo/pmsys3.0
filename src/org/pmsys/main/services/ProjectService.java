@@ -1,9 +1,9 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.result.ProjectResult;
-import org.pmsys.main.utils.DateUtils;
+import org.pmsys.main.ui.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.*;

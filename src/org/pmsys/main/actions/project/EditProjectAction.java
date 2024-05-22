@@ -7,7 +7,7 @@ import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ProjectManager;
 import org.pmsys.main.ui.forms.FormType;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 

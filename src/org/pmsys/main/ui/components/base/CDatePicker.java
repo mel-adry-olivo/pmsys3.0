@@ -1,7 +1,6 @@
 package org.pmsys.main.ui.components.base;
 
-import org.pmsys.main.ui.CComponent;
-import org.pmsys.main.utils.DateUtils;
+import org.pmsys.main.ui.utils.DateUtils;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -97,14 +96,5 @@ public class CDatePicker extends CPanel implements CComponent {
         monthPicker.setSelectedIndex(monthIndex);
         yearPicker.setSelectedItem(year);
         dayPicker.setSelectedItem(day);
-    }
-
-    private int findYearIndex(int year) {
-        for (int i = 0; i < yearPicker.getItemCount(); i++) {
-            if (yearPicker.getItemAt(i) == year) {
-                return i;
-            }
-        }
-        return 0;
     }
 }

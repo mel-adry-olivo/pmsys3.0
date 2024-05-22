@@ -1,4 +1,4 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.Task;

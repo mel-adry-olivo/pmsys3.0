@@ -1,9 +1,9 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.ui.ColorConstants;
-import org.pmsys.main.ui.IconConstants;
 import org.pmsys.main.managers.SessionManager;
 import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
 
 import javax.swing.*;
 import java.awt.*;

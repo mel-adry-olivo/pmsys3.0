@@ -9,7 +9,7 @@ import org.pmsys.main.actions.project.*;
 import org.pmsys.main.actions.project.SearchItemClickAction;
 import org.pmsys.main.actions.task.*;
 import org.pmsys.main.actions.view.ViewChangeAction;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 import java.util.EnumMap;

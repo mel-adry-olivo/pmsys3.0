@@ -1,9 +1,9 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.ui.ColorConstants;
-import org.pmsys.main.ui.IconConstants;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -91,10 +91,7 @@ public class TaskCard extends CPanel{
 
     public static class OptionsPopup extends JPopupMenu {
 
-        private final TaskCard currentCard;
-
         private JMenuItem editTask;
-        private JMenu setTaskStatus;
         private JMenuItem statusReady;
         private JMenuItem statusInProgress;
         private JMenuItem statusToReview;
@@ -102,7 +99,6 @@ public class TaskCard extends CPanel{
         private JMenuItem deleteTask;
 
         public OptionsPopup(TaskCard currentCard) {
-            this.currentCard = currentCard;
             setupComponent(currentCard.getTask().getStatus());
         }
 
@@ -124,7 +120,7 @@ public class TaskCard extends CPanel{
         private void setupComponent(String status) {
             editTask = new JMenuItem("Edit Task");
 
-            setTaskStatus = new JMenu("Set Status");
+            JMenu setTaskStatus = new JMenu("Set Status");
             statusReady = new JMenuItem("Ready");
             statusInProgress = new JMenuItem("In Progress");
             statusToReview = new JMenuItem("To Review");

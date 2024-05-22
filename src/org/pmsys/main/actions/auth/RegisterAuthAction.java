@@ -5,7 +5,7 @@ import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;
 import org.pmsys.main.ui.auth.AuthPanel;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 public class RegisterAuthAction extends AbstractAuthAction {
     @Override

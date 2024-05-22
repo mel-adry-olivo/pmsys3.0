@@ -1,4 +1,4 @@
-package org.pmsys.main.ui;
+package org.pmsys.main.ui.components.constants;
 
 public interface ColorConstants {
     String BLACK = "#1F1F1F";

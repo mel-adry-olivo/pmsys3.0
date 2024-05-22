@@ -1,7 +1,6 @@
 package org.pmsys.main.ui.components.base;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
@@ -31,10 +30,6 @@ public class CScrollPane extends JScrollPane implements MigLayoutCompatible<CScr
 
     public void addToView(JComponent component, String constraint) {
         view.add(component, constraint);
-    }
-
-    public String getColumnConstraints() {
-        return view.getColumnConstraints();
     }
 
     @Override

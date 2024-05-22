@@ -3,9 +3,9 @@ package org.pmsys.main.ui.components;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.ui.ColorConstants;
-import org.pmsys.main.ui.IconConstants;
 import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +40,7 @@ public class SearchBar extends CPanel {
                 .setBackgroundColor(ColorConstants.WHITE)
                 .applyStyles();
 
-        myTextField.getDocument().addDocumentListener(new SearchBarDocumentListener(this));
+        myTextField.getDocument().addDocumentListener(new SearchEvent(this));
 
         add(mySearchButton, "w 0%");
         add(myTextField, "w 100%");
@@ -64,9 +64,7 @@ public class SearchBar extends CPanel {
             item.setName(project.getId());
             item.setMargin(new Insets(14,8,14,8));
             item.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            item.addActionListener(e -> {
-                ActionManager.executeAction(Actions.SEARCH_ITEM_CLICK, item, searchBar);
-            });
+            item.addActionListener(e -> ActionManager.executeAction(Actions.SEARCH_ITEM_CLICK, item, searchBar));
             return item;
         }
 

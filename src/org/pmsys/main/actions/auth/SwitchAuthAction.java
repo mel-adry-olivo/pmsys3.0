@@ -5,7 +5,7 @@ import org.pmsys.main.actions.Actions;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.ui.auth.AuthPanel;
 import org.pmsys.main.ui.auth.AuthWindow;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 public enum Services {
     USER,

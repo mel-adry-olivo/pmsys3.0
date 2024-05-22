@@ -5,12 +5,12 @@ import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.service.AuthService;
+import org.pmsys.main.services.AuthService;
 import org.pmsys.main.managers.ServiceManager;
-import org.pmsys.main.service.Services;
+import org.pmsys.main.services.Services;
 import org.pmsys.main.ui.auth.AbstractAuthPanel;
 import org.pmsys.main.ui.auth.AuthWindow;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;

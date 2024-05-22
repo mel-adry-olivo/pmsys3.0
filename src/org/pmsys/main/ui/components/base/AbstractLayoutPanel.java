@@ -1,7 +1,6 @@
 package org.pmsys.main.ui.components.base;
 
 import net.miginfocom.swing.MigLayout;
-import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
@@ -51,18 +50,5 @@ public abstract class AbstractLayoutPanel extends JPanel
         this.layoutConstraints = layoutConstraints;
         layout.setLayoutConstraints(layoutConstraints);
         return this;
-    }
-
-
-    public String getLayoutConstraints() {
-        return layoutConstraints;
-    }
-
-    public String getColumnConstraints() {
-        return columnConstraints;
-    }
-
-    public String getRowConstraints() {
-        return rowConstraints;
     }
 }

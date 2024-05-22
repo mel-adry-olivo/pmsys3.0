@@ -1,7 +1,5 @@
 package org.pmsys.main.ui.components.base;
 
-import org.pmsys.main.ui.CComponent;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;

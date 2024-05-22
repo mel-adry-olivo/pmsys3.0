@@ -1,6 +1,6 @@
 package org.pmsys.main.ui.forms;
 
-import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.Request;

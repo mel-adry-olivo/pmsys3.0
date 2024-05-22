@@ -4,10 +4,9 @@ import org.pmsys.main.actions.Actions;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.ui.components.base.CButton;
 import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class ShowProjectOptionsAction extends AbstractProjectAction{
     @Override

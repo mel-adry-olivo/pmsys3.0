@@ -1,8 +1,8 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class TaskBoard extends CScrollPane {
 
-    private TaskBoardOptions options;
     private Map<String, Section> sections; // map status to section
     private int maxSectionHeight;
 
@@ -29,7 +28,7 @@ public class TaskBoard extends CScrollPane {
     public void addTask(TaskCard taskCard) {
         Section section = sections.get(taskCard.getTask().getStatus());
         if (section != null) {
-            section.addTask(taskCard, options.getCardConstraints());
+            section.addTask(taskCard, Options.CARD_CONSTRAINTS);
             recalculateBoardSize(section);
         }
     }
@@ -58,7 +57,7 @@ public class TaskBoard extends CScrollPane {
         oldSection.removeTask(card);
         recalculateBoardSize(oldSection);
 
-        newSection.addTask(card, options.getCardConstraints());
+        newSection.addTask(card, Options.CARD_CONSTRAINTS);
         recalculateBoardSize(newSection);
     }
 
@@ -72,7 +71,7 @@ public class TaskBoard extends CScrollPane {
 
     private void updateBoardSize() {
         int width = view.getWidth();
-        int newHeight = maxSectionHeight + options.getTotalHeaderSpace();
+        int newHeight = maxSectionHeight + Options.getTotalHeaderSpace();
 
         view.setPreferredSize(new Dimension(width, newHeight));
         view.repaint();
@@ -80,7 +79,6 @@ public class TaskBoard extends CScrollPane {
     }
 
     private void initBoard() {
-        options = new TaskBoardOptions();
         sections = new HashMap<>();
         maxSectionHeight = 0;
 
@@ -92,17 +90,17 @@ public class TaskBoard extends CScrollPane {
 
     private void addSection(String status, Section section) {
         sections.put(status, section);
-        addToView(section.getHeader(), options.getHeaderConstraints());
-        addToView(section.getSection(), options.getSectionConstraints());
+        addToView(section.getHeader(), Options.HEADER_CONSTRAINTS);
+        addToView(section.getSection(), Options.SECTION_CONSTRAINTS);
     }
 
     private void setupBoardLayout() {
         String layoutConstraints = "flowy, insets 16 24 0 14, fillx, wrap 2, nocache";
-        String rowConstraints = "[]" + options.getCardGap() + "![]";
+        String rowConstraints = "[]" + Options.CARD_GAP + "![]";
         String columnConstraints =
-                "[]" + options.getSectionGap()
-                + "![]" + options.getSectionGap()
-                + "![]" + options.getSectionGap()
+                "[]" + Options.SECTION_GAP
+                + "![]" + Options.SECTION_GAP
+                + "![]" + Options.SECTION_GAP
                 + "![]";
         setConstraints(layoutConstraints, columnConstraints, rowConstraints);
     }
@@ -112,7 +110,6 @@ public class TaskBoard extends CScrollPane {
 
         private CPanel header;
         private CPanel container;
-        private String rowConstraints = "";
         private Map<Task, TaskCard> cards;
 
         private Section(String name) {
@@ -143,12 +140,7 @@ public class TaskBoard extends CScrollPane {
         }
 
         private void updateLayout() {
-            rowConstraints = "";
-            for (int i = 0; i < cards.size(); i++) {
-                rowConstraints += "[]0";
-            }
-            container.setRowConstraints(rowConstraints);
-
+            container.setRowConstraints("[]0".repeat(cards.size()));
             container.getParent().doLayout();
             container.repaint();
             container.revalidate();
@@ -169,12 +161,25 @@ public class TaskBoard extends CScrollPane {
         private void initSection(String name) {
             cards = new HashMap<>();
             header = new CPanel();
-            container = new CPanel("insets 0, flowy", "", rowConstraints);
+            container = new CPanel("insets 0, flowy", "", "");
 
             header.setConstraints("insets 10 12 10 12, filly", "[]push[]");
             header.setBackgroundColor(ColorConstants.WHITE).setLineBorder(1,1,1,1, 8);
             header.applyStyles();
             header.add(CLabelFactory.createMediumLabel(name, ColorConstants.BLACK));
+        }
+    }
+
+    private static class Options {
+        static String HEADER_HEIGHT = "46";
+        static String CARD_HEIGHT = "0";
+        static String CARD_GAP = "16";
+        static String SECTION_GAP = "16";
+        static String CARD_CONSTRAINTS = "w 100%, h " + CARD_HEIGHT + "%, gapbottom " + CARD_GAP + "!";
+        static String HEADER_CONSTRAINTS = "w 25%, h " + HEADER_HEIGHT  + "!";
+        static String SECTION_CONSTRAINTS = "w 25%, h 0%, growy";
+        public static int getTotalHeaderSpace() {
+            return Integer.parseInt(HEADER_HEIGHT) + (Integer.parseInt(CARD_GAP) * 2);
         }
     }
 }

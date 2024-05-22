@@ -1,4 +1,4 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 import javax.swing.*;
 import java.io.IOException;

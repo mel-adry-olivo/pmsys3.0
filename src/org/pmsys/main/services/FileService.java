@@ -1,4 +1,4 @@
-package org.pmsys.main.service;
+package org.pmsys.main.services;
 
 import org.pmsys.main.entities.User;
 import org.pmsys.main.managers.SessionManager;

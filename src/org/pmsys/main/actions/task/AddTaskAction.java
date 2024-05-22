@@ -4,7 +4,7 @@ import org.pmsys.main.entities.Task;
 import org.pmsys.main.entities.request.TaskRequest;
 import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.result.TaskResult;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 

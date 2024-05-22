@@ -2,25 +2,19 @@ package org.pmsys.main.ui.components;
 
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.IndexingManager;
-import org.pmsys.main.managers.ProjectManager;
-import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.ui.views.Views;
 
-import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import java.awt.*;
 import java.util.List;
 
-public class SearchBarDocumentListener implements DocumentListener {
+public class SearchEvent implements DocumentListener {
 
     private final SearchBar searchBar;
-    private SearchBar.SearchPopup popup;
+    private final SearchBar.SearchPopup popup;
 
-    public SearchBarDocumentListener(SearchBar searchBar) {
+    public SearchEvent(SearchBar searchBar) {
         this.searchBar = searchBar;
         this.popup = new SearchBar.SearchPopup(searchBar);
-        //popup.setFocusable(false);
     }
 
     @Override

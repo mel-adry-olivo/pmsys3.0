@@ -1,10 +1,10 @@
-package org.pmsys.main.ui;
+package org.pmsys.main.ui.components.constants;
 
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IconConstants {
+public final class IconConstants {
 
     private static final int SMALL = 18;
     private static final int MEDIUM = 22;

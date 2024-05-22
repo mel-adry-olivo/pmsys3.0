@@ -1,7 +1,7 @@
 package org.pmsys.main.actions.task;
 
 import org.pmsys.main.entities.Task;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.components.TaskCard;
 
 import javax.swing.*;

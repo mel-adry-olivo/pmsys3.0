@@ -1,10 +1,10 @@
 package org.pmsys.main.actions.view;
 
-import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.ui.MainWindow;
 import org.pmsys.main.ui.components.base.CButton;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 import java.awt.*;

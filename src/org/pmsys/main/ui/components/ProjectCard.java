@@ -6,11 +6,6 @@ import org.pmsys.main.ui.components.base.CLabel;
 import org.pmsys.main.ui.components.base.CLabelFactory;
 import org.pmsys.main.ui.components.base.CPanel;
 
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 public class ProjectCard extends CPanel {
 
     private final Project project;

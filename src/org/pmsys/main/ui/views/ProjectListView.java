@@ -1,6 +1,6 @@
 package org.pmsys.main.ui.views;
 
-import org.pmsys.main.ui.IconConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;

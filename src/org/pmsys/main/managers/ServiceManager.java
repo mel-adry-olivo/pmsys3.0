@@ -1,6 +1,6 @@
 package org.pmsys.main.managers;
 
-import org.pmsys.main.service.*;
+import org.pmsys.main.services.*;
 
 import java.util.EnumMap;
 import java.util.Map;

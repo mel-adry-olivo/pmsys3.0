@@ -1,11 +1,11 @@
 package org.pmsys.main.ui.auth;
 
 import org.pmsys.main.actions.Actions;
-import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;

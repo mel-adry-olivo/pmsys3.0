@@ -3,7 +3,7 @@ package org.pmsys.main.actions.project;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ProjectManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.components.SearchBar;
 import org.pmsys.main.ui.views.Views;
 

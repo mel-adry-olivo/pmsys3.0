@@ -5,7 +5,7 @@ import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.ProjectRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.IndexingManager;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
 

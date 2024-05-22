@@ -1,7 +1,7 @@
 package org.pmsys.main.ui.auth;
 
 import org.pmsys.main.actions.Actions;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 /**
  * Login or sign up form

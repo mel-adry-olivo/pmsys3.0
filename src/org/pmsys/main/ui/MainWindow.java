@@ -5,14 +5,12 @@ import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.ui.components.SearchBar;
-import org.pmsys.main.ui.components.UserAvatar;
+import org.pmsys.main.ui.components.*;
+import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
 import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
-import org.pmsys.main.ui.components.base.CButton;
-import org.pmsys.main.ui.components.base.CButtonFactory;
-import org.pmsys.main.ui.components.base.CLabel;
-import org.pmsys.main.ui.components.base.CPanel;
 
 import javax.swing.*;
 import java.awt.*;

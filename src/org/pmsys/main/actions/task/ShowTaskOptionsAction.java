@@ -2,7 +2,7 @@ package org.pmsys.main.actions.task;
 
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.components.TaskCard;
 import org.pmsys.main.ui.components.base.CButton;
 

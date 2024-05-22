@@ -2,7 +2,7 @@ package org.pmsys.main.ui.utils;
 
 import javax.swing.*;
 
-public class PopupMessages {
+public class MessageUtils {
     public static boolean CONFIRM_DELETION(String itemType) {
         int result = JOptionPane.showConfirmDialog(
                 null,
@@ -13,8 +13,6 @@ public class PopupMessages {
         );
         return result == JOptionPane.YES_OPTION;
     }
-
-
     public static void SUCCESS(String message) {
         JOptionPane.showMessageDialog(
                 null,
