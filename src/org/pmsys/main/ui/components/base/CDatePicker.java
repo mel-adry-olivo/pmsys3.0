@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
-
 public class CDatePicker extends CPanel implements CComponent {
 
     private CComboBox<String> monthPicker;

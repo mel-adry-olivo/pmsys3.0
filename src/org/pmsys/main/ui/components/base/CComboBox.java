@@ -18,7 +18,7 @@ public class CComboBox<E> extends JComboBox<E> implements FlatStyleable<CComboBo
     }
 
     public Object getSelectedItem() {
-        return (Object) super.getSelectedItem();
+        return super.getSelectedItem();
     }
 
 

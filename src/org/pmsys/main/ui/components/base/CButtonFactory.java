@@ -12,12 +12,6 @@ public class CButtonFactory {
                 .setHoverBackgroundColor("#FAFAFA")
                 .applyStyles();
     }
-    public static CButton createDefaultButton(String text, Icon icon) {
-        return createDefaultButton(text)
-                .setTextMargin(6,10,6,14)
-                .applyStyles()
-                .setSVGIcon(icon);
-    }
 
     public static CButton createFilledButton(String text) {
         return new CButton(text, false)

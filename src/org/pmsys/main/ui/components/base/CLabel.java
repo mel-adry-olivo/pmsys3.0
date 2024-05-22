@@ -81,11 +81,10 @@ public class CLabel extends JLabel implements CComponent {
     public static final String H1 = "$h1.font";
     public static final String H2 = "$h2.font";
     public static final String H3 = "$h3.font";
-    public static final String H4 = "$h4.font";
 
     public static final String SEMIBOLD = "$semibold.font";
     public static final String LARGE_SEMIBOLD = "130% $semibold.font";
-    public static final String EXTRA_LARGE = " 120% $large.font";
+    //public static final String EXTRA_LARGE = " 120% $large.font";
     public static final String LARGE = "$large.font";
     public static final String DEFAULT = "$defaultFont";
     public static final String MEDIUM = "$medium.font";
