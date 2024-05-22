@@ -1,22 +1,17 @@
 package org.pmsys.main.ui.components.base;
 
-import org.pmsys.constants.AppColors;
-import org.pmsys.main.ui.utils.FlatColorist;
+import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.utils.FlatStyler;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CPasswordField extends JPasswordField implements FlatColorable<CPasswordField>{
+public class CPasswordField extends JPasswordField implements FlatStyleable<CPasswordField>, CComponent {
 
-    private final FlatStyler styler;
-    private final FlatColorist<CPasswordField> colorist;
-
+    private FlatStyler styler;
 
     public CPasswordField() {
-        styler = new FlatStyler();
-        colorist = new FlatColorist<>(this, styler);
-
         setupDefaults();
     }
 
@@ -42,50 +37,25 @@ public class CPasswordField extends JPasswordField implements FlatColorable<CPas
         return this;
     }
 
-
     @Override
-    public CPasswordField setBorderColor(String color) {
-        colorist.setBorderColor(color);
+    public CPasswordField getComponent() {
         return this;
     }
 
     @Override
-    public CPasswordField setFocusedBorderColor(String color) {
-        colorist.setFocusedBorderColor(color);
-        return this;
+    public FlatStyler getStyler() {
+        if(styler == null) {
+            styler = new FlatStyler();
+        }
+        return styler;
     }
 
-    @Override
-    public CPasswordField setInactiveBackgroundColor(String color) {
-        colorist.setInactiveBackgroundColor(color);
-        return this;
-    }
-
-    @Override
-    public CPasswordField setFocusedBackgroundColor(String color) {
-        colorist.setFocusedBackgroundColor(color);
-        return this;
-    }
-
-    @Override
-    public CPasswordField setBackgroundColor(String color) {
-        colorist.setBackgroundColor(color);
-        return this;
-    }
-
-    @Override
-    public CPasswordField applyFlatStyle() {
-        styler.applyFlatStyle(this);
-        return this;
-    }
 
     private void setupDefaults() {
-        colorist.setBorderColor(AppColors.BORDER);
-        colorist.setFocusedBorderColor(AppColors.ACCENT);
-
+        setBorderColor(ColorConstants.BORDER).setFocusedBorderColor(ColorConstants.ACCENT);
         setBorderWidth(1);
-        getDocument().addDocumentListener(new CDocumentListener(this,this));
-        setForeground(Color.decode(AppColors.DARK_GREY));
+        getDocument().addDocumentListener(new CDocumentListener(this, this));
+        setForeground(Color.decode(ColorConstants.DARK_GREY));
         setOpaque(false);
     }
 }

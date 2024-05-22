@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class ShowProjectEditFormAction extends AbstractProjectAction {
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         FormManager.INSTANCE.showForm(FormType.PROJECT, projectView.getCurrentProject());
     }
 }

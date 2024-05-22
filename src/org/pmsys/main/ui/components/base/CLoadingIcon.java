@@ -1,9 +1,11 @@
 package org.pmsys.main.ui.components.base;
 
+import org.pmsys.main.ui.CComponent;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class CLoadingIcon extends CLabel {
+public class CLoadingIcon extends CLabel implements CComponent {
 
     public CLoadingIcon() {
             super(new ImageIcon("src/org/pmsys/resources/icons/loading_180.gif"),JLabel.CENTER);

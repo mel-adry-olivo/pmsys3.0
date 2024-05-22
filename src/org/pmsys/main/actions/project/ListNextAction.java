@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class ListNextAction extends AbstractProjectAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         projectListView.showNextPage();
     }
 }

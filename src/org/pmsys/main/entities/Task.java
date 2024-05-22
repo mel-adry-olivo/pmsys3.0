@@ -101,6 +101,27 @@ public class Task {
         return status;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
-// TODO
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

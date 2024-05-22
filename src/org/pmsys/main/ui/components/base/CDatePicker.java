@@ -1,5 +1,6 @@
 package org.pmsys.main.ui.components.base;
 
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.utils.DateUtils;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.time.LocalDate;
 
 
-public class CDatePicker extends CPanel {
+public class CDatePicker extends CPanel implements CComponent {
 
     private CComboBox<String> monthPicker;
     private CComboBox<Integer> dayPicker;
@@ -39,14 +40,6 @@ public class CDatePicker extends CPanel {
         return this;
     }
 
-    @Override
-    public CPanel applyFlatStyle() {
-        super.applyFlatStyle();
-        monthPicker.applyFlatStyle();
-        dayPicker.applyFlatStyle();
-        yearPicker.applyFlatStyle();
-        return this;
-    }
 
     private void setupDayPickerEvent() {
         ActionListener daysUpdater = e -> updateDaysPicker();
@@ -63,9 +56,9 @@ public class CDatePicker extends CPanel {
     }
 
     private void resetBorders() {
-        monthPicker.setBorderColor("darken(#ffffff, 23%)").applyFlatStyle();
-        dayPicker.setBorderColor("darken(#ffffff, 23%)").applyFlatStyle();
-        yearPicker.setBorderColor("darken(#ffffff, 23%)").applyFlatStyle();
+        monthPicker.setBorderColor("darken(#ffffff, 23%)").applyStyles();
+        dayPicker.setBorderColor("darken(#ffffff, 23%)").applyStyles();
+        yearPicker.setBorderColor("darken(#ffffff, 23%)").applyStyles();
     }
 
     private void setupComponent() {

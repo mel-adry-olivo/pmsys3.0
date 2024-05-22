@@ -1,10 +1,9 @@
 package org.pmsys.main.ui.views;
 
-import org.pmsys.constants.AppIcons;
+import org.pmsys.main.ui.IconConstants;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.ProjectCard;
 import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.ui.components.ProjectList;
@@ -13,10 +12,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-/**
- * This class represents the main view for displaying a list of projects.
- */
-public class ProjectListView extends CPanel implements CComponent {
+public class ProjectListView extends CPanel{
 
     private int currentProjectPage = 0;
     private int currentTotalPage = 0;
@@ -50,7 +46,7 @@ public class ProjectListView extends CPanel implements CComponent {
         return projectCard;
     }
 
-    public void removeAllProjectCards() {
+    public void resetProjectList() {
         if (currentProjectList != null) {
             currentProjectList.removeAllProjects();
         }
@@ -152,8 +148,7 @@ public class ProjectListView extends CPanel implements CComponent {
 
         CPanel mainContent = new CPanel()
                 .setConstraints("insets 0, fillx", "", "[]0[]0[]0[]")
-                .setLineBorder(1,1,1,1, 8)
-                .applyFlatStyle();
+                .setLineBorder(1,1,1,1, 8);
 
         listPagesContainer = createPageContainer();
 
@@ -181,8 +176,8 @@ public class ProjectListView extends CPanel implements CComponent {
 
         CLabel allProjectsLabel = CLabelFactory.createH1Label("All Projects");
 
-        addProjectButton = CButtonFactory.createFilledButton("Add Project", AppIcons.ADD_ICON_SMALL);
-        exportButton = CButtonFactory.createHoverableIconButton(AppIcons.EXPORT_ICON_SMALL);
+        addProjectButton = CButtonFactory.createFilledButton("Add Project", IconConstants.ADD_ICON_SMALL);
+        exportButton = CButtonFactory.createHoverableIconButton(IconConstants.EXPORT_ICON_SMALL);
 
         header.add(allProjectsLabel, "gapbottom 5");
         header.add(exportButton, "gapbottom 5, hmin 32, hmax 32");
@@ -193,12 +188,14 @@ public class ProjectListView extends CPanel implements CComponent {
     private CPanel createSortSection() {
         return new CPanel()
                 .setConstraints("insets 16 28 16 28, filly", "", "center")
-                .setMatteBorder(1,0,0,0);
+                .setMatteBorder(1,0,0,0)
+                .applyStyles();
     }
     private CPanel createFooterSection() {
         CPanel footer = new CPanel()
                 .setConstraints("insets 4 28 4 28, filly", "", "center")
-                .setMatteBorder(1,0,0,0);
+                .setMatteBorder(1,0,0,0)
+                .applyStyles();
 
         previousButton = CButtonFactory.createDefaultButton("Previous");
         nextButton = CButtonFactory.createDefaultButton("Next");
@@ -224,7 +221,8 @@ public class ProjectListView extends CPanel implements CComponent {
         private static CPanel createListHeader() {
             CPanel projectListHeader = new CPanel()
                     .setConstraints("insets 6px 3% 6px 3%, fill", "", "center")
-                    .setMatteBorder(1,0,1,0);
+                    .setMatteBorder(1,0,1,0)
+                    .applyStyles();
 
             CLabel nameColumn = CLabelFactory.createSmallLabel("Project Name");
             CLabel descriptionColumn = CLabelFactory.createSmallLabel("Description");

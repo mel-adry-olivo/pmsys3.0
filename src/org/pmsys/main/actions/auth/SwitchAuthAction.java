@@ -11,8 +11,8 @@ import javax.swing.*;
 
 public class SwitchAuthAction implements SimpleAction {
     @Override
-    public void execute(JComponent source, CComponent view) {
-        AuthPanel form = (AuthPanel) view;
+    public void execute(JComponent source, CComponent comp) {
+        AuthPanel form = (AuthPanel) comp;
         AuthWindow authWindow = form.getAuthWindow();
 
         FlatAnimatedLafChange.showSnapshot();

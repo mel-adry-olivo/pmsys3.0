@@ -11,7 +11,7 @@ import javax.swing.*;
 
 public class EditTaskAction extends AbstractTaskAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         Task taskToEdit = taskForm.getTaskFromForm();
         String oldStatus = taskToEdit.getStatus(); // used to change sections if updated task status changes
         TaskRequest taskRequest = (TaskRequest) taskForm.getFormData(taskToEdit.getId());
@@ -21,6 +21,7 @@ public class EditTaskAction extends AbstractTaskAction{
             Task validatedTask = result.getTask();
             taskToEdit.updateTaskDetails(validatedTask);
             taskService.updateTaskInFile(taskToEdit);
+
             TaskCard updatedTaskCard = projectView.createTaskCard(taskToEdit);
             projectView.updateTaskInView(updatedTaskCard, oldStatus);
             projectView.getCurrentProject().revalidateCounts();

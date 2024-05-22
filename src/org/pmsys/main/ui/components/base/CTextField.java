@@ -1,39 +1,29 @@
 package org.pmsys.main.ui.components.base;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.utils.FlatStyler;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class CTextField extends JTextField implements FlatColorable<CTextField>{
+public class CTextField extends JTextField implements FlatStyleable<CTextField>, CComponent {
 
-    private final FlatStyler styler;
+    private FlatStyler styler;
 
     private boolean isBorderless = false;
 
     public CTextField(boolean isBorderless) {
         this.isBorderless = isBorderless;
-        styler = new FlatStyler();
         setupDocumentListener();
-        applyFlatStyle();
-        setForeground(Color.decode(AppColors.DARK_GREY));
+        applyStyles();
+        setForeground(Color.decode(ColorConstants.DARK_GREY));
         setOpaque(false);
     }
 
 
-    @Override
-    public CTextField setInactiveBackgroundColor(String color) {
-        styler.getStyleMap().put("inactiveBackground", color);
-        return this;
-    }
-
     public CTextField setTextMargin(int top, int right, int bottom, int left) {
-        styler.getStyleMap().put("margin",
-                String.valueOf(top) + ", " +
-                        String.valueOf(right) + ", " +
-                        String.valueOf(bottom) + ", " +
-                        String.valueOf(left));
+        styler.getStyleMap().put("margin", top + ", " + right + ", " + bottom + ", " + left);
         return this;
     }
 
@@ -47,45 +37,24 @@ public class CTextField extends JTextField implements FlatColorable<CTextField>{
         return this;
     }
 
-    @Override
-    public CTextField setBorderColor(String color) {
-        styler.getStyleMap().put("borderColor", color);
-        return this;
-    }
-
-    @Override
-    public CTextField setBackgroundColor(String color) {
-        styler.getStyleMap().put("background", color);
-        return this;
-    }
-
-    @Override
-    public CTextField setFocusedBackgroundColor(String color) {
-        styler.getStyleMap().put("focusedBackground", color);
-        return this;
-    }
-
-    @Override
-    public CTextField setFocusedBorderColor(String color) {
-        styler.getStyleMap().put("focusedBorderColor", color);
-        return this;
-    }
-
-    public CTextField setBorderWidth(int width) {
-        styler.getStyleMap().put("borderWidth", String.valueOf(width));
-        return this;
-    }
 
     public CTextField setFontStyle(String style) {
         styler.getStyleMap().put("font", style);
         return this;
     }
 
-    public CTextField applyFlatStyle() {
-        styler.applyFlatStyle(this);
+    @Override
+    public CTextField getComponent() {
         return this;
     }
 
+    @Override
+    public FlatStyler getStyler() {
+        if(styler == null) {
+            styler = new FlatStyler();
+        }
+        return styler;
+    }
 
     private void setupDocumentListener() {
         if(isBorderless) return;

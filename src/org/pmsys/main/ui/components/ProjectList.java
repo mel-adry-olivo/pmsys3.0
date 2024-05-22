@@ -1,5 +1,8 @@
 package org.pmsys.main.ui.components;
 
+import org.pmsys.main.ui.ColorConstants;
+import org.pmsys.main.ui.components.base.CLabel;
+import org.pmsys.main.ui.components.base.CLabelFactory;
 import org.pmsys.main.ui.components.base.CPanel;
 
 import java.util.ArrayList;
@@ -14,11 +17,18 @@ public class ProjectList extends CPanel {
     private String rowConstraint;
     private int itemCount;
 
+    private CLabel empty;
+
     public ProjectList() {
         initList();
+        empty = CLabelFactory.createLargeLabel("No projects found", ColorConstants.DARK_GREY);
+        add(empty, "al center, h 100%");
     }
 
     public void addProject(ProjectCard card) {
+        if(itemCount == 0) {
+            remove(empty);
+        }
         add(card, "h 20%, growx, ");
         projectCards.add(card);
         updateList();

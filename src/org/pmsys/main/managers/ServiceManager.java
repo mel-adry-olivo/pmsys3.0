@@ -11,6 +11,10 @@ public enum ServiceManager {
 
     private final Map<Services, Object> services = new EnumMap<>(Services.class);
 
+    public void clearServices() {
+        services.clear();
+    }
+
     private void registerService(Services service, Object obj) {
         services.put(service, obj);
     }

@@ -22,7 +22,7 @@ public enum IndexingManager {
     public List<Project> searchProjects(String query) {
         String n = query.toLowerCase();
         return titleIndex.entrySet().stream()
-                .filter(entry -> entry.getKey().startsWith(n))
+                .filter(entry -> entry.getKey().contains(n))
                 .map(Map.Entry::getValue)
                 .sorted(Comparator.comparing(Project::getTitle))
                 .collect(Collectors.toList());

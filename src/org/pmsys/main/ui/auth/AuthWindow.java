@@ -1,15 +1,16 @@
 package org.pmsys.main.ui.auth;
 
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.base.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AuthWindow extends JFrame {
+public class AuthWindow extends JFrame implements CComponent {
 
     private CardLayout cardLayout;
 
-    public AuthWindow() {
+    public  AuthWindow() {
         setupView();
         setupForms();
     }

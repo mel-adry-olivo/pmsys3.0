@@ -1,9 +1,11 @@
 package org.pmsys.main.ui.components.base;
 
+import org.pmsys.main.ui.CComponent;
+
 import javax.swing.*;
 import java.awt.*;
 
-public class CNumberSpinner extends JSpinner {
+public class CNumberSpinner extends JSpinner implements CComponent {
 
     SpinnerNumberModel model;
 

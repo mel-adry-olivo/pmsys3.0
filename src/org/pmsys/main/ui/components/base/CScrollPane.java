@@ -1,10 +1,11 @@
 package org.pmsys.main.ui.components.base;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 
-public class CScrollPane extends JScrollPane implements MigLayoutCompatible<CScrollPane>{
+public class CScrollPane extends JScrollPane implements MigLayoutCompatible<CScrollPane>, CComponent {
 
     protected final CPanel view;
 

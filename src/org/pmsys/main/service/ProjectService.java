@@ -27,6 +27,12 @@ public class ProjectService extends FileService {
         }
     }
 
+    public void clearCache() {
+        if(projectCache != null) {
+            projectCache.clear();
+        }
+    }
+
     public void saveProject(Project project) {
         try {
             Files.writeString(
@@ -80,6 +86,17 @@ public class ProjectService extends FileService {
         }
     }
 
+    public Project getProjectById(String id) {
+        Project cachedProject = projectCache.get(id);
+
+        if (cachedProject != null) {
+            return cachedProject;
+        }
+
+        cacheProjects();
+        return projectCache.get(id);
+    }
+
     public void updateProjectInFile(Project updatedProject){
         projectCache.put(updatedProject.getId(), updatedProject);
         batchSaveTasks();
@@ -102,4 +119,6 @@ public class ProjectService extends FileService {
 
         return ProjectResult.SUCCESS(new Project(projectRequest));
     }
+
+
 }

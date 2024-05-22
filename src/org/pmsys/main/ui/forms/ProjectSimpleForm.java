@@ -1,6 +1,6 @@
 package org.pmsys.main.ui.forms;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.Request;
@@ -43,7 +43,7 @@ public class ProjectSimpleForm extends AbstractSimpleForm {
     }
 
     public void showInvalidDateError() {
-        datePicker.setBorderColor(AppColors.ERROR).applyFlatStyle();
+        datePicker.setBorderColor(ColorConstants.ERROR).applyStyles();
     }
 
     @Override

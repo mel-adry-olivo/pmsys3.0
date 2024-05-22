@@ -1,7 +1,8 @@
-package org.pmsys.main.ui.components;
+package org.pmsys.main.ui.components.base;
 
 import com.formdev.flatlaf.ui.FlatUIUtils;
 import com.formdev.flatlaf.util.UIScale;
+import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 
 // got from raven-ui in github
-public class AvatarIcon implements Icon {
+public class AvatarIcon implements Icon, CComponent {
 
     private String filename;
     private URL location;

@@ -1,12 +1,13 @@
 package org.pmsys.main.ui.components.base;
 
+import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.utils.FlatStyler;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class CLabel extends JLabel{
+public class CLabel extends JLabel implements CComponent {
 
     private final FlatStyler styler;
 

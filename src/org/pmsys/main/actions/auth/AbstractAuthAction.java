@@ -31,11 +31,12 @@ public abstract class AbstractAuthAction implements SimpleAction {
     protected abstract void handleFailure(CComponent view, AuthResult authResult);
     
     @Override
-    public final void execute(JComponent source, CComponent view) {
-        AbstractAuthPanel authForm = (AbstractAuthPanel) view;
+    public final void execute(JComponent source, CComponent comp) {
+        AbstractAuthPanel authForm = (AbstractAuthPanel) comp;
         AuthWindow authWindow = authForm.getAuthWindow();
 
         AuthRequest request = authForm.getAuthRequest();
+
 
         if (request == null) {
             return;
@@ -48,11 +49,10 @@ public abstract class AbstractAuthAction implements SimpleAction {
                 AuthResult authResult = executeAction(request);
 
                 if (authResult.getStatus() == AuthRequestStatus.SUCCESS) {
-                    handleSuccess(view, authResult);
+                    handleSuccess(comp, authResult);
                 } else {
-                    handleFailure(view, authResult);
+                    handleFailure(comp, authResult);
                 }
-
                 return null;
             }
 

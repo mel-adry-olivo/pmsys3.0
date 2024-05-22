@@ -109,8 +109,8 @@ public class TaskSimpleForm extends AbstractSimpleForm {
         add(description, "wrap, growx, span 3 1");
         add(descriptionField, "wrap, growx, span 3 1");
 
-        add(status, "w 0%");
         add(priority, "w 0%");
+        add(status, "w 0%");
         add(duration, "wrap, w 0%");
 
         add(wrapper, "w 100%, span 3 1, wrap");

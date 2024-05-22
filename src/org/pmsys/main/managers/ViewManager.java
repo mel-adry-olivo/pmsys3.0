@@ -23,6 +23,16 @@ public enum ViewManager {
 
     private Views currentView;
 
+    public void clearViews() {
+        views.clear();
+        addedViews.clear();
+        currentView = null;
+
+        if (viewContent != null) {
+            viewContent.removeAll();
+        }
+    }
+
     public void setViewWindow(MainWindow viewWindow) {
         viewContent = viewWindow.getViewContent();
         viewHeader = viewWindow.getViewHeader();
@@ -36,6 +46,7 @@ public enum ViewManager {
                 viewContent.add(viewComponent, view.name());
             }
             cardLayout.show(viewContent, view.name());
+            viewComponent.grabFocus();
             viewHeader.updateViewName(view);
             currentView = view;
         }

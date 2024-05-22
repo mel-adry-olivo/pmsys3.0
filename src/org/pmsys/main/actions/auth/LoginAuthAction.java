@@ -18,7 +18,7 @@ public class LoginAuthAction extends AbstractAuthAction {
     protected void handleSuccess(CComponent view, AuthResult authResult) {
         SessionManager.INSTANCE.setUser(authResult.getUser());
         AbstractAuthPanel authForm = (AbstractAuthPanel) view;
-        Application.start().launchApplication();
+        Application.getInstance().launchApplication();
         authForm.getAuthWindow().dispose();
     }
 

@@ -15,8 +15,7 @@ public class DashboardView extends CPanel {
 
         CPanel mainContent = new CPanel()
                 .setConstraints("insets 0, fillx", "", "[]0[]0[]0[]")
-                .setLineBorder(1,1,1,1, 8)
-                .applyFlatStyle();
+                .setLineBorder(1,1,1,1, 8);
 
         add(mainContent, "grow");
     }

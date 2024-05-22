@@ -1,11 +1,10 @@
 package org.pmsys.main.ui.forms;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.request.Request;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.CComponent;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,7 +14,7 @@ import java.awt.event.WindowEvent;
 /**
  * Simple form with a title and action button
  */
-public abstract class AbstractSimpleForm extends CForm implements CComponent {
+public abstract class AbstractSimpleForm extends CForm{
 
     protected CLabel errorLabel;
     protected CButton actionButton;
@@ -41,7 +40,7 @@ public abstract class AbstractSimpleForm extends CForm implements CComponent {
 
     public final void showErrorMessage(String message) {
         errorLabel.setText(message);
-        errorLabel.setForegroundColor(AppColors.ERROR).applyFlatStyle();
+        errorLabel.setForegroundColor(ColorConstants.ERROR).applyFlatStyle();
     }
     public void setAction(Actions action) {
         this.action = action;
@@ -59,17 +58,17 @@ public abstract class AbstractSimpleForm extends CForm implements CComponent {
     abstract void setupForm();
 
     protected void setFieldError(CTextField c) {
-        c.setBorderColor(AppColors.ERROR).applyFlatStyle();
+        c.setBorderColor(ColorConstants.ERROR).applyStyles();
     }
 
     protected void resetError() {
         errorLabel.setText("This is a message label");
-        errorLabel.setForegroundColor(AppColors.WHITE).applyFlatStyle();
+        errorLabel.setForegroundColor(ColorConstants.WHITE).applyFlatStyle();
     }
 
     private void setupLabels() {
         titleLabel = CLabelFactory.createScaledH1Label(getFormTitle());
-        errorLabel = CLabelFactory.createDefaultLabel("This is an error label", AppColors.WHITE);
+        errorLabel = CLabelFactory.createDefaultLabel("This is an error label", ColorConstants.WHITE);
 
         add(titleLabel, "growx, wrap, span 3 1");
         add(errorLabel, "h 0%, growx, wrap , span 3 1");

@@ -12,7 +12,7 @@ import javax.swing.*;
 
 public class AddTaskAction extends AbstractTaskAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         TaskRequest taskRequest = (TaskRequest) taskForm.getFormData();
         TaskResult result = validateTaskRequest(taskRequest);
 

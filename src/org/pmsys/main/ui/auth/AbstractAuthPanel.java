@@ -1,7 +1,7 @@
 package org.pmsys.main.ui.auth;
 
 import org.pmsys.main.actions.Actions;
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.ui.components.base.*;
@@ -77,31 +77,31 @@ public abstract class AbstractAuthPanel extends CPanel implements CComponent {
         passwordField.setText("");
 
         messageLabel.setText("This is a message label");
-        messageLabel.setForegroundColor(AppColors.WHITE).applyFlatStyle();
+        messageLabel.setForegroundColor(ColorConstants.WHITE).applyFlatStyle();
 
         usernameField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
+                .applyStyles();
         passwordField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
+                .applyStyles();
     }
 
     public final void showErrorMessage(String message) {
         messageLabel.setText(message);
-        messageLabel.setForegroundColor(AppColors.ERROR).applyFlatStyle();
+        messageLabel.setForegroundColor(ColorConstants.ERROR).applyFlatStyle();
     }
 
 
     public final void showErrorInput(boolean username, boolean password) {
         if(username) {
             usernameField
-                    .setBorderColor(AppColors.ERROR)
-                    .applyFlatStyle();
+                    .setBorderColor(ColorConstants.ERROR)
+                    .applyStyles();
         }
 
         if(password) {
             passwordField
-                    .setBorderColor(AppColors.ERROR)
-                    .applyFlatStyle();
+                    .setBorderColor(ColorConstants.ERROR)
+                    .applyStyles();
         }
     }
 
@@ -113,9 +113,9 @@ public abstract class AbstractAuthPanel extends CPanel implements CComponent {
         add(subtitleLabel, "wrap, growx");
     }
     private void setupInput() {
-        messageLabel = CLabelFactory.createDefaultLabel("This is a message label", AppColors.WHITE);
-        CLabel usernameLabel = CLabelFactory.createDefaultLabel("Username", AppColors.DARK_GREY);
-        CLabel passwordLabel = CLabelFactory.createDefaultLabel("Password", AppColors.DARK_GREY);
+        messageLabel = CLabelFactory.createDefaultLabel("This is a message label", ColorConstants.WHITE);
+        CLabel usernameLabel = CLabelFactory.createDefaultLabel("Username", ColorConstants.DARK_GREY);
+        CLabel passwordLabel = CLabelFactory.createDefaultLabel("Password", ColorConstants.DARK_GREY);
 
         usernameField = CFieldFactory.createTextField("Enter your username");
         passwordField = CFieldFactory.createPasswordField("Enter your password");

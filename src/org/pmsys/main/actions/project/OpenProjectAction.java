@@ -12,7 +12,7 @@ import javax.swing.*;
 public class OpenProjectAction extends AbstractProjectAction {
 
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         ProjectCard projectCard = (ProjectCard) source;
         Project project = projectCard.getProject();
         ProjectManager.INSTANCE.loadProject(project);

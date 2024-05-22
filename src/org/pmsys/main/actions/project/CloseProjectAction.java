@@ -9,10 +9,10 @@ import javax.swing.*;
 
 public class CloseProjectAction extends AbstractProjectAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         taskService.clearCache();
         ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
-        ProjectManager.INSTANCE.reloadProjectList();
+        ProjectManager.INSTANCE.loadProjectList();
         projectView.resetProjectView();
     }
 }

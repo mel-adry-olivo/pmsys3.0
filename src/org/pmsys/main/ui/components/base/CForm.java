@@ -1,11 +1,13 @@
 package org.pmsys.main.ui.components.base;
 
+import org.pmsys.main.ui.CComponent;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 
 
-public class CForm extends JDialog{
+public class CForm extends JDialog implements CComponent {
 
     private final CPanel myContentPanel;
 

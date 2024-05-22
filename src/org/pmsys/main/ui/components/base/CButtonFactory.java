@@ -1,43 +1,43 @@
 package org.pmsys.main.ui.components.base;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 
 import javax.swing.*;
 
 public class CButtonFactory {
     public static CButton createDefaultButton(String text) {
         return new CButton(text, false)
-                .setForegroundColor(AppColors.DARK_GREY)
+                .setForegroundColor(ColorConstants.DARK_GREY)
                 .setTextMargin(6,14,6,14)
                 .setHoverBackgroundColor("#FAFAFA")
-                .applyFlatStyle();
+                .applyStyles();
     }
     public static CButton createDefaultButton(String text, Icon icon) {
         return createDefaultButton(text)
                 .setTextMargin(6,10,6,14)
-                .applyFlatStyle()
+                .applyStyles()
                 .setSVGIcon(icon);
     }
 
     public static CButton createFilledButton(String text) {
         return new CButton(text, false)
-                .setForegroundColor(AppColors.WHITE)
-                .setBackgroundColor(AppColors.ACCENT)
+                .setForegroundColor(ColorConstants.WHITE)
+                .setBackgroundColor(ColorConstants.ACCENT)
                 .setTextMargin(9,14,9,14)
-                .applyFlatStyle();
+                .applyStyles();
     }
 
     public static CButton createBorderlessButton(String text) {
         return new CButton(text, true)
                 .setHoverBackgroundColor("null")
-                .setForegroundColor(AppColors.DARK_GREY)
-                .applyFlatStyle();
+                .setForegroundColor(ColorConstants.DARK_GREY)
+                .applyStyles();
     }
 
     public static CButton createFilledButton(String text, Icon icon) {
         return createFilledButton(text)
                 .setTextMargin(6,10,6,14)
-                .applyFlatStyle()
+                .applyStyles()
                 .setSVGIcon(icon);
     }
 
@@ -45,7 +45,7 @@ public class CButtonFactory {
         return new CButton(icon)
                 .setHoverBackgroundColor("null")
                 .setArc(8)
-                .applyFlatStyle();
+                .applyStyles();
     }
 
     public static CButton createHoverableIconButton(Icon icon) {

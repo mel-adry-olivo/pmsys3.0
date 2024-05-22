@@ -19,13 +19,15 @@ public class TaskService extends FileService {
     private Map<String, Task> taskCache = null;
 
     public void cacheTasks() {
-        if (taskCache == null) {
+        if (taskCache == null || taskCache.isEmpty()) {
             taskCache = getAllTasks();
         }
     }
 
     public void clearCache() {
-        taskCache = null;
+        if (taskCache != null) {
+            taskCache.clear();
+        }
     }
 
     public void saveTask(Task task) {

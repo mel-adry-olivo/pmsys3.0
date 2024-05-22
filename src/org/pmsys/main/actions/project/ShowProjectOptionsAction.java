@@ -7,16 +7,18 @@ import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.CComponent;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ShowProjectOptionsAction extends AbstractProjectAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         ProjectView.OptionsPopup optionsPopup = new ProjectView.OptionsPopup();
-        optionsPopup.handleEditProjectClick(e -> ActionManager.executeAction(Actions.SHOW_PROJECT_EDIT_FORM, source, view));
-        optionsPopup.handleDeleteProjectClick(e -> ActionManager.executeAction(Actions.DELETE_PROJECT, source, view));
-
+        optionsPopup.handleEditProjectClick(e -> ActionManager.executeAction(Actions.SHOW_PROJECT_EDIT_FORM, (JComponent) e.getSource(), comp));
+        optionsPopup.handleDeleteProjectClick(e -> ActionManager.executeAction(Actions.DELETE_PROJECT, (JComponent) e.getSource(), comp));
+        optionsPopup.handleSetProjectStatusClick(e -> ActionManager.executeAction(Actions.SET_PROJECT_STATUS, (JComponent) e.getSource(), comp));
 
         CButton button = (CButton) source;
-        optionsPopup.show(button, 0, button.getHeight());
+        int x = button.getWidth() - optionsPopup.getPreferredSize().width;
+        optionsPopup.show(button, x, button.getHeight());
     }
 }

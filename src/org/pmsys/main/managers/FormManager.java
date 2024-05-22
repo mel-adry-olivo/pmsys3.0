@@ -17,8 +17,8 @@ public enum FormManager {
 
     private final Map<FormType, AbstractSimpleForm> formMap = new EnumMap<>(FormType.class);
 
-    FormManager() {
-
+    public void clearForms() {
+        formMap.clear();
     }
 
     public void showForm(FormType formType, Object data) {
@@ -42,22 +42,6 @@ public enum FormManager {
 
     public void showForm(FormType formType) {
         showForm(formType, null);
-    }
-
-    public Request getFormData(FormType formType, String id) {
-        AbstractSimpleForm formUI = formMap.get(formType);
-        if (formUI == null) {
-            throw new IllegalArgumentException("Form type not registered: " + formType);
-        }
-        return formUI.getFormData(id);
-    }
-
-    public Request getFormData(FormType formType) {
-        AbstractSimpleForm formUI = formMap.get(formType);
-        if (formUI == null) {
-            throw new IllegalArgumentException("Form type not registered: " + formType);
-        }
-        return formUI.getFormData();
     }
 
     public AbstractSimpleForm getForm(FormType formType) {

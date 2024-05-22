@@ -2,8 +2,11 @@ package org.pmsys.main.actions.project;
 
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.ProjectRequestStatus;
+import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
+import org.pmsys.main.entities.result.TaskResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.managers.ViewManager;
@@ -36,10 +39,18 @@ public abstract class AbstractProjectAction implements SimpleAction {
         this.projectForm = (ProjectSimpleForm) FormManager.INSTANCE.getForm(FormType.PROJECT);
     }
 
-    public abstract void execute(JComponent source, CComponent view);
+    public abstract void execute(JComponent source, CComponent comp);
 
     protected Project getCurrentProject() {
         return projectView.getCurrentProject();
+    }
+
+    protected ProjectResult validateProjectRequest(ProjectRequest projectRequest) {
+        ProjectResult result = projectService.validateProjectRequest(projectRequest);
+        if (result.getStatus() != ProjectRequestStatus.SUCCESS) {
+            handleProjectFormError(result);
+        }
+        return result;
     }
 
     protected void handleProjectFormError(ProjectResult result) {

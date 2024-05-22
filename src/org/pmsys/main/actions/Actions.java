@@ -17,6 +17,7 @@ public enum Actions {
     CLOSE_PROJECT,
     ADD_PROJECT,
     EDIT_PROJECT,
+    SET_PROJECT_STATUS,
     DELETE_PROJECT,
     EDIT_TASK,
     ADD_TASK,
@@ -25,4 +26,6 @@ public enum Actions {
     PREVIOUS_PAGE,
     EXPORT,
     VIEW_CHANGE,
+    SET_TASK_STATUS,
+    SEARCH_ITEM_CLICK
 }

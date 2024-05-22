@@ -1,22 +1,12 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.components.base.*;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
-
-/**
- * A visual representation of tasks organized into sections based on their status.
- * This component provides a flexible layout for displaying and managing tasks in a Kanban-style board.
- *
- * <br>
- * <br>
- * <b>Card-based Layout:</b> Each task is represented as a card with details like title, description, priority, and due date.
- *
- */
 
 public class TaskBoard extends CScrollPane {
 
@@ -37,7 +27,7 @@ public class TaskBoard extends CScrollPane {
     }
 
     public void addTask(TaskCard taskCard) {
-        Section section = sections.get(taskCard.get().getStatus());
+        Section section = sections.get(taskCard.getTask().getStatus());
         if (section != null) {
             section.addTask(taskCard, options.getCardConstraints());
             recalculateBoardSize(section);
@@ -45,14 +35,14 @@ public class TaskBoard extends CScrollPane {
     }
 
     public void removeTask(TaskCard taskCard) {
-        Section section = sections.get(taskCard.get().getStatus());
+        Section section = sections.get(taskCard.getTask().getStatus());
         section.removeTask(taskCard);
         recalculateBoardSize(section);
     }
 
     public void updateTask(TaskCard taskCard, String oldStatus) {
 
-        Task task = taskCard.get();
+        Task task = taskCard.getTask();
 
         Section oldSection = sections.get(oldStatus);
         Section newSection = sections.get(task.getStatus());
@@ -131,23 +121,23 @@ public class TaskBoard extends CScrollPane {
 
         private void addTask(TaskCard taskCard, String constraint) {
             container.add(taskCard, constraint);
-            cards.put(taskCard.get(), taskCard);
+            cards.put(taskCard.getTask(), taskCard);
             updateLayout();
         }
 
         private void removeTask(TaskCard taskCard) {
-            TaskCard cardToRemove = cards.get(taskCard.get());
+            TaskCard cardToRemove = cards.get(taskCard.getTask());
             if (cardToRemove != null) {
                 container.remove(cardToRemove);
-                cards.remove(cardToRemove.get());
+                cards.remove(cardToRemove.getTask());
                 updateLayout();
             }
         }
 
         private void updateTask(TaskCard taskCard) {
-            TaskCard cardToUpdate = cards.get(taskCard.get());
+            TaskCard cardToUpdate = cards.get(taskCard.getTask());
             if(cardToUpdate != null) {
-                cardToUpdate.updateTaskDetails(taskCard.get());
+                cardToUpdate.updateTaskDetails(taskCard.getTask());
                 updateLayout();
             }
         }
@@ -182,10 +172,9 @@ public class TaskBoard extends CScrollPane {
             container = new CPanel("insets 0, flowy", "", rowConstraints);
 
             header.setConstraints("insets 10 12 10 12, filly", "[]push[]");
-            header.setBackgroundColor(AppColors.WHITE);
-            header.setLineBorder(1,1,1,1, 8);
-            header.applyFlatStyle();
-            header.add(CLabelFactory.createMediumLabel(name, AppColors.BLACK));
+            header.setBackgroundColor(ColorConstants.WHITE).setLineBorder(1,1,1,1, 8);
+            header.applyStyles();
+            header.add(CLabelFactory.createMediumLabel(name, ColorConstants.BLACK));
         }
     }
 }

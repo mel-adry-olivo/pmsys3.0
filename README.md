@@ -7,7 +7,7 @@ CONVERTED TO ACTION-BASED:
 - Searching (by project name)
 
 FUTURE: 
-- Logout
+- Edit project status
 - Report Generation
 - Dashboard(if possible)
 

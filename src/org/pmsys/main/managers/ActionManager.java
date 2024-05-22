@@ -6,10 +6,10 @@ import org.pmsys.main.actions.auth.LoginAuthAction;
 import org.pmsys.main.actions.auth.RegisterAuthAction;
 import org.pmsys.main.actions.auth.SwitchAuthAction;
 import org.pmsys.main.actions.project.*;
+import org.pmsys.main.actions.project.SearchItemClickAction;
 import org.pmsys.main.actions.task.*;
 import org.pmsys.main.actions.view.ViewChangeAction;
 import org.pmsys.main.ui.CComponent;
-import org.pmsys.main.ui.utils.Benchmark;
 
 import javax.swing.*;
 import java.util.EnumMap;
@@ -21,6 +21,10 @@ public enum ActionManager {
 
     private final Map<Actions, SimpleAction> actions = new EnumMap<>(Actions.class);
 
+    public void clearActions() {
+        actions.clear();
+    }
+
     public void registerAction(Actions action, SimpleAction simpleAction) {
         actions.put(action, simpleAction);
     }
@@ -28,7 +32,6 @@ public enum ActionManager {
     public static void executeAction(Actions action, JComponent source, CComponent view) {
         SimpleAction simpleAction = INSTANCE.actions.get(action);
         if (simpleAction != null) {
-            //Benchmark.of(() -> simpleAction.execute(source, view), "Action: " + action.name()); // for benchmarking method performance
             simpleAction.execute(source, view);
         } else {
             throw new IllegalArgumentException("Action not registered: " + action.name());
@@ -56,6 +59,9 @@ public enum ActionManager {
         registerAction(Actions.ADD_TASK, new AddTaskAction());
         registerAction(Actions.DELETE_TASK, new DeleteTaskAction());
         registerAction(Actions.EDIT_TASK, new EditTaskAction());
+        registerAction(Actions.SET_PROJECT_STATUS, new SetProjectStatusAction());
+        registerAction(Actions.SET_TASK_STATUS, new SetTaskStatusAction());
+        registerAction(Actions.SEARCH_ITEM_CLICK, new SearchItemClickAction());
 
         // TODO: Add other actions
 

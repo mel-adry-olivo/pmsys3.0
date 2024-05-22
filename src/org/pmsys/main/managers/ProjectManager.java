@@ -1,6 +1,7 @@
 package org.pmsys.main.managers;
 
 import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.Task;
 import org.pmsys.main.service.ProjectService;
 import org.pmsys.main.service.Services;
 import org.pmsys.main.service.TaskService;
@@ -8,9 +9,7 @@ import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
 
-import javax.swing.*;
 import java.util.List;
-import java.util.Map;
 
 public enum ProjectManager {
 
@@ -28,11 +27,18 @@ public enum ProjectManager {
         this.projectListView = (ProjectListView) ViewManager.INSTANCE.getViewComponent(Views.PROJECT_LIST);
     }
 
-    public void reloadProjectList() {
+    public void clearProjects() {
+        IndexingManager.INSTANCE.clearIndex();
+        projectListView.resetProjectList();
+        projectService.clearCache();
+        taskService.clearCache();
+    }
+
+    public void loadProjectList() {
         projectService.cacheProjects();
         IndexingManager.INSTANCE.clearIndex();
 
-        projectListView.removeAllProjectCards();
+        projectListView.resetProjectList();
         for (Project project : projectService.getAllProjects().values()) {
             IndexingManager.INSTANCE.indexProject(project);
             projectListView.addProjectToUI(projectListView.createProjectCard(project));
@@ -42,7 +48,12 @@ public enum ProjectManager {
     }
 
     public void reloadSearchedProjects(List<Project> projects) {
-        projectListView.removeAllProjectCards();
+        projectListView.resetProjectList();
+
+        if(projects.isEmpty()) {
+            return;
+        }
+
         for (Project project : projects) {
             projectListView.addProjectToUI(projectListView.createProjectCard(project));
         }

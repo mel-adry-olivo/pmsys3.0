@@ -1,11 +1,15 @@
 package org.pmsys.main.ui.components;
 
 import org.pmsys.main.entities.Project;
+import org.pmsys.main.ui.components.base.CHoverEvent;
 import org.pmsys.main.ui.components.base.CLabel;
 import org.pmsys.main.ui.components.base.CLabelFactory;
 import org.pmsys.main.ui.components.base.CPanel;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class ProjectCard extends CPanel {
 
@@ -36,8 +40,7 @@ public class ProjectCard extends CPanel {
     }
     private void setupCard() {
         setConstraints("insets 16px 3% 16px 3%, fill", "", "center");
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setHoverable(true);
+        addMouseListener(new CHoverEvent(this));
 
         lblName         = CLabelFactory.createSemiBoldLabel("");
         lblDescription  = CLabelFactory.createDefaultLabel("");
@@ -51,4 +54,5 @@ public class ProjectCard extends CPanel {
         add(lblStatus, "growx, w 20%");
         add(lblDueDate, "growx, w 20%");
     }
+
 }

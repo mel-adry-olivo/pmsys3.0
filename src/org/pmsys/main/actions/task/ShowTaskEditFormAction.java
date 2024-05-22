@@ -8,7 +8,7 @@ import org.pmsys.main.ui.forms.FormType;
 import javax.swing.*;
 public class ShowTaskEditFormAction extends AbstractTaskAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
-        FormManager.INSTANCE.showForm(FormType.TASK, ((TaskCard)view).get());
+    public void execute(JComponent source, CComponent comp) {
+        FormManager.INSTANCE.showForm(FormType.TASK, ((TaskCard) comp).getTask());
     }
 }

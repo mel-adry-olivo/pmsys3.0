@@ -1,6 +1,6 @@
 package org.pmsys.main.actions.view;
 
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.ColorConstants;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.ui.MainWindow;
 import org.pmsys.main.ui.components.base.CButton;
@@ -12,8 +12,8 @@ import java.awt.*;
 public class ViewChangeAction implements SimpleAction {
 
     @Override
-    public void execute(JComponent source, CComponent view) {
-        MainWindow.WindowMenu menu = (MainWindow.WindowMenu) view;
+    public void execute(JComponent source, CComponent comp) {
+        MainWindow.WindowNavBar menu = (MainWindow.WindowNavBar) comp;
         CButton clickedButton = (CButton) source;
 
         if (!clickedButton.equals(menu.getSelectedButton())) {
@@ -24,7 +24,7 @@ public class ViewChangeAction implements SimpleAction {
             }
 
             menu.setSelectedButton(clickedButton);
-            clickedButton.setPressedBackgroundColor(AppColors.PRESSED_GREY).applyFlatStyle();
+            clickedButton.setPressedBackgroundColor(ColorConstants.PRESSED_GREY).applyStyles();
             clickedButton.setSelected(true);
             clickedButton.setBackground(new Color(80, 80, 80));
 

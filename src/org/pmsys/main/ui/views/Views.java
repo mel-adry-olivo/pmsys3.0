@@ -5,8 +5,7 @@ import org.pmsys.main.ui.components.base.CPanel;
 public enum Views {
     DASHBOARD(new DashboardView()),
     PROJECT_LIST(new ProjectListView()),
-    PROJECT(new ProjectView()),
-    LOADING(new LoadingView());
+    PROJECT(new ProjectView());
 
     private final CPanel component;
 
