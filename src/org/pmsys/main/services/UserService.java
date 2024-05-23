@@ -21,7 +21,6 @@ public class UserService extends FileService {
                 return user;
             }
         }
-
         return null;
     }
 }

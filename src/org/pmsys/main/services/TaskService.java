@@ -24,19 +24,24 @@ public class TaskService extends FileService {
         }
     }
 
-    public void saveToFile(Task task) {
+    public void saveTask(Task task) {
         taskCache.put(task.getId(), task);
         Utils.APPEND(getTaskFileOfCurrentUser(), task.toString());
     }
 
-    public void updateInFile(Task task){
+    public void updateTask(Task task){
         taskCache.put(task.getId(), task);
         batchSaveTasks();
     }
 
-    public void deleteInFile(Task task) {
+    public void deleteTask(Task task) {
         taskCache.remove(task.getId());
         batchSaveTasks();
+    }
+
+    public List<Task> getTasksOf(Project project) {
+        cacheTasks();
+        return Task.tasksOf(project, taskCache);
     }
 
     public TaskResult validateRequest(TaskRequest taskRequest) {
@@ -46,19 +51,13 @@ public class TaskService extends FileService {
         return TaskResult.SUCCESS(new Task(taskRequest));
     }
 
-    public List<Task> getTasksOf(Project project) {
-        cacheTasks();
-        return Task.tasksOf(project, taskCache);
+    private Map<String, Task> getAllTasks() {
+        List<String> taskLines = Utils.READ(getTaskFileOfCurrentUser());
+        return Task.toMap(taskLines);
     }
 
     private void batchSaveTasks() {
         String formattedTasks = Utils.FORMAT(taskCache);
         Utils.OVERWRITE(getTaskFileOfCurrentUser(), formattedTasks);
     }
-
-    private Map<String, Task> getAllTasks() {
-        List<String> taskLines = Utils.READ(getTaskFileOfCurrentUser());
-        return Task.toMap(taskLines);
-    }
-
 }

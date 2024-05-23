@@ -18,37 +18,34 @@ public class ProjectService extends FileService {
         }
     }
     public void clearCache() {
-        if(projectCache != null) {
+        if(projectCache != null && !projectCache.isEmpty()) {
             projectCache.clear();
         }
     }
 
-    public void saveInFile(Project project) {
+    public void saveProject(Project project) {
         projectCache.put(project.getId(), project);
         Utils.APPEND(getProjectFileOfCurrentUser(), project.toString());
     }
 
-    public Map<String, Project> getAllProjects() {
-        List<String> projectLines = Utils.READ(getProjectFileOfCurrentUser());
-        return Project.toMap(projectLines);
-    }
-
-    public Project getProjectById(String id) {
-        Project project = projectCache.get(id);
-        if (project == null) {
-            cacheProjects();
-        }
-        return projectCache.get(id);
-    }
-
-    public void updateInFile(Project project){
+    public void updateProject(Project project){
         projectCache.put(project.getId(), project);
         batchSaveProjects();
     }
 
-    public void deleteInFile(Project project) {
+    public void deleteProject(Project project) {
         projectCache.remove(project.getId());
         batchSaveProjects();
+    }
+
+    public Collection<Project> getCachedProjects() {
+        cacheProjects();
+        return projectCache.values();
+    }
+
+    public Project getProjectById(String id) {
+        cacheProjects();
+        return projectCache.get(id);
     }
 
     public ProjectResult validateRequest(ProjectRequest projectRequest) {
@@ -62,6 +59,11 @@ public class ProjectService extends FileService {
         }
 
         return ProjectResult.SUCCESS(new Project(projectRequest));
+    }
+
+    private Map<String, Project> getAllProjects() {
+        List<String> projectLines = Utils.READ(getProjectFileOfCurrentUser());
+        return Project.toMap(projectLines);
     }
 
     private void batchSaveProjects() {
