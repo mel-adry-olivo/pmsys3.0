@@ -1,22 +1,24 @@
-### TODO
+### Project Management System
 
-CONVERTED TO ACTION-BASED:
+##### Current Features:
 - Authentication
-- Project CRUD
-- Task CRUD
-- Searching (by project name)
-- Edit project/task status
+- Project Management (Create, Update, Delete)
+- Task Management (Create, Update, Delete)
+- Searching (By Project Name)
 
-FUTURE:
+##### To Do Features:
 - Report Generation
 - Dashboard(if possible)
 
-bugs:
-- project views show scroll bar on first open, following are not (fixed - removed all components then re-initialize all child components)
-- task board scroll bar not showing (fixed - dynamically updating viewport whenever a task is added)
-- throwing ClassCastException sometimes in reloadAllProjects() @ProjectManager class (fixed - did all the data manipulation logic then updated ui)
+##### To Fix:
+- Username validation (must be unique)
 
-future optimizations:
-- word wrap on task cards (currently only wraps for two lines)
-- project list is not sorted (could be fixed by comparator to sort in the getAllProjects method)
-- replace request/result system
+##### Bugs:
+- Project views show scroll bar on first open, following are not (fixed - removed all components then re-initialize all child components)
+- Task board scroll bar not showing (fixed - dynamically updating viewport whenever a task is added)
+- Throwing ClassCastException sometimes in reloadAllProjects() @ProjectManager class (fixed - did all the data manipulation logic then updated ui)
+
+##### Future Optimizations:
+- Word wrap on task cards (currently only wraps for two lines)
+- Project list is not sorted (could be fixed by comparator to sort in the getAllProjects method)
+- Replace request/result system
