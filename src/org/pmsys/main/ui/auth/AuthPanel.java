@@ -3,10 +3,7 @@ package org.pmsys.main.ui.auth;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.ui.components.base.CComponent;
 
-/**
- * Login or sign up form
- */
-public class AuthPanel extends AbstractAuthPanel implements CComponent {
+public class AuthPanel extends AbstractAuthPanel{
 
     public AuthPanel(AuthWindow authWindow, boolean isLogin) {
         super(authWindow, isLogin);

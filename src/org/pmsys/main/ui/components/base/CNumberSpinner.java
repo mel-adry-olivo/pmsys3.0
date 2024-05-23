@@ -19,7 +19,7 @@ public class CNumberSpinner extends JSpinner implements CComponent {
         return ((SpinnerNumberModel) getModel()).getNumber().intValue();
     }
 
-    private void setupComponent() {
+    public void setupComponent() {
         setModel(model);
         setPreferredSize(new Dimension(100, getHeight()));
     }

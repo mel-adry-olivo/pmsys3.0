@@ -23,14 +23,12 @@ public class SearchBar extends CPanel {
         setupComponent();
     }
 
+    @Override
+    public boolean requestFocusInWindow() {
+        return myTextField.requestFocusInWindow();
+    }
 
-    public void setText(String text) {
-        myTextField.setText(text);
-    }
-    public String getText() {
-        return myTextField.getText();
-    }
-    private void setupComponent() {
+    public void setupComponent() {
         setConstraints("insets 4 8 4 8")
                 .setLineBorder(1,1,1,1, 8)
                 .applyStyles();
@@ -46,9 +44,12 @@ public class SearchBar extends CPanel {
         add(myTextField, "w 100%");
     }
 
-    @Override
-    public boolean requestFocusInWindow() {
-        return myTextField.requestFocusInWindow();
+    public void setText(String text) {
+        myTextField.setText(text);
+    }
+
+    public String getText() {
+        return myTextField.getText();
     }
 
     public static class SearchPopup extends JPopupMenu {

@@ -2,13 +2,6 @@ package org.pmsys.main.managers;
 
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.actions.SimpleAction;
-import org.pmsys.main.actions.auth.LoginAuthAction;
-import org.pmsys.main.actions.auth.RegisterAuthAction;
-import org.pmsys.main.actions.auth.SwitchAuthAction;
-import org.pmsys.main.actions.project.*;
-import org.pmsys.main.actions.project.SearchItemClickAction;
-import org.pmsys.main.actions.task.*;
-import org.pmsys.main.actions.view.ViewChangeAction;
 import org.pmsys.main.ui.components.base.CComponent;
 
 import javax.swing.*;
@@ -34,38 +27,13 @@ public enum ActionManager {
         if (simpleAction != null) {
             simpleAction.execute(source, view);
         } else {
-            throw new IllegalArgumentException("Action not registered: " + action.name());
+            throw new IllegalArgumentException("Action not registered: " + action.name()); // for debugging
         }
     }
 
     public void loadActions() {
-        registerAction(Actions.LOGIN, new LoginAuthAction());
-        registerAction(Actions.REGISTER, new RegisterAuthAction());
-        registerAction(Actions.SWITCH_AUTH, new SwitchAuthAction());
-        registerAction(Actions.SHOW_PROJECT_ADD_FORM, new ShowProjectAddFormAction());
-        registerAction(Actions.SHOW_PROJECT_EDIT_FORM, new ShowProjectEditFormAction());
-        registerAction(Actions.SHOW_TASK_ADD_FORM, new ShowTaskAddFormAction());
-        registerAction(Actions.SHOW_TASK_EDIT_FORM, new ShowTaskEditFormAction());
-        registerAction(Actions.ADD_PROJECT, new AddProjectAction());
-        registerAction(Actions.VIEW_CHANGE, new ViewChangeAction());
-        registerAction(Actions.OPEN_PROJECT, new OpenProjectAction());
-        registerAction(Actions.CLOSE_PROJECT, new CloseProjectAction());
-        registerAction(Actions.NEXT_PAGE, new ListNextAction());
-        registerAction(Actions.PREVIOUS_PAGE, new ListPreviousAction());
-        registerAction(Actions.SHOW_PROJECT_OPTIONS, new ShowProjectOptionsAction());
-        registerAction(Actions.SHOW_TASK_OPTIONS, new ShowTaskOptionsAction());
-        registerAction(Actions.EDIT_PROJECT, new EditProjectAction());
-        registerAction(Actions.DELETE_PROJECT, new DeleteProjectAction());
-        registerAction(Actions.ADD_TASK, new AddTaskAction());
-        registerAction(Actions.DELETE_TASK, new DeleteTaskAction());
-        registerAction(Actions.EDIT_TASK, new EditTaskAction());
-        registerAction(Actions.SET_PROJECT_STATUS, new SetProjectStatusAction());
-        registerAction(Actions.SET_TASK_STATUS, new SetTaskStatusAction());
-        registerAction(Actions.SEARCH_ITEM_CLICK, new SearchItemClickAction());
-
-        // TODO: Add other actions
-
-        // INSTANCE.registerAction(Actions.EDIT_TASK, new EditTaskAction());
-        // INSTANCE.registerAction(Actions.DELETE_TASK, new DeleteTaskAction());
+        for(Actions action : Actions.values()) {
+            registerAction(action, action.getActionImpl());
+        }
     }
 }

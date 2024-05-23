@@ -59,7 +59,7 @@ public class CDatePicker extends CPanel implements CComponent {
         yearPicker.setBorderColor("darken(#ffffff, 23%)").applyStyles();
     }
 
-    private void setupComponent() {
+    public void setupComponent() {
         setConstraints("insets 0, fillx");
 
         String[] months = DateUtils.getMonths();

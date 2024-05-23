@@ -36,8 +36,6 @@ public abstract class AbstractProjectAction implements SimpleAction {
         this.projectForm = (ProjectSimpleForm) FormManager.INSTANCE.getForm(FormType.PROJECT);
     }
 
-    public abstract void execute(JComponent source, CComponent comp);
-
     protected Project getCurrentProject() {
         return projectView.getCurrentProject();
     }

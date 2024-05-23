@@ -14,7 +14,7 @@ import org.pmsys.main.ui.views.Views;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame implements CComponent{
 
     private final WindowNavBar menu;
     private final WindowHeader header;
@@ -35,7 +35,11 @@ public class MainWindow extends JFrame{
         return header;
     }
 
-    private void setupComponent() {
+    public WindowContent getContent() {
+        return content;
+    }
+
+    public void setupComponent() {
         setLayout(new MigLayout("insets 0, fill", "[grow 0]0[]", "[]0[grow]"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("System");
@@ -81,7 +85,7 @@ public class MainWindow extends JFrame{
             setupComponent();
         }
 
-        private void setupComponent() {
+        public void setupComponent() {
             setConstraints("insets 28 28 28 24 , filly", "[]8[]8[]8[]push[]8[]");
             setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(ColorConstants.BORDER)));
 
@@ -149,7 +153,7 @@ public class MainWindow extends JFrame{
             }
         }
 
-        private void setupComponent() {
+        public void setupComponent() {
             setConstraints("flowy, fillx, insets 18", "center","[]45[]24[]");
             setMatteBorder(0, 0, 0, 1);
 

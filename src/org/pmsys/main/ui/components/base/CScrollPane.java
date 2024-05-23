@@ -18,7 +18,7 @@ public class CScrollPane extends JScrollPane implements MigLayoutCompatible<CScr
         setupComponent();
     }
 
-    private void setupComponent() {
+    public void setupComponent() {
         setBorder(BorderFactory.createEmptyBorder());
         setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
