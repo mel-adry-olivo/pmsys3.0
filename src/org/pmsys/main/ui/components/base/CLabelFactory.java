@@ -2,6 +2,8 @@ package org.pmsys.main.ui.components.base;
 
 import org.pmsys.main.ui.components.constants.ColorConstants;
 
+import javax.swing.*;
+
 public class CLabelFactory {
 
     private static CLabel createFlatLabel(String text, String fontStyle, String foregroundColor) {
@@ -9,6 +11,10 @@ public class CLabelFactory {
                 .setFontStyle(fontStyle)
                 .setForegroundColor(foregroundColor)
                 .applyFlatStyle();
+    }
+
+    public static CLabel createIconLabel(Icon icon) {
+        return new CLabel(icon);
     }
 
     public static CLabel createLinkLabel(String text) {
