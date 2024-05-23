@@ -3,7 +3,6 @@ package org.pmsys.main.managers;
 import org.pmsys.main.entities.Project;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public enum IndexingManager {
 
@@ -21,10 +20,17 @@ public enum IndexingManager {
 
     public List<Project> searchProjects(String query) {
         String n = query.toLowerCase();
-        return titleIndex.entrySet().stream()
-                .filter(entry -> entry.getKey().contains(n))
-                .map(Map.Entry::getValue)
-                .sorted(Comparator.comparing(Project::getTitle))
-                .collect(Collectors.toList());
+        List<Project> filteredProjects = new ArrayList<>();
+
+        for (Map.Entry<String, Project> entry : titleIndex.entrySet()) {
+            if (entry.getKey().toLowerCase().contains(n)) {
+                filteredProjects.add(entry.getValue());
+            }
+        }
+
+        // sort alphabetically
+        filteredProjects.sort(Comparator.comparing(Project::getTitle));
+
+        return filteredProjects;
     }
 }
