@@ -15,10 +15,7 @@ import org.pmsys.main.ui.forms.FormType;
 import org.pmsys.main.ui.forms.ProjectSimpleForm;
 import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.views.Views;
-
-import javax.swing.*;
 
 public abstract class AbstractProjectAction implements SimpleAction {
 

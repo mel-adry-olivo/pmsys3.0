@@ -48,7 +48,7 @@ public abstract class AbstractTaskAction implements SimpleAction {
     }
 
     protected void updateProjectAndHideForm() {
-        projectService.updateInFile(projectView.getCurrentProject());
+        projectService.updateProject(projectView.getCurrentProject());
         taskForm.dispose();
     }
 }

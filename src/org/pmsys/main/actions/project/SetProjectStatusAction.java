@@ -19,7 +19,7 @@ public class SetProjectStatusAction extends AbstractProjectAction{
         }
 
         currentProject.setStatus(itemName);
-        projectService.updateInFile(currentProject);
+        projectService.updateProject(currentProject);
         ProjectManager.INSTANCE.loadProjectList();
         MessageUtils.SUCCESS("Project status updated");
     }

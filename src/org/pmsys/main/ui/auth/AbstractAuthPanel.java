@@ -15,9 +15,8 @@ public abstract class AbstractAuthPanel extends CPanel implements CComponent {
 
     protected boolean isLogin;
 
-    private AuthWindow authWindow;
+    private final AuthWindow authWindow;
 
-    private CLabel linkLabel;
     private CLabel messageLabel;
     protected CTextField usernameField;
     protected CPasswordField passwordField;
@@ -135,7 +134,7 @@ public abstract class AbstractAuthPanel extends CPanel implements CComponent {
     }
     private void setupQuestion() {
         CLabel questionLabel = CLabelFactory.createDefaultLabel(getQuestion());
-        linkLabel = CLabelFactory.createLinkLabel(getLink());
+        CLabel linkLabel = CLabelFactory.createLinkLabel(getLink());
         linkLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

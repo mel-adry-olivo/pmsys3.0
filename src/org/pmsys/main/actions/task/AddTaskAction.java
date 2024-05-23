@@ -17,7 +17,7 @@ public class AddTaskAction extends AbstractTaskAction{
         if(result.getStatus() == TaskRequestStatus.SUCCESS) {
             Task validatedTask = result.getTask();
             validatedTask.setProjectId(projectView.getCurrentProject().getId());
-            taskService.saveToFile(validatedTask);
+            taskService.saveTask(validatedTask);
 
             projectView.addTaskToView(projectView.createTaskCard(validatedTask));
             projectView.getCurrentProject().addTask(validatedTask);

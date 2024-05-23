@@ -22,7 +22,7 @@ public class AddProjectAction extends AbstractProjectAction {
         }
 
         Project validatedProject = result.getProject();
-        projectService.saveInFile(validatedProject);
+        projectService.saveProject(validatedProject);
         projectListView.addProjectToUI(projectListView.createProjectCard(validatedProject));
         IndexingManager.INSTANCE.indexProject(validatedProject);
         projectForm.dispose();

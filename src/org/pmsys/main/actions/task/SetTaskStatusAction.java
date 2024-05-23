@@ -16,7 +16,7 @@ public class SetTaskStatusAction extends AbstractTaskAction{
         String oldStatus = currentTask.getStatus();
 
         currentTask.setStatus(itemName);
-        taskService.updateInFile(currentTask);
+        taskService.updateTask(currentTask);
 
         TaskCard updatedTaskCard = projectView.createTaskCard(currentTask);
         projectView.updateTaskInView(updatedTaskCard, oldStatus);
