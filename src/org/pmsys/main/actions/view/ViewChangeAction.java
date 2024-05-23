@@ -1,10 +1,12 @@
 package org.pmsys.main.actions.view;
 
+import org.pmsys.main.managers.ViewManager;
 import org.pmsys.main.ui.components.constants.ColorConstants;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.ui.MainWindow;
 import org.pmsys.main.ui.components.base.CButton;
 import org.pmsys.main.ui.components.base.CComponent;
+import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +30,13 @@ public class ViewChangeAction implements SimpleAction {
             clickedButton.setSelected(true);
             clickedButton.setBackground(new Color(80, 80, 80));
 
-            menu.handleViewChange(clickedButton);
+            viewChange(clickedButton);
         }
+    }
+
+    private void viewChange(CButton button) {
+        String actionCommand = button.getActionCommand();
+        Views selectedView = Views.valueOf(actionCommand);
+        ViewManager.INSTANCE.showView(selectedView);
     }
 }

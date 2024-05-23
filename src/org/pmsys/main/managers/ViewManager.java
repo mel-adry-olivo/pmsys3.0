@@ -16,7 +16,7 @@ public enum ViewManager {
 
     private final Map<Views, CPanel> views = new EnumMap<>(Views.class);
     private final Set<Views> addedViews = new HashSet<>();
-    private final CardLayout cardLayout = new CardLayout();;
+    private final CardLayout cardLayout = new CardLayout();
 
     private MainWindow.WindowContent viewContent;
     private MainWindow.WindowHeader viewHeader;
@@ -40,8 +40,10 @@ public enum ViewManager {
     }
 
     public void showView(Views view) {
+        if (view == null || currentView == view) return;
+
         CPanel viewComponent = views.get(view);
-        if (viewComponent != null && currentView != view) {
+        if (viewComponent != null) {
             if (addedViews.add(view)) {
                 viewContent.add(viewComponent, view.name());
             }

@@ -4,7 +4,6 @@ import net.miginfocom.swing.MigLayout;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.managers.ViewManager;
 import org.pmsys.main.ui.components.*;
 import org.pmsys.main.ui.components.base.*;
 import org.pmsys.main.ui.components.constants.ColorConstants;
@@ -24,7 +23,6 @@ public class MainWindow extends JFrame{
     public MainWindow( ) {
         content = new WindowContent();
         header = new WindowHeader();
-        ViewManager.INSTANCE.setViewWindow(this); // was in this line because the navbar needs the view manager
         menu = new WindowNavBar();
         setupComponent();
     }
@@ -78,40 +76,27 @@ public class MainWindow extends JFrame{
         private CLabel projectName;
 
         private SearchBar searchBar;
-        private UserAvatar userAvatar;
 
         public WindowHeader() {
             setupComponent();
-
         }
 
         private void setupComponent() {
             setConstraints("insets 28 28 28 24 , filly", "[]8[]8[]8[]push[]8[]");
             setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(ColorConstants.BORDER)));
 
-            viewIcon = new CLabel(IconConstants.PROJECT_LIST_ICON_SMALL);
-            viewName = new CLabel("View")
-                    .setFontStyle(CLabel.DEFAULT)
-                    .setForegroundColor(ColorConstants.DARK_GREY)
-                    .applyFlatStyle();
-
-            separator = new CLabel("/")
-                    .setFontStyle(CLabel.LARGE)
-                    .setForegroundColor(ColorConstants.DARK_GREY)
-                    .applyFlatStyle();
-
-            projectName = new CLabel("Project Name")
-                    .setFontStyle(CLabel.SEMIBOLD)
-                    .setForegroundColor(ColorConstants.BLACK)
-                    .applyFlatStyle();
+            viewIcon = CLabelFactory.createIconLabel(IconConstants.DASHBOARD_ICON_SMALL);
+            viewName = CLabelFactory.createDefaultLabel("View");
+            separator = CLabelFactory.createLargeLabel("/", ColorConstants.DARK_GREY);
+            projectName = CLabelFactory.createSemiBoldLabel("Project Name", ColorConstants.BLACK);
 
             searchBar = new SearchBar("Search for a project's name");
-            userAvatar = new UserAvatar();
+            UserAvatar userAvatar = new UserAvatar();
 
             add(viewIcon);
-            add(viewName, "");
-            add(separator, "");
-            add(projectName, "");
+            add(viewName);
+            add(separator);
+            add(projectName);
 
             add(searchBar, "h 0%");
             add(userAvatar, "w 0%, h 0%");
@@ -119,20 +104,11 @@ public class MainWindow extends JFrame{
 
         public void updateViewName(Views views) {
             switch (views) {
-                case DASHBOARD -> {
-                    viewIcon.setIcon(IconConstants.DASHBOARD_ICON_SMALL);
-                    viewName.setText("Dashboard");
-                    separator.setVisible(false);
-                    projectName.setVisible(false);
-                }
-                case PROJECT_LIST -> {
-                    viewIcon.setIcon(IconConstants.PROJECT_LIST_ICON_SMALL);
-                    viewName.setText("Projects");
-                    separator.setVisible(false);
-                    projectName.setVisible(false);
-                }
+                case DASHBOARD -> updateHeader(IconConstants.DASHBOARD_ICON_SMALL, "Dashboard");
+                case PROJECT_LIST -> updateHeader(IconConstants.PROJECT_LIST_ICON_SMALL, "Project List");
                 case PROJECT -> {
-                    Project project = ((ProjectView )Views.PROJECT.getComponent()).getCurrentProject();
+                    ProjectView currentProjectView = (ProjectView) Views.PROJECT.getComponent();
+                    Project project = currentProjectView.getCurrentProject();
                     projectName.setText(project.getTitle());
                     separator.setVisible(true);
                     projectName.setVisible(true);
@@ -140,23 +116,27 @@ public class MainWindow extends JFrame{
             }
             searchBar.setText("");
         }
+
+        // helper to the updateViewName method
+        private void updateHeader(Icon icon, String name) {
+            viewIcon.setIcon(icon);
+            viewName.setText(name);
+            separator.setVisible(false);
+            projectName.setVisible(false);
+        }
     }
 
     public static class WindowNavBar extends CPanel implements CComponent {
 
         private CButton dashboardButton;
         private CButton projectListButton;
-        private CButton selectedButton;
+        private CButton selectedButton; // current selected button
 
         public WindowNavBar() {
-
             setupComponent();
-
+            dashboardButton.setSelected(false);
             projectListButton.setSelected(true);
             selectedButton = projectListButton;
-
-            handleViewChange(projectListButton);
-
         }
 
         public CButton getSelectedButton() {
@@ -169,33 +149,24 @@ public class MainWindow extends JFrame{
             }
         }
 
-
-        public void handleViewChange(CButton selectedButton) {
-            String actionCommand = selectedButton.getActionCommand();
-            Views selectedView = Views.valueOf(actionCommand);
-            ViewManager.INSTANCE.showView(selectedView);
-        }
-
         private void setupComponent() {
-            setConstraints("flowy, fillx, insets 18", "center");
+            setConstraints("flowy, fillx, insets 18", "center","[]45[]24[]");
             setMatteBorder(0, 0, 0, 1);
 
-            CLabel logoIcon = new CLabel(IconConstants.LOGO);
+            CLabel logoIcon = CLabelFactory.createIconLabel(IconConstants.LOGO);
+            dashboardButton = createMenuButton(IconConstants.DASHBOARD_ICON_MEDIUM, Views.DASHBOARD.name());
+            projectListButton = createMenuButton(IconConstants.PROJECT_LIST_ICON_MEDIUM, Views.PROJECT_LIST.name());
 
-            dashboardButton = CButtonFactory.createHoverableIconButton(IconConstants.DASHBOARD_ICON_MEDIUM);
-            dashboardButton.setActionCommand(Views.DASHBOARD.name());
-            dashboardButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, dashboardButton, this));
-
-            projectListButton = CButtonFactory.createHoverableIconButton(IconConstants.PROJECT_LIST_ICON_MEDIUM);
-            projectListButton.setActionCommand(Views.PROJECT_LIST.name());
-            projectListButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, projectListButton, this));
-
-
-            add(logoIcon, "wmin 36, wmax 36, hmin 36, hmax 36");
-            add(dashboardButton, "gaptop 45, wmin 36, wmax 36, hmin 36, hmax 36");
-            add(projectListButton, "gaptop 24, wmin 36, wmax 36, hmin 36, hmax 36");
+            add(logoIcon, "w 36!, h 36!");
+            add(dashboardButton, "w 36!, h 36!");
+            add(projectListButton, "w 36!, h 36!");
         }
 
-
+        private CButton createMenuButton(Icon icon, String actionCommand) {
+            CButton button = CButtonFactory.createHoverableIconButton(icon);
+            button.setActionCommand(actionCommand);
+            button.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, button, this));
+            return button;
+        }
     }
 }

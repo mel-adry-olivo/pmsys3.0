@@ -56,6 +56,7 @@ public class Application {
 
     public void launchApplication() {
         mainWindow = new MainWindow();
+        ViewManager.INSTANCE.setViewWindow(mainWindow);
         ProjectManager.INSTANCE.loadProjectList();
         WarmUp.DO_THE_WARMUP();
         mainWindow.setVisible(true);
