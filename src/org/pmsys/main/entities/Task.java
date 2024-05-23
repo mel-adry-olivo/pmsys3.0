@@ -2,7 +2,7 @@ package org.pmsys.main.entities;
 
 import org.pmsys.main.entities.request.TaskRequest;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Task {
 
@@ -15,7 +15,7 @@ public class Task {
     private String status;
 
 
-    // creation
+    // default constructor
     public Task(String title, String description, String dueDate, String priority, String status) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
@@ -25,11 +25,12 @@ public class Task {
         this.status = status;
     }
 
+    // for requests
     public Task(TaskRequest request) {
         this(request.getTitle(), request.getDescription(), request.getDueDate(), request.getPriority(), request.getStatus());
     }
 
-    // loading
+    // for loading from file
     public Task(String projectId, String id, String title, String description, String dueDate, String priority, String status) {
         this.projectId = projectId;
         this.id = id;
@@ -40,6 +41,7 @@ public class Task {
         this.status = status;
     }
 
+    // for parsing
     public Task(String[] data) {
         this.projectId = data[0];
         this.id = data[1];
@@ -50,23 +52,39 @@ public class Task {
         this.status = data[6];
     }
 
+
+    public static HashMap<String, Task> toMap(List<String> list) {
+        HashMap<String, Task> taskMap = new HashMap<>();
+        for (String line : list) {
+            String[] data = line.split(":::");
+            Task task = new Task(data);
+            taskMap.put(task.getId(), task);
+        }
+        return taskMap;
+    }
+
+    public static List<Task> tasksOf(Project project, Map<String, Task> taskMap) {
+        List<Task> list = new ArrayList<>();
+        for (Task task : taskMap.values()) {
+            if (task.getProjectId().equals(project.getId())) {
+                list.add(task);
+            }
+        }
+        return list;
+    }
+
     @Override
     public String toString() {
         return projectId + ":::" + id + ":::" + title + ":::" + description +
                 ":::" + dueDate + ":::" + priority + ":::" + status;
     }
 
-    public void updateTaskDetails(Task task) {
+    public void setUpdateFrom(Task task) {
         this.title = task.getTitle();
         this.description = task.getDescription();
         this.dueDate = task.getDueDate();
         this.priority = task.getPriority();
         this.status = task.getStatus();
-    }
-
-    public static Task parseLineToTask(String s) {
-        String[] data = s.split(":::");
-        return new Task(data);
     }
 
     public void setProjectId(String projectId) {
@@ -101,6 +119,11 @@ public class Task {
         return status;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
-// TODO
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -2,23 +2,20 @@ package org.pmsys.main.actions.project;
 
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.Project;
+import org.pmsys.main.entities.request.ProjectRequest;
 import org.pmsys.main.entities.request.ProjectRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.service.ProjectService;
-import org.pmsys.main.service.Services;
-import org.pmsys.main.service.TaskService;
+import org.pmsys.main.services.ProjectService;
+import org.pmsys.main.services.Services;
+import org.pmsys.main.services.TaskService;
 import org.pmsys.main.ui.forms.FormType;
 import org.pmsys.main.ui.forms.ProjectSimpleForm;
 import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
-import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.views.Views;
-
-import javax.swing.*;
-import java.util.Objects;
 
 public abstract class AbstractProjectAction implements SimpleAction {
 
@@ -36,10 +33,16 @@ public abstract class AbstractProjectAction implements SimpleAction {
         this.projectForm = (ProjectSimpleForm) FormManager.INSTANCE.getForm(FormType.PROJECT);
     }
 
-    public abstract void execute(JComponent source, CComponent view);
-
     protected Project getCurrentProject() {
         return projectView.getCurrentProject();
+    }
+
+    protected ProjectResult validateProjectRequest(ProjectRequest projectRequest) {
+        ProjectResult result = projectService.validateRequest(projectRequest);
+        if (result.getStatus() != ProjectRequestStatus.SUCCESS) {
+            handleProjectFormError(result);
+        }
+        return result;
     }
 
     protected void handleProjectFormError(ProjectResult result) {

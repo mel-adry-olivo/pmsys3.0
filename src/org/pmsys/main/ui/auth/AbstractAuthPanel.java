@@ -1,27 +1,26 @@
 package org.pmsys.main.ui.auth;
 
 import org.pmsys.main.actions.Actions;
-import org.pmsys.constants.AppColors;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 import org.pmsys.main.managers.ActionManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.ui.components.base.*;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class AbstractAuthPanel extends FlatPanel implements CComponent {
+public abstract class AbstractAuthPanel extends CPanel implements CComponent {
 
     protected boolean isLogin;
 
-    private AuthWindow authWindow;
+    private final AuthWindow authWindow;
 
-    private FlatLabel linkLabel;
-    private FlatLabel messageLabel;
-    protected FlatTextField usernameField;
-    protected FlatPasswordField passwordField;
-    protected FlatButton button;
+    private CLabel messageLabel;
+    protected CTextField usernameField;
+    protected CPasswordField passwordField;
+    protected CButton button;
 
     public AbstractAuthPanel(AuthWindow authWindow, boolean isLogin) {
         super("insets 10% 14% 10% 12%, fillx", "[]", "[]2%[]2%[]2%[]2%[]4%[]2%[]8%[]4%[]");
@@ -65,11 +64,11 @@ public abstract class AbstractAuthPanel extends FlatPanel implements CComponent 
     }
 
     void handleLinkClick(MouseEvent e) {
-        ActionManager.executeAction(Actions.SWITCH_AUTH, (FlatLabel) e.getSource(), this);
+        ActionManager.executeAction(Actions.SWITCH_AUTH, (CLabel) e.getSource(), this);
     }
 
     void handleButtonClick(ActionEvent e) {
-        ActionManager.executeAction(getAction(), (FlatButton) e.getSource(), this);
+        ActionManager.executeAction(getAction(), (CButton) e.getSource(), this);
     }
 
     public final void resetForm() {
@@ -77,48 +76,48 @@ public abstract class AbstractAuthPanel extends FlatPanel implements CComponent 
         passwordField.setText("");
 
         messageLabel.setText("This is a message label");
-        messageLabel.setForegroundColor(AppColors.WHITE).applyFlatStyle();
+        messageLabel.setForegroundColor(ColorConstants.WHITE).applyFlatStyle();
 
         usernameField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
+                .applyStyles();
         passwordField.setBorderColor("darken(#ffffff, 5%)")
-                .applyFlatStyle();
+                .applyStyles();
     }
 
     public final void showErrorMessage(String message) {
         messageLabel.setText(message);
-        messageLabel.setForegroundColor(AppColors.ERROR).applyFlatStyle();
+        messageLabel.setForegroundColor(ColorConstants.ERROR).applyFlatStyle();
     }
 
 
     public final void showErrorInput(boolean username, boolean password) {
         if(username) {
             usernameField
-                    .setBorderColor(AppColors.ERROR)
-                    .applyFlatStyle();
+                    .setBorderColor(ColorConstants.ERROR)
+                    .applyStyles();
         }
 
         if(password) {
             passwordField
-                    .setBorderColor(AppColors.ERROR)
-                    .applyFlatStyle();
+                    .setBorderColor(ColorConstants.ERROR)
+                    .applyStyles();
         }
     }
 
     private void setupTitles() {
-        FlatLabel titleLabel = FlatLabelFactory.createScaledH1Label(getTitle());
-        FlatLabel subtitleLabel = FlatLabelFactory.createDefaultLabel(getSubtitle());
+        CLabel titleLabel = CLabelFactory.createScaledH1Label(getTitle());
+        CLabel subtitleLabel = CLabelFactory.createDefaultLabel(getSubtitle());
 
         add(titleLabel, "wrap, growx");
         add(subtitleLabel, "wrap, growx");
     }
     private void setupInput() {
-        messageLabel = FlatLabelFactory.createDefaultLabel("This is a message label", AppColors.WHITE);
-        FlatLabel usernameLabel = FlatLabelFactory.createDefaultLabel("Username", AppColors.DARK_GREY);
-        FlatLabel passwordLabel = FlatLabelFactory.createDefaultLabel("Password", AppColors.DARK_GREY);
+        messageLabel = CLabelFactory.createDefaultLabel("This is a message label", ColorConstants.WHITE);
+        CLabel usernameLabel = CLabelFactory.createDefaultLabel("Username", ColorConstants.DARK_GREY);
+        CLabel passwordLabel = CLabelFactory.createDefaultLabel("Password", ColorConstants.DARK_GREY);
 
-        usernameField = FlatFieldFactory.createTextField("Enter your username");
-        passwordField = FlatFieldFactory.createPasswordField("Enter your password");
+        usernameField = CFieldFactory.createTextField("Enter your username");
+        passwordField = CFieldFactory.createPasswordField("Enter your password");
 
         add(messageLabel, "h 0%, wrap, growx");
 
@@ -129,13 +128,13 @@ public abstract class AbstractAuthPanel extends FlatPanel implements CComponent 
         add(passwordField, "wrap, growx");
     }
     private void setupButton() {
-        button = FlatButtonFactory.createFilledButton(getButtonName());
+        button = CButtonFactory.createFilledButton(getButtonName());
         button.addActionListener(this::handleButtonClick);
         add(button, "wrap, growx");
     }
     private void setupQuestion() {
-        FlatLabel questionLabel = FlatLabelFactory.createDefaultLabel(getQuestion());
-        linkLabel = FlatLabelFactory.createLinkLabel(getLink());
+        CLabel questionLabel = CLabelFactory.createDefaultLabel(getQuestion());
+        CLabel linkLabel = CLabelFactory.createLinkLabel(getLink());
         linkLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

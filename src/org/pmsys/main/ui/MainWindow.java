@@ -1,38 +1,29 @@
 package org.pmsys.main.ui;
 
 import net.miginfocom.swing.MigLayout;
-import org.pmsys.constants.AppColors;
-import org.pmsys.constants.AppIcons;
 import org.pmsys.main.actions.Actions;
+import org.pmsys.main.entities.Project;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.managers.ViewManager;
+import org.pmsys.main.ui.components.*;
+import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
+import org.pmsys.main.ui.components.constants.IconConstants;
+import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
-import org.pmsys.main.managers.SessionManager;
-import org.pmsys.main.ui.components.base.FlatButton;
-import org.pmsys.main.ui.components.base.FlatButtonFactory;
-import org.pmsys.main.ui.components.base.FlatLabel;
-import org.pmsys.main.ui.components.base.FlatPanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class MainWindow extends JFrame{
+public class MainWindow extends JFrame implements CComponent{
 
-    private final WindowMenu menu;
+    private final WindowNavBar menu;
     private final WindowHeader header;
     private final WindowContent content;
-
-    private final Map<Views, JComponent> views = new HashMap<>();
 
     public MainWindow( ) {
         content = new WindowContent();
         header = new WindowHeader();
-
-        ViewManager.INSTANCE.setViewWindow(this); // was in this line because the menu needs the view manager
-
-        menu = new WindowMenu();
+        menu = new WindowNavBar();
         setupComponent();
     }
 
@@ -44,22 +35,11 @@ public class MainWindow extends JFrame{
         return header;
     }
 
-//    public void showView(Views views) {
-//        JComponent viewComponent = this.views.get(views);
-//        if (viewComponent != null) {
-//            content.getLayout().show(content, views.name());
-//            header.updateViewName(views);
-//        }
-//    }
-//
-//
-//    public void addView(Views views, JComponent component) {
-//        component.setPreferredSize(new Dimension(content.getWidth(), content.getHeight()));
-//        content.add(component, views.name());
-//        this.views.put(views, component);
-//    }
+    public WindowContent getContent() {
+        return content;
+    }
 
-    private void setupComponent() {
+    public void setupComponent() {
         setLayout(new MigLayout("insets 0, fill", "[grow 0]0[]", "[]0[grow]"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("System");
@@ -90,146 +70,107 @@ public class MainWindow extends JFrame{
             revalidate();
             return this;
         }
-
-//        public CardLayout getLayout() {
-//            return (CardLayout) super.getLayout();
-//        }
     }
 
-    public static class WindowHeader extends FlatPanel {
+    public static class WindowHeader extends CPanel {
 
-        private FlatLabel viewIcon;
-        private FlatLabel viewName;
-        private FlatLabel separator;
-        private FlatLabel projectName;
-        private FlatLabel userName;
+        private CLabel viewIcon;
+        private CLabel viewName;
+        private CLabel separator;
+        private CLabel projectName;
 
         private SearchBar searchBar;
-        private JLabel userAvatar;
 
         public WindowHeader() {
             setupComponent();
-
         }
 
-        private void setupComponent() {
-            setConstraints("insets 24, filly", "[]8[]8[]8[]push[]0[]");
-            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode("#8F8F8F")));
+        public void setupComponent() {
+            setConstraints("insets 28 28 28 24 , filly", "[]8[]8[]8[]push[]8[]");
+            setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.decode(ColorConstants.BORDER)));
 
-            viewIcon = new FlatLabel(AppIcons.PROJECT_LIST_ICON_SMALL);
-            viewName = new FlatLabel("View")
-                    .setFontStyle(FlatLabel.DEFAULT)
-                    .setForegroundColor(AppColors.DARK_GREY)
-                    .applyFlatStyle();
+            viewIcon = CLabelFactory.createIconLabel(IconConstants.DASHBOARD_ICON_SMALL);
+            viewName = CLabelFactory.createDefaultLabel("View");
+            separator = CLabelFactory.createLargeLabel("/", ColorConstants.DARK_GREY);
+            projectName = CLabelFactory.createSemiBoldLabel("Project Name", ColorConstants.BLACK);
 
-            separator = new FlatLabel("/")
-                    .setFontStyle(FlatLabel.LARGE)
-                    .setForegroundColor(AppColors.DARK_GREY)
-                    .applyFlatStyle();
-
-            projectName = new FlatLabel("Project Name")
-                    .setFontStyle(FlatLabel.SEMIBOLD)
-                    .setForegroundColor(AppColors.BLACK)
-                    .applyFlatStyle();
-
-            userName = new FlatLabel("hi "+ SessionManager.INSTANCE.getUser().getUsername())
-                    .setFontStyle(FlatLabel.SEMIBOLD)
-                    .setForegroundColor(AppColors.BLACK)
-                    .applyFlatStyle();
-
-            searchBar = new SearchBar();
-            userAvatar = new JLabel("");
+            searchBar = new SearchBar("Search for a project's name");
+            UserAvatar userAvatar = new UserAvatar();
 
             add(viewIcon);
-            add(viewName, "");
-            add(separator, "");
-            add(projectName, "");
+            add(viewName);
+            add(separator);
+            add(projectName);
 
-
-            add(userName);
-            add(searchBar);
-            add(userAvatar);
+            add(searchBar, "h 0%");
+            add(userAvatar, "w 0%, h 0%");
         }
 
         public void updateViewName(Views views) {
             switch (views) {
-                case DASHBOARD -> {
-                    viewIcon.setIcon(AppIcons.DASHBOARD_ICON_SMALL);
-                    viewName.setText("Dashboard");
-                    separator.setVisible(false);
-                    projectName.setVisible(false);
-                }
-                case PROJECT_LIST -> {
-                    viewIcon.setIcon(AppIcons.PROJECT_LIST_ICON_SMALL);
-                    viewName.setText("Projects");
-                    separator.setVisible(false);
-                    projectName.setVisible(false);
+                case DASHBOARD -> updateHeader(IconConstants.DASHBOARD_ICON_SMALL, "Dashboard");
+                case PROJECT_LIST -> updateHeader(IconConstants.PROJECT_LIST_ICON_SMALL, "Project List");
+                case PROJECT -> {
+                    ProjectView currentProjectView = (ProjectView) Views.PROJECT.getComponent();
+                    Project project = currentProjectView.getCurrentProject();
+                    projectName.setText(project.getTitle());
+                    separator.setVisible(true);
+                    projectName.setVisible(true);
                 }
             }
+            searchBar.setText("");
         }
 
-        private class SearchBar extends JPanel {
-
+        // helper to the updateViewName method
+        private void updateHeader(Icon icon, String name) {
+            viewIcon.setIcon(icon);
+            viewName.setText(name);
+            separator.setVisible(false);
+            projectName.setVisible(false);
         }
     }
 
-    public static class WindowMenu extends FlatPanel implements CComponent {
+    public static class WindowNavBar extends CPanel implements CComponent {
 
+        private CButton dashboardButton;
+        private CButton projectListButton;
+        private CButton selectedButton; // current selected button
 
-        private FlatButton dashboardButton;
-        private FlatButton projectListButton;
-        private FlatButton selectedButton;
-
-        public WindowMenu() {
-
-
+        public WindowNavBar() {
             setupComponent();
-
-            // initial view
+            dashboardButton.setSelected(false);
             projectListButton.setSelected(true);
             selectedButton = projectListButton;
-
-            handleViewChange(projectListButton);
-
         }
 
-        public FlatButton getSelectedButton() {
+        public CButton getSelectedButton() {
             return selectedButton;
         }
 
-        public void setSelectedButton(FlatButton selectedButton) {
+        public void setSelectedButton(CButton selectedButton) {
             if(this.selectedButton != null) {
                 this.selectedButton = selectedButton;
             }
         }
 
-
-        public void handleViewChange(FlatButton selectedButton) {
-            String actionCommand = selectedButton.getActionCommand();
-            Views selectedView = Views.valueOf(actionCommand);
-            ViewManager.INSTANCE.showView(selectedView);
-        }
-
-        private void setupComponent() {
-            setConstraints("flowy, fillx, insets 18", "center");
+        public void setupComponent() {
+            setConstraints("flowy, fillx, insets 18", "center","[]45[]24[]");
             setMatteBorder(0, 0, 0, 1);
 
-            FlatLabel logoIcon = new FlatLabel(AppIcons.LOGO);
+            CLabel logoIcon = CLabelFactory.createIconLabel(IconConstants.LOGO);
+            dashboardButton = createMenuButton(IconConstants.DASHBOARD_ICON_MEDIUM, Views.DASHBOARD.name());
+            projectListButton = createMenuButton(IconConstants.PROJECT_LIST_ICON_MEDIUM, Views.PROJECT_LIST.name());
 
-            dashboardButton = FlatButtonFactory.createHoverableIconButton(AppIcons.DASHBOARD_ICON_MEDIUM);
-            dashboardButton.setActionCommand(Views.DASHBOARD.name());
-            dashboardButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, dashboardButton, this));
-
-            projectListButton = FlatButtonFactory.createHoverableIconButton(AppIcons.PROJECT_LIST_ICON_MEDIUM);
-            projectListButton.setActionCommand(Views.PROJECT_LIST.name());
-            projectListButton.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, projectListButton, this));
-
-
-            add(logoIcon, "wmin 36, wmax 36, hmin 36, hmax 36");
-            add(dashboardButton, "gaptop 45, wmin 36, wmax 36, hmin 36, hmax 36");
-            add(projectListButton, "gaptop 24, wmin 36, wmax 36, hmin 36, hmax 36");
+            add(logoIcon, "w 36!, h 36!");
+            add(dashboardButton, "w 36!, h 36!");
+            add(projectListButton, "w 36!, h 36!");
         }
 
-
+        private CButton createMenuButton(Icon icon, String actionCommand) {
+            CButton button = CButtonFactory.createHoverableIconButton(icon);
+            button.setActionCommand(actionCommand);
+            button.addActionListener(e -> ActionManager.executeAction(Actions.VIEW_CHANGE, button, this));
+            return button;
+        }
     }
 }

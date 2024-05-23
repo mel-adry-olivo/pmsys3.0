@@ -4,12 +4,14 @@ import org.pmsys.main.entities.request.AuthRequestStatus;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;
-import org.pmsys.main.service.AuthService;
+import org.pmsys.main.managers.ViewManager;
+import org.pmsys.main.services.AuthService;
 import org.pmsys.main.managers.ServiceManager;
-import org.pmsys.main.service.Services;
+import org.pmsys.main.services.Services;
 import org.pmsys.main.ui.auth.AbstractAuthPanel;
 import org.pmsys.main.ui.auth.AuthWindow;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
+import org.pmsys.main.ui.views.Views;
 
 import javax.swing.*;
 
@@ -29,11 +31,12 @@ public abstract class AbstractAuthAction implements SimpleAction {
     protected abstract void handleFailure(CComponent view, AuthResult authResult);
     
     @Override
-    public final void execute(JComponent source, CComponent view) {
-        AbstractAuthPanel authForm = (AbstractAuthPanel) view;
+    public final void execute(JComponent source, CComponent comp) {
+        AbstractAuthPanel authForm = (AbstractAuthPanel) comp;
         AuthWindow authWindow = authForm.getAuthWindow();
 
         AuthRequest request = authForm.getAuthRequest();
+
 
         if (request == null) {
             return;
@@ -46,17 +49,17 @@ public abstract class AbstractAuthAction implements SimpleAction {
                 AuthResult authResult = executeAction(request);
 
                 if (authResult.getStatus() == AuthRequestStatus.SUCCESS) {
-                    handleSuccess(view, authResult);
+                    handleSuccess(comp, authResult);
                 } else {
-                    handleFailure(view, authResult);
+                    handleFailure(comp, authResult);
                 }
-
                 return null;
             }
 
             @Override
             protected void done() {
                 authWindow.toggleLoadingState(false);
+                ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
             }
         }.execute();
     }

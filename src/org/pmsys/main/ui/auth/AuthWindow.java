@@ -1,15 +1,16 @@
 package org.pmsys.main.ui.auth;
 
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.components.base.*;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class AuthWindow extends JFrame {
+public class AuthWindow extends JFrame implements CComponent {
 
     private CardLayout cardLayout;
 
-    public AuthWindow() {
+    public  AuthWindow() {
         setupView();
         setupForms();
     }
@@ -33,7 +34,7 @@ public class AuthWindow extends JFrame {
         setResizable(false);
         setSize(450, 520);
         setLocationRelativeTo(null);
-        setGlassPane(new FlatLoadingIcon());
+        setGlassPane(new CLoadingIcon());
         setLayout(cardLayout = new CardLayout());
         setVisible(true);
     }

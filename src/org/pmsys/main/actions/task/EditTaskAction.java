@@ -4,14 +4,14 @@ import org.pmsys.main.entities.Task;
 import org.pmsys.main.entities.request.TaskRequest;
 import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.result.TaskResult;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 import org.pmsys.main.ui.components.TaskCard;
 
 import javax.swing.*;
 
 public class EditTaskAction extends AbstractTaskAction{
     @Override
-    public void execute(JComponent source, CComponent view) {
+    public void execute(JComponent source, CComponent comp) {
         Task taskToEdit = taskForm.getTaskFromForm();
         String oldStatus = taskToEdit.getStatus(); // used to change sections if updated task status changes
         TaskRequest taskRequest = (TaskRequest) taskForm.getFormData(taskToEdit.getId());
@@ -19,8 +19,9 @@ public class EditTaskAction extends AbstractTaskAction{
 
         if(result.getStatus() == TaskRequestStatus.SUCCESS) {
             Task validatedTask = result.getTask();
-            taskToEdit.updateTaskDetails(validatedTask);
-            taskService.updateTaskInFile(taskToEdit);
+            taskToEdit.setUpdateFrom(validatedTask);
+            taskService.updateTask(taskToEdit);
+
             TaskCard updatedTaskCard = projectView.createTaskCard(taskToEdit);
             projectView.updateTaskInView(updatedTaskCard, oldStatus);
             projectView.getCurrentProject().revalidateCounts();

@@ -6,7 +6,7 @@ import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;
 import org.pmsys.main.ui.auth.AbstractAuthPanel;
 import org.pmsys.main.ui.auth.AuthPanel;
-import org.pmsys.main.ui.CComponent;
+import org.pmsys.main.ui.components.base.CComponent;
 
 public class LoginAuthAction extends AbstractAuthAction {
     @Override
@@ -18,7 +18,7 @@ public class LoginAuthAction extends AbstractAuthAction {
     protected void handleSuccess(CComponent view, AuthResult authResult) {
         SessionManager.INSTANCE.setUser(authResult.getUser());
         AbstractAuthPanel authForm = (AbstractAuthPanel) view;
-        Application.start().launchApplication();
+        Application.getInstance().launchApplication();
         authForm.getAuthWindow().dispose();
     }
 

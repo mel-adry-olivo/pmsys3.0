@@ -1,7 +1,7 @@
 package org.pmsys.main.managers;
 
 import org.pmsys.main.ui.MainWindow;
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CPanel;
 import org.pmsys.main.ui.views.Views;
 
 import java.awt.*;
@@ -14,15 +14,24 @@ public enum ViewManager {
 
     INSTANCE;
 
-    private final Map<Views, FlatPanel> views = new EnumMap<>(Views.class);
+    private final Map<Views, CPanel> views = new EnumMap<>(Views.class);
     private final Set<Views> addedViews = new HashSet<>();
-    private final CardLayout cardLayout = new CardLayout();;
-
+    private final CardLayout cardLayout = new CardLayout();
 
     private MainWindow.WindowContent viewContent;
     private MainWindow.WindowHeader viewHeader;
 
     private Views currentView;
+
+    public void clearViews() {
+        views.clear();
+        addedViews.clear();
+        currentView = null;
+
+        if (viewContent != null) {
+            viewContent.removeAll();
+        }
+    }
 
     public void setViewWindow(MainWindow viewWindow) {
         viewContent = viewWindow.getViewContent();
@@ -31,18 +40,21 @@ public enum ViewManager {
     }
 
     public void showView(Views view) {
-        FlatPanel viewComponent = views.get(view);
-        if (viewComponent != null && currentView != view) {
+        if (view == null || currentView == view) return;
+
+        CPanel viewComponent = views.get(view);
+        if (viewComponent != null) {
             if (addedViews.add(view)) {
                 viewContent.add(viewComponent, view.name());
             }
             cardLayout.show(viewContent, view.name());
+            viewComponent.grabFocus();
             viewHeader.updateViewName(view);
             currentView = view;
         }
     }
 
-    public FlatPanel getViewComponent(Views view) {
+    public CPanel getViewComponent(Views view) {
         return views.get(view);
     }
 

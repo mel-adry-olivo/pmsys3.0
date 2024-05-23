@@ -6,13 +6,18 @@ import java.util.Map;
 
 public class FlatStyler {
 
-    private Map<String, String> styleMap;
+    private final Map<String, String> styleMap;
 
     public FlatStyler() {
         styleMap = new HashMap<>();
     }
 
     public void applyFlatStyle(JComponent component) {
+
+        if(styleMap.isEmpty()) {
+            return;
+        }
+
         StringBuilder styleBuilder = new StringBuilder();
         for (Map.Entry<String, String> entry : styleMap.entrySet()) {
             styleBuilder
@@ -21,7 +26,9 @@ public class FlatStyler {
                     .append(entry.getValue())
                     .append(";");
         }
-        component.putClientProperty("FlatLaf.style", styleBuilder.toString());
+
+        String finalStyle = styleBuilder.toString();
+        component.putClientProperty("FlatLaf.style", finalStyle);
     }
 
     public Map<String, String> getStyleMap() {

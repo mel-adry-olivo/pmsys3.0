@@ -1,9 +1,9 @@
 package org.pmsys.main.managers;
 
 import org.pmsys.main.entities.Project;
-import org.pmsys.main.service.ProjectService;
-import org.pmsys.main.service.Services;
-import org.pmsys.main.service.TaskService;
+import org.pmsys.main.services.ProjectService;
+import org.pmsys.main.services.Services;
+import org.pmsys.main.services.TaskService;
 import org.pmsys.main.ui.views.ProjectListView;
 import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
@@ -24,28 +24,34 @@ public enum ProjectManager {
         this.projectListView = (ProjectListView) ViewManager.INSTANCE.getViewComponent(Views.PROJECT_LIST);
     }
 
-    public void reloadProjectList() {
-        projectService.cacheProjects();
-        projectListView.removeAllProjectCards();
-        for (Project project : projectService.getAllProjects().values()) {
+    public void clearProjects() {
+        IndexingManager.INSTANCE.clearIndex();
+        projectListView.resetProjectList();
+        projectService.clearCache();
+        taskService.clearCache();
+    }
+
+    public void loadProjectList() {
+        projectListView.resetProjectList();
+        IndexingManager.INSTANCE.clearIndex();
+
+        for (Project project : projectService.getCachedProjects()) {
             projectListView.addProjectToUI(projectListView.createProjectCard(project));
+            IndexingManager.INSTANCE.indexProject(project);
+
         }
         projectListView.goToFirstPage();
     }
 
     public void reloadCurrentProject() {
-        Project project = projectView.getCurrentProject();
-        projectView.initProjectView(project);
-
-        taskService.cacheTasks();
-        project.setTasks(taskService.getTasksOf(project));
-        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard)));
+        loadProject(projectView.getCurrentProject());
     }
 
     public void loadProject(Project project) {
         projectView.initProjectView(project);
         taskService.cacheTasks();
+
         project.setTasks(taskService.getTasksOf(project));
-        project.getTasks().forEach(taskCard -> projectView.addTaskToView(projectView.createTaskCard(taskCard)));
+        project.getTasks().forEach(task -> projectView.addTaskToView(projectView.createTaskCard(task)));
     }
 }

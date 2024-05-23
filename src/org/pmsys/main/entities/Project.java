@@ -2,10 +2,11 @@ package org.pmsys.main.entities;
 
 import org.pmsys.main.entities.request.ProjectRequest;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class Project {
+public class Project{
 
     private String id;
     private String title;
@@ -49,6 +50,10 @@ public class Project {
         taskDoneCount = Integer.parseInt(data[6]);
     }
 
+    public static Project EmptyProject() {
+        return new Project("", "", "", "");
+    }
+
     public void addTask(Task task) {
         tasks.add(task);
         overallTaskCount++;
@@ -82,9 +87,14 @@ public class Project {
         }
     }
 
-    public static Project parseLineToProject(String line) {
-        String[] data = line.split(":::");
-        return new Project(data);
+    public static LinkedHashMap<String, Project> toMap(List<String> list) {
+        LinkedHashMap<String, Project> projectMap = new LinkedHashMap<>();
+        for (String line : list) {
+            String[] data = line.split(":::");
+            Project project = new Project(data);
+            projectMap.put(project.getId(), project);
+        }
+        return projectMap;
     }
 
     @Override
@@ -153,4 +163,6 @@ public class Project {
     public int getTaskDoneCount() {
         return taskDoneCount;
     }
+
+
 }

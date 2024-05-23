@@ -1,11 +1,10 @@
 package org.pmsys.main.ui.views;
 
-import org.pmsys.constants.AppIcons;
+import org.pmsys.main.ui.components.constants.IconConstants;
 import org.pmsys.main.actions.Actions;
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.managers.ActionManager;
-import org.pmsys.main.ui.CComponent;
 import org.pmsys.main.ui.components.TaskBoard;
 import org.pmsys.main.ui.components.TaskCard;
 import org.pmsys.main.ui.components.base.*;
@@ -15,18 +14,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class ProjectView extends FlatPanel implements CComponent {
+public class ProjectView extends CPanel{
 
     private Project currentProjectOpened;
 
     private TaskBoard taskBoard;
 
-    private FlatLabel projectTitle;
+    private CLabel projectTitle;
 
-    private FlatButton exportButton;
-    private FlatButton optionButton;
-    private FlatButton closeButton;
-    private FlatButton addTaskButton;
+    private CButton exportButton;
+    private CButton optionButton;
+    private CButton closeButton;
+    private CButton addTaskButton;
 
     public ProjectView() {
         super("insets 0, flowy, fillx", "fill", "[]0[]0[]");
@@ -46,13 +45,14 @@ public class ProjectView extends FlatPanel implements CComponent {
         taskBoard.removeTask(taskCard);
     }
 
+    // if status changed
     public void updateTaskInView(TaskCard taskCard, String oldStatus) {
         taskBoard.updateTask(taskCard, oldStatus);
     }
 
     public TaskCard createTaskCard(Task task) {
         TaskCard taskCard = new TaskCard(task);
-        taskCard.handleOptionClick((e) -> ActionManager.executeAction(Actions.SHOW_TASK_OPTIONS, (FlatButton)e.getSource(), taskCard));
+        taskCard.handleOptionClick((e) -> ActionManager.executeAction(Actions.SHOW_TASK_OPTIONS, (CButton)e.getSource(), taskCard));
         return taskCard;
     }
 
@@ -76,16 +76,16 @@ public class ProjectView extends FlatPanel implements CComponent {
     }
 
     private void setupView() {
-        FlatPanel headerOne = createHeader("[]push[]2%[]2%[]");
-        projectTitle = FlatLabelFactory.createH1Label("Project Title");
-        exportButton = FlatButtonFactory.createHoverableIconButton(AppIcons.EXPORT_ICON_SMALL);
-        optionButton = FlatButtonFactory.createHoverableIconButton(AppIcons.KEBAB_ICON_SMALL);
-        closeButton = FlatButtonFactory.createHoverableIconButton(AppIcons.CLOSE_2_ICON_SMALL);
+        CPanel headerOne = createHeader("[]push[]2%[]2%[]");
+        projectTitle = CLabelFactory.createH1Label("Project Title");
+        exportButton = CButtonFactory.createHoverableIconButton(IconConstants.EXPORT_ICON_SMALL);
+        optionButton = CButtonFactory.createHoverableIconButton(IconConstants.KEBAB_ICON_SMALL);
+        closeButton = CButtonFactory.createHoverableIconButton(IconConstants.CLOSE_ICON_SMALL);
 
-        FlatPanel headerTwo = createHeader("[]push[]1%[]");
-        FlatButton boardButton = FlatButtonFactory.createBorderlessButton("Board");
+        CPanel headerTwo = createHeader("[]push[]1%[]");
+        CButton boardButton = CButtonFactory.createBorderlessButton("Board");
         boardButton.setSelected(true);
-        addTaskButton = FlatButtonFactory.createFilledButton("Add Task", AppIcons.ADD_ICON_SMALL);
+        addTaskButton = CButtonFactory.createFilledButton("Add Task", IconConstants.ADD_ICON_SMALL);
 
         add(headerOne, "h 14%, growx");
         headerOne.add(projectTitle, "grow");
@@ -100,15 +100,19 @@ public class ProjectView extends FlatPanel implements CComponent {
         taskBoard = new TaskBoard();
         add(taskBoard, "h 100%");
     }
-    private FlatPanel createHeader(String columnConstraint) {
-        return new FlatPanel("insets 16 24 16 24, filly", columnConstraint, "[]")
-                .setMatteBorder(0, 0, 1, 0)
-                .applyFlatStyle();
+    private CPanel createHeader(String columnConstraint) {
+        return new CPanel("insets 16 24 16 24, filly", columnConstraint, "[]")
+                .setMatteBorder(0, 0, 1, 0);
     }
 
     public static class OptionsPopup extends JPopupMenu {
 
-        private JMenuItem editProject;
+        private JMenuItem editProjectDetails;
+        private JMenu setProjectStatus;
+        private JMenuItem statusInProgress;
+        private JMenuItem statusDone;
+        private JMenuItem statusOverdue;
+
         private JMenuItem deleteProject;
 
         public OptionsPopup() {
@@ -116,19 +120,41 @@ public class ProjectView extends FlatPanel implements CComponent {
         }
 
         public void handleEditProjectClick(ActionListener listener) {
-            editProject.addActionListener(listener);
+            editProjectDetails.addActionListener(listener);
         }
 
         public void handleDeleteProjectClick(ActionListener listener) {
             deleteProject.addActionListener(listener);
         }
 
+        public void handleSetProjectStatusClick(ActionListener listener) {
+            statusInProgress.addActionListener(listener);
+            statusDone.addActionListener(listener);
+            statusOverdue.addActionListener(listener);
+        }
+
         private void setupComponent() {
-            editProject = new JMenuItem("Edit Project");
+            editProjectDetails = new JMenuItem("Edit Project Details");
+            setProjectStatus = new JMenu("Set Project Status");
+
+            statusInProgress = new JMenuItem("In Progress");
+            statusDone = new JMenuItem("Done");
+            statusOverdue = new JMenuItem("Overdue");
+
+            setProjectStatus.add(statusInProgress);
+            setProjectStatus.add(statusDone);
+            setProjectStatus.add(statusOverdue);
+
             deleteProject = new JMenuItem("Delete Project");
             setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            add(editProject);
+            add(editProjectDetails);
+            add(setProjectStatus);
             add(deleteProject);
+        }
+
+        @Override
+        public int getWidth() {
+            return editProjectDetails.getWidth();
         }
     }
 }

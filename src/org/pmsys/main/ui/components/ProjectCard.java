@@ -1,28 +1,20 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.Project;
-import org.pmsys.main.ui.components.base.FlatLabel;
-import org.pmsys.main.ui.components.base.FlatLabelFactory;
-import org.pmsys.main.ui.components.base.FlatPanel;
-import org.pmsys.main.ui.listeners.ProjectOpenListener;
+import org.pmsys.main.ui.components.base.CHoverEvent;
+import org.pmsys.main.ui.components.base.CLabel;
+import org.pmsys.main.ui.components.base.CLabelFactory;
+import org.pmsys.main.ui.components.base.CPanel;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-public class ProjectCard extends FlatPanel{
+public class ProjectCard extends CPanel {
 
     private final Project project;
 
-    private FlatLabel lblName;
-    private FlatLabel lblDescription;
-    private FlatLabel lblTaskProgress;
-    private FlatLabel lblStatus;
-    private FlatLabel lblDueDate;
+    private CLabel lblName;
+    private CLabel lblDescription;
+    private CLabel lblTaskProgress;
+    private CLabel lblStatus;
+    private CLabel lblDueDate;
 
     public ProjectCard(Project project) {
         this.project = project;
@@ -43,14 +35,13 @@ public class ProjectCard extends FlatPanel{
     }
     private void setupCard() {
         setConstraints("insets 16px 3% 16px 3%, fill", "", "center");
-        setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        setHoverable(true);
+        addMouseListener(new CHoverEvent(this));
 
-        lblName         = FlatLabelFactory.createSemiBoldLabel("");
-        lblDescription  = FlatLabelFactory.createDefaultLabel("");
-        lblTaskProgress = FlatLabelFactory.createDefaultLabel("");
-        lblStatus       = FlatLabelFactory.createDefaultLabel("");
-        lblDueDate      = FlatLabelFactory.createDefaultLabel("");
+        lblName         = CLabelFactory.createSemiBoldLabel("");
+        lblDescription  = CLabelFactory.createDefaultLabel("");
+        lblTaskProgress = CLabelFactory.createDefaultLabel("");
+        lblStatus       = CLabelFactory.createDefaultLabel("");
+        lblDueDate      = CLabelFactory.createDefaultLabel("");
 
         add(lblName , "growx, w 20%");
         add(lblDescription, "growx, w 20%");
@@ -58,4 +49,5 @@ public class ProjectCard extends FlatPanel{
         add(lblStatus, "growx, w 20%");
         add(lblDueDate, "growx, w 20%");
     }
+
 }

@@ -4,7 +4,7 @@ import org.pmsys.main.entities.request.Status;
 import org.pmsys.main.entities.request.TaskRequestStatus;
 import org.pmsys.main.entities.Task;
 
-public class TaskResult extends Result{
+public final class TaskResult extends Result{
 
     private final Task task;
 

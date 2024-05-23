@@ -5,7 +5,7 @@ import org.pmsys.main.entities.request.AuthRequestStatus;
 import org.pmsys.main.entities.request.Status;
 import org.pmsys.main.entities.User;
 
-public class AuthResult extends Result {
+public final class AuthResult extends Result {
 
     private final User user;
 

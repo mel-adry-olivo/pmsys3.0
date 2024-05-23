@@ -7,9 +7,9 @@ import org.pmsys.main.entities.result.TaskResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.managers.ViewManager;
-import org.pmsys.main.service.ProjectService;
-import org.pmsys.main.service.Services;
-import org.pmsys.main.service.TaskService;
+import org.pmsys.main.services.ProjectService;
+import org.pmsys.main.services.Services;
+import org.pmsys.main.services.TaskService;
 import org.pmsys.main.ui.forms.FormType;
 import org.pmsys.main.ui.forms.TaskSimpleForm;
 import org.pmsys.main.ui.views.ProjectView;
@@ -40,7 +40,7 @@ public abstract class AbstractTaskAction implements SimpleAction {
     }
 
     protected TaskResult validateTaskRequest(TaskRequest taskRequest) {
-        TaskResult result = taskService.validateTaskRequest(taskRequest);
+        TaskResult result = taskService.validateRequest(taskRequest);
         if (result.getStatus() != TaskRequestStatus.SUCCESS) {
             handleTaskFormError(result);
         }
@@ -48,7 +48,7 @@ public abstract class AbstractTaskAction implements SimpleAction {
     }
 
     protected void updateProjectAndHideForm() {
-        projectService.updateProjectInFile(projectView.getCurrentProject());
+        projectService.updateProject(projectView.getCurrentProject());
         taskForm.dispose();
     }
 }

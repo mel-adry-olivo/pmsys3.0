@@ -1,5 +1,6 @@
 package org.pmsys.main.managers;
 
+import org.pmsys.main.Application;
 import org.pmsys.main.entities.User;
 
 public enum SessionManager {
@@ -14,6 +15,11 @@ public enum SessionManager {
 
     public User getUser() {
         return currentUser;
+    }
+
+    public void logout() {
+        clearSession();
+        Application.getInstance().relaunch();
     }
 
     public boolean isLoggedIn() {

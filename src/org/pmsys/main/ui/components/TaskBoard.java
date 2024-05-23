@@ -1,26 +1,15 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.constants.AppColors;
 import org.pmsys.main.entities.Task;
 import org.pmsys.main.ui.components.base.*;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * A visual representation of tasks organized into sections based on their status.
- * This component provides a flexible layout for displaying and managing tasks in a Kanban-style board.
- *
- * <br>
- * <br>
- * <b>Card-based Layout:</b> Each task is represented as a card with details like title, description, priority, and due date.
- *
- */
+public class TaskBoard extends CScrollPane {
 
-public class TaskBoard extends FlatScrollPane {
-
-    private TaskBoardOptions options;
     private Map<String, Section> sections; // map status to section
     private int maxSectionHeight;
 
@@ -37,22 +26,22 @@ public class TaskBoard extends FlatScrollPane {
     }
 
     public void addTask(TaskCard taskCard) {
-        Section section = sections.get(taskCard.get().getStatus());
+        Section section = sections.get(taskCard.getTask().getStatus());
         if (section != null) {
-            section.addTask(taskCard, options.getCardConstraints());
+            section.addTask(taskCard, Options.CARD_CONSTRAINTS);
             recalculateBoardSize(section);
         }
     }
 
     public void removeTask(TaskCard taskCard) {
-        Section section = sections.get(taskCard.get().getStatus());
+        Section section = sections.get(taskCard.getTask().getStatus());
         section.removeTask(taskCard);
         recalculateBoardSize(section);
     }
 
     public void updateTask(TaskCard taskCard, String oldStatus) {
 
-        Task task = taskCard.get();
+        Task task = taskCard.getTask();
 
         Section oldSection = sections.get(oldStatus);
         Section newSection = sections.get(task.getStatus());
@@ -68,7 +57,7 @@ public class TaskBoard extends FlatScrollPane {
         oldSection.removeTask(card);
         recalculateBoardSize(oldSection);
 
-        newSection.addTask(card, options.getCardConstraints());
+        newSection.addTask(card, Options.CARD_CONSTRAINTS);
         recalculateBoardSize(newSection);
     }
 
@@ -82,7 +71,7 @@ public class TaskBoard extends FlatScrollPane {
 
     private void updateBoardSize() {
         int width = view.getWidth();
-        int newHeight = maxSectionHeight + options.getTotalHeaderSpace();
+        int newHeight = maxSectionHeight + Options.getTotalHeaderSpace();
 
         view.setPreferredSize(new Dimension(width, newHeight));
         view.repaint();
@@ -90,7 +79,6 @@ public class TaskBoard extends FlatScrollPane {
     }
 
     private void initBoard() {
-        options = new TaskBoardOptions();
         sections = new HashMap<>();
         maxSectionHeight = 0;
 
@@ -102,17 +90,17 @@ public class TaskBoard extends FlatScrollPane {
 
     private void addSection(String status, Section section) {
         sections.put(status, section);
-        addToView(section.getHeader(), options.getHeaderConstraints());
-        addToView(section.getSection(), options.getSectionConstraints());
+        addToView(section.getHeader(), Options.HEADER_CONSTRAINTS);
+        addToView(section.getSection(), Options.SECTION_CONSTRAINTS);
     }
 
     private void setupBoardLayout() {
         String layoutConstraints = "flowy, insets 16 24 0 14, fillx, wrap 2, nocache";
-        String rowConstraints = "[]" + options.getCardGap() + "![]";
+        String rowConstraints = "[]" + Options.CARD_GAP + "![]";
         String columnConstraints =
-                "[]" + options.getSectionGap()
-                + "![]" + options.getSectionGap()
-                + "![]" + options.getSectionGap()
+                "[]" + Options.SECTION_GAP
+                + "![]" + Options.SECTION_GAP
+                + "![]" + Options.SECTION_GAP
                 + "![]";
         setConstraints(layoutConstraints, columnConstraints, rowConstraints);
     }
@@ -120,9 +108,8 @@ public class TaskBoard extends FlatScrollPane {
     // wrapper class for the task header and container
     private static class Section {
 
-        private FlatPanel header;
-        private FlatPanel container;
-        private String rowConstraints = "";
+        private CPanel header;
+        private CPanel container;
         private Map<Task, TaskCard> cards;
 
         private Section(String name) {
@@ -131,34 +118,29 @@ public class TaskBoard extends FlatScrollPane {
 
         private void addTask(TaskCard taskCard, String constraint) {
             container.add(taskCard, constraint);
-            cards.put(taskCard.get(), taskCard);
+            cards.put(taskCard.getTask(), taskCard);
             updateLayout();
         }
 
         private void removeTask(TaskCard taskCard) {
-            TaskCard cardToRemove = cards.get(taskCard.get());
+            TaskCard cardToRemove = cards.get(taskCard.getTask());
             if (cardToRemove != null) {
                 container.remove(cardToRemove);
-                cards.remove(cardToRemove.get());
+                cards.remove(cardToRemove.getTask());
                 updateLayout();
             }
         }
 
         private void updateTask(TaskCard taskCard) {
-            TaskCard cardToUpdate = cards.get(taskCard.get());
+            TaskCard cardToUpdate = cards.get(taskCard.getTask());
             if(cardToUpdate != null) {
-                cardToUpdate.updateTaskDetails(taskCard.get());
+                cardToUpdate.updateTaskDetails(taskCard.getTask());
                 updateLayout();
             }
         }
 
         private void updateLayout() {
-            rowConstraints = "";
-            for (int i = 0; i < cards.size(); i++) {
-                rowConstraints += "[]0";
-            }
-            container.setRowConstraints(rowConstraints);
-
+            container.setRowConstraints("[]0".repeat(cards.size()));
             container.getParent().doLayout();
             container.repaint();
             container.revalidate();
@@ -168,24 +150,36 @@ public class TaskBoard extends FlatScrollPane {
             return container.getSize().height;
         }
 
-        private FlatPanel getSection() {
+        private CPanel getSection() {
             return container;
         }
 
-        private FlatPanel getHeader() {
+        private CPanel getHeader() {
             return header;
         }
 
         private void initSection(String name) {
             cards = new HashMap<>();
-            header = new FlatPanel();
-            container = new FlatPanel("insets 0, flowy", "", rowConstraints);
+            header = new CPanel();
+            container = new CPanel("insets 0, flowy", "", "");
 
             header.setConstraints("insets 10 12 10 12, filly", "[]push[]");
-            header.setBackgroundColor(AppColors.WHITE);
-            header.setLineBorder(1,1,1,1, 8);
-            header.applyFlatStyle();
-            header.add(FlatLabelFactory.createMediumLabel(name, AppColors.BLACK));
+            header.setBackgroundColor(ColorConstants.WHITE).setLineBorder(1,1,1,1, 8);
+            header.applyStyles();
+            header.add(CLabelFactory.createMediumLabel(name, ColorConstants.BLACK));
+        }
+    }
+
+    private static class Options {
+        static String HEADER_HEIGHT = "46";
+        static String CARD_HEIGHT = "0";
+        static String CARD_GAP = "16";
+        static String SECTION_GAP = "16";
+        static String CARD_CONSTRAINTS = "w 100%, h " + CARD_HEIGHT + "%, gapbottom " + CARD_GAP + "!";
+        static String HEADER_CONSTRAINTS = "w 25%, h " + HEADER_HEIGHT  + "!";
+        static String SECTION_CONSTRAINTS = "w 25%, h 0%, growy";
+        public static int getTotalHeaderSpace() {
+            return Integer.parseInt(HEADER_HEIGHT) + (Integer.parseInt(CARD_GAP) * 2);
         }
     }
 }

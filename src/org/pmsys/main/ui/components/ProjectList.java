@@ -1,57 +1,52 @@
 package org.pmsys.main.ui.components;
 
-import org.pmsys.main.ui.components.base.FlatPanel;
+import org.pmsys.main.ui.components.base.CLabel;
+import org.pmsys.main.ui.components.base.CLabelFactory;
+import org.pmsys.main.ui.components.base.CPanel;
+import org.pmsys.main.ui.components.constants.ColorConstants;
 
-import java.util.ArrayList;
-import java.util.List;
+public class ProjectList extends CPanel {
 
-
-public class ProjectList extends FlatPanel {
-
-    private static final int MAX_ITEMS = 5;
-
-    private final List<ProjectCard> projectCards = new ArrayList<>();
-    private String rowConstraint;
+    private final StringBuilder rowConstraint = new StringBuilder();
+    private final CLabel emptyLabel;
     private int itemCount;
 
     public ProjectList() {
+        emptyLabel = CLabelFactory.createLargeLabel("No projects found", ColorConstants.DARK_GREY);
         initList();
     }
 
     public void addProject(ProjectCard card) {
-        add(card, "h 20%, growx, ");
-        projectCards.add(card);
-        updateList();
+        if (itemCount == 0) {
+            remove(emptyLabel);
+        }
+        add(card, "h 20%, growx");
+        itemCount++;
+        updateRowConstraint();
+        revalidate();
+        repaint();
     }
 
     public void removeAllProjects() {
-        projectCards.clear();
         initList();
+    }
+
+    public boolean isFull() {
+        return itemCount >= 5;
+    }
+
+    private void initList() {
+        removeAll();
+        setConstraints("insets 0, wrap, fillx", "[]", "");
+        rowConstraint.setLength(0);
+        itemCount = 0;
+        add(emptyLabel, "al center, h 100%");
         revalidate();
         repaint();
     }
 
     private void updateRowConstraint() {
-        rowConstraint += "0[]";
-        setRowConstraints(rowConstraint);
-    }
-
-    public boolean isFull() {
-        return itemCount == MAX_ITEMS;
-    }
-
-
-    private void initList() {
-        setConstraints("insets 0, wrap, fillx", "[]", rowConstraint);
-        removeAll();
-        rowConstraint = "";
-        itemCount = 0;
-    }
-
-    private void updateList() {
-        itemCount++;
-        updateRowConstraint();
-        repaint();
-        revalidate();
+        rowConstraint.append("[]");
+        setRowConstraints(rowConstraint.toString());
     }
 }
