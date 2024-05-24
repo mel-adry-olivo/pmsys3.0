@@ -1,4 +1,4 @@
-package org.pmsys.main.entities.request;
+package org.pmsys.main.entities.request.status;
 
 public enum ProjectRequestStatus implements Status {
     SUCCESS,

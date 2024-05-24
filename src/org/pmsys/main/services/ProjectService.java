@@ -49,11 +49,11 @@ public class ProjectService extends FileService {
     }
 
     public ProjectResult validateRequest(ProjectRequest projectRequest) {
-        if (projectRequest.getTitle().isBlank() || projectRequest.getDescription().isBlank()) {
+        if (projectRequest.title().isBlank() || projectRequest.description().isBlank()) {
             return ProjectResult.BLANK_FIELDS();
         }
 
-        LocalDate date = DateUtils.parseFormattedDate(projectRequest.getDueDate());
+        LocalDate date = DateUtils.parseFormattedDate(projectRequest.dueDate());
         if (DateUtils.isPastDate(date)) {
             return ProjectResult.INVALID_DATE();
         }

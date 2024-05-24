@@ -1,6 +1,6 @@
 package org.pmsys.main.actions.auth;
 
-import org.pmsys.main.entities.request.AuthRequestStatus;
+import org.pmsys.main.entities.request.status.AuthRequestStatus;
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;

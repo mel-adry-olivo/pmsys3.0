@@ -1,8 +1,8 @@
 package org.pmsys.main.entities.result;
 
-import org.pmsys.main.entities.request.ProjectRequestStatus;
+import org.pmsys.main.entities.request.status.ProjectRequestStatus;
 import org.pmsys.main.entities.Project;
-import org.pmsys.main.entities.request.Status;
+import org.pmsys.main.entities.request.status.Status;
 
 public final class ProjectResult extends Result {
 

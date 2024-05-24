@@ -27,7 +27,7 @@ public class Task {
 
     // for requests
     public Task(TaskRequest request) {
-        this(request.getTitle(), request.getDescription(), request.getDueDate(), request.getPriority(), request.getStatus());
+        this(request.title(), request.description(), request.dueDate(), request.priority(), request.status());
     }
 
     // for loading from file

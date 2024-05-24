@@ -2,7 +2,7 @@ package org.pmsys.main.actions.project;
 
 import org.pmsys.main.entities.Project;
 import org.pmsys.main.entities.request.ProjectRequest;
-import org.pmsys.main.entities.request.ProjectRequestStatus;
+import org.pmsys.main.entities.request.status.ProjectRequestStatus;
 import org.pmsys.main.entities.result.ProjectResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ProjectManager;

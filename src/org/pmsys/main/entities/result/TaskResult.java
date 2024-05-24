@@ -1,7 +1,7 @@
 package org.pmsys.main.entities.result;
 
-import org.pmsys.main.entities.request.Status;
-import org.pmsys.main.entities.request.TaskRequestStatus;
+import org.pmsys.main.entities.request.status.Status;
+import org.pmsys.main.entities.request.status.TaskRequestStatus;
 import org.pmsys.main.entities.Task;
 
 public final class TaskResult extends Result{

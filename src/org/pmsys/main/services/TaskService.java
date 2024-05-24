@@ -45,7 +45,7 @@ public class TaskService extends FileService {
     }
 
     public TaskResult validateRequest(TaskRequest taskRequest) {
-        if (taskRequest.getTitle().isBlank() || taskRequest.getDescription().isBlank()) {
+        if (taskRequest.title().isBlank() || taskRequest.description().isBlank()) {
             return TaskResult.BLANK_FIELDS();
         }
         return TaskResult.SUCCESS(new Task(taskRequest));

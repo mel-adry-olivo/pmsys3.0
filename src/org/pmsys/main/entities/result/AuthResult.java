@@ -1,8 +1,8 @@
 package org.pmsys.main.entities.result;
 
 
-import org.pmsys.main.entities.request.AuthRequestStatus;
-import org.pmsys.main.entities.request.Status;
+import org.pmsys.main.entities.request.status.AuthRequestStatus;
+import org.pmsys.main.entities.request.status.Status;
 import org.pmsys.main.entities.User;
 
 public final class AuthResult extends Result {

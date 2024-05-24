@@ -2,7 +2,7 @@ package org.pmsys.main.actions.task;
 
 import org.pmsys.main.actions.SimpleAction;
 import org.pmsys.main.entities.request.TaskRequest;
-import org.pmsys.main.entities.request.TaskRequestStatus;
+import org.pmsys.main.entities.request.status.TaskRequestStatus;
 import org.pmsys.main.entities.result.TaskResult;
 import org.pmsys.main.managers.FormManager;
 import org.pmsys.main.managers.ServiceManager;

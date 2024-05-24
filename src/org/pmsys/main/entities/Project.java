@@ -20,15 +20,15 @@ public class Project{
 
     // for create
     public Project(ProjectRequest projectRequest) {
-        if(projectRequest.getId().isBlank()) {
+        if(projectRequest.id().isBlank()) {
             id = UUID.randomUUID().toString();
         } else {
-            id = projectRequest.getId();
+            id = projectRequest.id();
         }
         status = "In Progress"; // temp
-        title = projectRequest.getTitle();
-        description = projectRequest.getDescription();
-        dueDate = projectRequest.getDueDate();
+        title = projectRequest.title();
+        description = projectRequest.description();
+        dueDate = projectRequest.dueDate();
     }
 
     public Project(String title, String description, String status, String dueDate) {

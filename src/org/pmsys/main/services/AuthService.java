@@ -18,13 +18,13 @@ public class AuthService {
 
     public AuthResult signIn(AuthRequest request) {
 
-        User storedUser = userService.getUserByUsername(request.getUsername());
+        User storedUser = userService.getUserByUsername(request.username());
 
         if (storedUser == null) {
             return AuthResult.USER_NOT_FOUND();
         }
 
-        boolean isValidPassword = Password.check(request.getPassword(), storedUser.getHashedPassword()).withArgon2();
+        boolean isValidPassword = Password.check(request.password(), storedUser.getHashedPassword()).withArgon2();
 
         return isValidPassword ? AuthResult.SUCCESS(storedUser) : AuthResult.WRONG_PASSWORD();
     }
@@ -32,11 +32,11 @@ public class AuthService {
     public AuthResult signUp(AuthRequest request) {
         // TODO: validate username
 
-        Hash hash = Password.hash(request.getPassword())
+        Hash hash = Password.hash(request.password())
                 .addRandomSalt(12)
                 .withArgon2();
 
-        User user = new User(request.getUsername(), hash.getResult());
+        User user = new User(request.username(), hash.getResult());
 
         userService.saveInFile(user);
         return AuthResult.SUCCESS();
