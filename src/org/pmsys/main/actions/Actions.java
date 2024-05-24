@@ -2,6 +2,7 @@ package org.pmsys.main.actions;
 
 import org.pmsys.main.actions.auth.*;
 import org.pmsys.main.actions.project.*;
+import org.pmsys.main.actions.report.ShowReportDialog;
 import org.pmsys.main.actions.task.*;
 import org.pmsys.main.actions.view.*;
 
@@ -27,9 +28,9 @@ public enum Actions {
     DELETE_TASK(new DeleteTaskAction()),
     NEXT_PAGE(new ListNextAction()),
     PREVIOUS_PAGE(new ListPreviousAction()),
-    EXPORT(null), // TODO
     VIEW_CHANGE(new ViewChangeAction()),
-    SEARCH_ITEM_CLICK(new SearchItemClickAction());
+    SEARCH_ITEM_CLICK(new SearchItemClickAction()),
+    SHOW_REPORT_DIALOG(new ShowReportDialog());
 
     private final SimpleAction action;
 
