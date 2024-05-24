@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 
 
-public class CForm extends JDialog implements CComponent {
+public class CDialog extends JDialog implements CComponent {
 
     private final CPanel myContentPanel;
 
-    public CForm() {
+    public CDialog() {
         myContentPanel =  new CPanel();
         setContentPane(myContentPanel);
         setModal(true);
@@ -17,11 +17,11 @@ public class CForm extends JDialog implements CComponent {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
-    public void addCloseBehavior(WindowAdapter closeBehavior) {
+    public void addCloseEvent(WindowAdapter closeBehavior) {
         addWindowListener(closeBehavior);
     }
 
-    public CForm setConstraints(String... constraints ) {
+    public CDialog setConstraints(String... constraints ) {
         myContentPanel.setConstraints(constraints);
         return this;
     }
