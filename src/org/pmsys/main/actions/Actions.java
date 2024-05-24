@@ -2,6 +2,7 @@ package org.pmsys.main.actions;
 
 import org.pmsys.main.actions.auth.*;
 import org.pmsys.main.actions.project.*;
+import org.pmsys.main.actions.report.SaveReportAction;
 import org.pmsys.main.actions.report.ShowReportDialog;
 import org.pmsys.main.actions.task.*;
 import org.pmsys.main.actions.view.*;
@@ -30,7 +31,8 @@ public enum Actions {
     PREVIOUS_PAGE(new ListPreviousAction()),
     VIEW_CHANGE(new ViewChangeAction()),
     SEARCH_ITEM_CLICK(new SearchItemClickAction()),
-    SHOW_REPORT_DIALOG(new ShowReportDialog());
+    SHOW_REPORT_DIALOG(new ShowReportDialog()),
+    SAVE_REPORT(new SaveReportAction());
 
     private final SimpleAction action;
 
