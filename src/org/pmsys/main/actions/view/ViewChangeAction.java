@@ -26,10 +26,6 @@ public class ViewChangeAction implements SimpleAction {
             }
 
             menu.setSelectedButton(clickedButton);
-            clickedButton.setPressedBackgroundColor(ColorConstants.PRESSED_GREY).applyStyles();
-            clickedButton.setSelected(true);
-            clickedButton.setBackground(new Color(80, 80, 80));
-
             viewChange(clickedButton);
         }
     }

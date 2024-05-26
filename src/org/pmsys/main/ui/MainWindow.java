@@ -35,8 +35,8 @@ public class MainWindow extends JFrame implements CComponent{
         return header;
     }
 
-    public WindowContent getContent() {
-        return content;
+    public WindowNavBar getViewNavBar() {
+        return menu;
     }
 
     public void setupComponent() {
@@ -50,6 +50,8 @@ public class MainWindow extends JFrame implements CComponent{
         add(header, "cell 1 0, h 0%, grow");
         add(content, "cell 1 1, grow");
     }
+
+
 
     public static class WindowContent extends JLayeredPane {
 
@@ -138,18 +140,37 @@ public class MainWindow extends JFrame implements CComponent{
 
         public WindowNavBar() {
             setupComponent();
-            dashboardButton.setSelected(false);
-            projectListButton.setSelected(true);
-            selectedButton = projectListButton;
+            projectListButton.setSelected(false);
+            dashboardButton.setSelected(true);
+            selectedButton = dashboardButton;
         }
 
         public CButton getSelectedButton() {
             return selectedButton;
         }
 
-        public void setSelectedButton(CButton selectedButton) {
-            if(this.selectedButton != null) {
-                this.selectedButton = selectedButton;
+        public void setSelectedButton(CButton newSelectedButton) {
+            if (selectedButton != null && selectedButton.equals(newSelectedButton)) {
+                return; // If the same button is selected, do nothing
+            }
+            if (selectedButton != null) {
+                selectedButton.setSelected(false); // Deselect the current button
+            }
+            selectedButton = newSelectedButton;
+            if (selectedButton != null) {
+                selectedButton.setSelected(true); // Select the new button
+            }
+        }
+
+        public void setSelectedButton(String actionCommand) {
+            CButton buttonToSelect = null;
+            if (dashboardButton.getActionCommand().equals(actionCommand)) {
+                buttonToSelect = dashboardButton;
+            } else if (projectListButton.getActionCommand().equals(actionCommand)) {
+                buttonToSelect = projectListButton;
+            }
+            if (buttonToSelect != null) {
+                setSelectedButton(buttonToSelect);
             }
         }
 

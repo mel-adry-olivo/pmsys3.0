@@ -147,7 +147,7 @@ public class ProjectListView extends CPanel{
         CPanel headerSection = createHeaderSection();
         CPanel sortSection = createSortSection();
         CPanel footerSection = createFooterSection();
-        CPanel listHeader = ComponentFactory.createListHeader();
+        CPanel listHeader = new ProjectList.Header(1,1);
 
         if (currentProjectList == null) {
             addListToUI(currentProjectList = createProjectList(), String.valueOf((currentTotalPage)));
@@ -206,28 +206,6 @@ public class ProjectListView extends CPanel{
         return pageContainer;
     }
     public ProjectList createProjectList() {
-        return new ProjectList();
-    }
-
-    private static class ComponentFactory {
-        private static CPanel createListHeader() {
-            CPanel projectListHeader = new CPanel()
-                    .setConstraints("insets 6px 3% 6px 3%, fill", "", "center")
-                    .setMatteBorder(1,0,1,0)
-                    .applyStyles();
-
-            CLabel nameColumn = CLabelFactory.createSmallLabel("Project Name");
-            CLabel descriptionColumn = CLabelFactory.createSmallLabel("Description");
-            CLabel taskProgressColumn = CLabelFactory.createSmallLabel("Task Progress");
-            CLabel statusColumn = CLabelFactory.createSmallLabel("Status");
-            CLabel dueDateColumn = CLabelFactory.createSmallLabel("Due Date");
-
-            projectListHeader.add(nameColumn, "w 20%");
-            projectListHeader.add(descriptionColumn, "w 20%");
-            projectListHeader.add(taskProgressColumn, "w 20%");
-            projectListHeader.add(statusColumn, "w 20%");
-            projectListHeader.add(dueDateColumn, "w 20%");
-            return projectListHeader;
-        }
+        return new ProjectList(5);
     }
 }

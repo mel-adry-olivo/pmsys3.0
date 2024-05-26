@@ -60,6 +60,12 @@ public interface FlatStyleable<E extends JComponent>{
         return getComponent();
     }
 
+    default E setHoverForegroundColor(String colorCode) {
+        getStyler().getStyleMap().put("hoverForeground", colorCode);
+        return getComponent();
+    }
+
+
     default E setTextMargin(int t, int l, int b, int r) {
         getStyler().getStyleMap().put("margin",
                 t + ", " +
