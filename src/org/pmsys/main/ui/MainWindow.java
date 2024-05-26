@@ -42,7 +42,7 @@ public class MainWindow extends JFrame implements CComponent{
     public void setupComponent() {
         setLayout(new MigLayout("insets 0, fill", "[grow 0]0[]", "[]0[grow]"));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("System");
+        setTitle("Project Management System");
         setSize(1280, 720);
         setLocationRelativeTo(null);
 
