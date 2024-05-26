@@ -163,6 +163,4 @@ public class Project{
     public int getTaskDoneCount() {
         return taskDoneCount;
     }
-
-
 }

@@ -4,5 +4,6 @@ public enum Services {
     USER,
     PROJECT,
     TASK,
-    AUTHENTICATION
+    AUTHENTICATION,
+    REPORT
 }

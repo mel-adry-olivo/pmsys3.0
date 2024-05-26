@@ -10,6 +10,7 @@ import org.pmsys.main.ui.views.ProjectView;
 import org.pmsys.main.ui.views.Views;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public enum ProjectManager {
@@ -38,6 +39,22 @@ public enum ProjectManager {
         dashboardView.resetDashboard();
     }
 
+    public Project getCurrentProject() {
+        Project project = projectView.getCurrentProject();
+        project.revalidateCounts();
+        return project;
+    }
+
+    public List<Project> getAlLProjects() {
+        ArrayList<Project> projects = new ArrayList<>(projectService.getCachedProjects());
+        taskService.cacheTasks();
+        for (Project project : projects) {
+            project.setTasks(taskService.getTasksOf(project));
+            project.revalidateCounts();
+        }
+        return projects;
+    }
+
     public void loadProjectList() {
         projectListView.resetProjectList();
         IndexingManager.INSTANCE.clearIndex();
@@ -48,7 +65,6 @@ public enum ProjectManager {
             IndexingManager.INSTANCE.indexProject(project);
         }
         projectListView.goToFirstPage();
-
         loadDashboard();
     }
 

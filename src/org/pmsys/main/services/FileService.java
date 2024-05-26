@@ -6,6 +6,7 @@ import org.pmsys.main.managers.SessionManager;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDate;
 
 public abstract class FileService {
 
@@ -14,9 +15,12 @@ public abstract class FileService {
     private static final String PROJECT_DATA_DIRECTORY = BASE_DIRECTORY + File.separator + "projectdata";
     private static final String TASK_DATA_DIRECTORY = BASE_DIRECTORY + File.separator + "taskdata";
     private static final String USER_ACCOUNTS_PATH = USER_DATA_DIRECTORY + File.separator + "useraccounts.txt";
+    private static final String REPORT_DIRECTORY = "report";
+    private static final String OVERALL_REPORT_DIRECTORY = REPORT_DIRECTORY + File.separator + "overall";
+    private static final String INDIVIDUAL_REPORT_DIRECTORY = REPORT_DIRECTORY + File.separator + "individual";
 
     public FileService() {
-        createDirectories(USER_DATA_DIRECTORY, PROJECT_DATA_DIRECTORY, TASK_DATA_DIRECTORY);
+        createDirectories(USER_DATA_DIRECTORY, PROJECT_DATA_DIRECTORY, TASK_DATA_DIRECTORY, REPORT_DIRECTORY, OVERALL_REPORT_DIRECTORY, INDIVIDUAL_REPORT_DIRECTORY);
         createFileIfNotExists(USER_ACCOUNTS_PATH);
     }
 
@@ -40,7 +44,15 @@ public abstract class FileService {
         return Paths.get(PROJECT_DATA_DIRECTORY, user.getId() + ".txt");
     }
 
-    private User getCurrentUser() {
+    protected Path getOverallReportFileOfCurrentUser() {
+        return Paths.get(OVERALL_REPORT_DIRECTORY + "/" +"overall-"+ LocalDate.now() + "-" + getCurrentUser().getUsername() + ".txt");
+    }
+
+    protected Path getIndividualReportFileOfCurrentUser() {
+        return Paths.get(INDIVIDUAL_REPORT_DIRECTORY + "/" +"individiual-"+ LocalDate.now() + "-" + getCurrentUser().getUsername() + ".txt");
+    }
+
+    protected User getCurrentUser() {
         return SessionManager.INSTANCE.getUser();
     }
 

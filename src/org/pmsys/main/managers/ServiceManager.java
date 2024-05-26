@@ -31,5 +31,6 @@ public enum ServiceManager {
         registerService(Services.AUTHENTICATION, new AuthService());
         registerService(Services.PROJECT, new ProjectService());
         registerService(Services.TASK, new TaskService());
+        registerService(Services.REPORT, new ReportService());
     }
 }

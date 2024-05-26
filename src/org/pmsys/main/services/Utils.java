@@ -11,6 +11,10 @@ import java.util.logging.Logger;
 public class Utils {
     public static void CREATE(Path path) {
         try {
+            if(Files.exists(path)) {
+                return;
+            }
+
             Files.createFile(path);
         } catch (IOException e) {
             Logger.getGlobal().warning(e.getMessage());
@@ -38,6 +42,7 @@ public class Utils {
                             StandardOpenOption.TRUNCATE_EXISTING);
                 } catch (IOException e) {
                     Logger.getGlobal().warning(e.getMessage());
+                    e.printStackTrace();
                 }
                 return null;
             }

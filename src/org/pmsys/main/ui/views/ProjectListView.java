@@ -124,7 +124,7 @@ public class ProjectListView extends CPanel{
     public void attachListeners() {
         nextButton.addActionListener(e -> ActionManager.executeAction(Actions.NEXT_PAGE, nextButton, this));
         previousButton.addActionListener(e -> ActionManager.executeAction(Actions.PREVIOUS_PAGE, nextButton, this));
-        exportButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_REPORT_DIALOG, exportButton, this));
+        exportButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_OVERALL_REPORT_DIALOG, exportButton, this));
         addProjectButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_PROJECT_ADD_FORM, addProjectButton, this));
     }
 

@@ -69,7 +69,7 @@ public class ProjectView extends CPanel{
     }
 
     public void attachListeners() {
-//        exportButton.addActionListener(controller::handleExportClick);
+       exportButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_INDIVIDUAL_REPORT_DIALOG, exportButton, this));
         optionButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_PROJECT_OPTIONS, optionButton, this));
         addTaskButton.addActionListener(e -> ActionManager.executeAction(Actions.SHOW_TASK_ADD_FORM, addTaskButton, this));
         closeButton.addActionListener(e -> ActionManager.executeAction(Actions.CLOSE_PROJECT, closeButton, this));
