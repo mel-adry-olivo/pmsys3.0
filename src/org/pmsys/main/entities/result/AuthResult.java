@@ -33,4 +33,8 @@ public final class AuthResult extends Result {
     public static AuthResult WRONG_PASSWORD() {
         return new AuthResult(AuthRequestStatus.WRONG_PASSWORD, "Wrong password", null);
     }
+
+    public static AuthResult USER_EXISTS() {
+        return new AuthResult(AuthRequestStatus.USER_EXISTS, "Username already taken", null);
+    }
 }

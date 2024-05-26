@@ -7,6 +7,7 @@ import org.pmsys.main.managers.ServiceManager;
 import org.pmsys.main.entities.request.AuthRequest;
 import org.pmsys.main.entities.result.AuthResult;
 import org.pmsys.main.entities.User;
+import org.pmsys.main.ui.utils.MessageUtils;
 
 public class AuthService {
 
@@ -30,7 +31,10 @@ public class AuthService {
     }
 
     public AuthResult signUp(AuthRequest request) {
-        // TODO: validate username
+
+        if(!userService.validateUsername(request.username())) {
+            return AuthResult.USER_EXISTS();
+        }
 
         Hash hash = Password.hash(request.password())
                 .addRandomSalt(12)

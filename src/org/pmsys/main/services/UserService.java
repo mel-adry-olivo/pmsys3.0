@@ -12,6 +12,21 @@ public class UserService extends FileService {
         Utils.APPEND(getUserAccountFile(), user.toString());
     }
 
+    public List<User> getAllUsers() {
+        List<String> lines = Utils.READ(getUserAccountFile());
+        return User.parseLinesToUsers(lines);
+    }
+
+    public boolean validateUsername(String username) {
+        List<User> users = getAllUsers();
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public User getUserByUsername(String username) {
         List<String> lines = Utils.READ(getUserAccountFile());
         List<User> users = User.parseLinesToUsers(lines);

@@ -59,7 +59,11 @@ public abstract class AbstractAuthAction implements SimpleAction {
             @Override
             protected void done() {
                 authWindow.toggleLoadingState(false);
-                ViewManager.INSTANCE.showView(Views.DASHBOARD);
+                try {
+                    ViewManager.INSTANCE.showView(Views.DASHBOARD);
+                } catch (NullPointerException ignored) {
+                    // means the auth failed
+                }
             }
         }.execute();
     }
