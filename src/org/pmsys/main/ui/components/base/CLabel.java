@@ -77,6 +77,7 @@ public class CLabel extends JLabel implements CComponent {
         return this;
     }
 
+    public static final String H1_140 = "140% $h1.font";
     public static final String H1_120 = "120% $h1.font";
     public static final String H1 = "$h1.font";
     public static final String H2 = "$h2.font";

@@ -14,6 +14,8 @@ public class WarmUp {
         for(int i = 0; i < 10; i++) {
             ActionManager.executeAction(Actions.OPEN_PROJECT, new ProjectCard(Project.EmptyProject()), ViewManager.INSTANCE.getViewComponent(Views.PROJECT_LIST));
             ActionManager.executeAction(Actions.CLOSE_PROJECT, null, ViewManager.INSTANCE.getViewComponent(Views.PROJECT));
+            ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
+            ViewManager.INSTANCE.showView(Views.DASHBOARD);
         }
     }
 }

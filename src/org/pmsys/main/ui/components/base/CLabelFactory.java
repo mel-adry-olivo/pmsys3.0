@@ -21,6 +21,10 @@ public class CLabelFactory {
         return createFlatLabel(text, CLabel.DEFAULT, ColorConstants.ACCENT).isLink();
     }
 
+    public static CLabel createExtraScaledH1Label(String text) {
+        return createFlatLabel(text, CLabel.H1_140, ColorConstants.BLACK);
+    }
+
     public static CLabel createScaledH1Label(String text) {
         return createFlatLabel(text, CLabel.H1_120, ColorConstants.BLACK);
     }

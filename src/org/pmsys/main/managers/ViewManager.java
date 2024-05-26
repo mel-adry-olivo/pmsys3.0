@@ -20,8 +20,10 @@ public enum ViewManager {
 
     private MainWindow.WindowContent viewContent;
     private MainWindow.WindowHeader viewHeader;
+    private MainWindow.WindowNavBar viewNavBar;
 
     private Views currentView;
+    private Views previousView;
 
     public void clearViews() {
         views.clear();
@@ -33,9 +35,14 @@ public enum ViewManager {
         }
     }
 
+    public Views getPreviousView() {
+        return previousView;
+    }
+
     public void setViewWindow(MainWindow viewWindow) {
         viewContent = viewWindow.getViewContent();
         viewHeader = viewWindow.getViewHeader();
+        viewNavBar = viewWindow.getViewNavBar();
         viewContent.setLayout(cardLayout);
     }
 
@@ -50,6 +57,8 @@ public enum ViewManager {
             cardLayout.show(viewContent, view.name());
             viewComponent.grabFocus();
             viewHeader.updateViewName(view);
+            viewNavBar.setSelectedButton(view.name());
+            previousView = currentView;
             currentView = view;
         }
     }

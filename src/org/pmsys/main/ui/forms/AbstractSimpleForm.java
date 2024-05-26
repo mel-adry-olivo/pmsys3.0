@@ -14,7 +14,7 @@ import java.awt.event.WindowEvent;
 /**
  * Simple form with a title and action button
  */
-public abstract class AbstractSimpleForm extends CForm{
+public abstract class AbstractSimpleForm extends CDialog {
 
     private CLabel titleLabel;
 
@@ -29,7 +29,7 @@ public abstract class AbstractSimpleForm extends CForm{
         setupLabels();
         setupForm();
         setupButton();
-        addCloseBehavior(new WindowAdapter() {
+        addCloseEvent(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
                 clearFields();

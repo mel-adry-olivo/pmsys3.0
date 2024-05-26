@@ -59,7 +59,7 @@ public abstract class AbstractAuthAction implements SimpleAction {
             @Override
             protected void done() {
                 authWindow.toggleLoadingState(false);
-                ViewManager.INSTANCE.showView(Views.PROJECT_LIST);
+                ViewManager.INSTANCE.showView(Views.DASHBOARD);
             }
         }.execute();
     }
