@@ -47,6 +47,8 @@ public class SearchEvent implements DocumentListener {
             popup.pack();
             popup.show(searchBar, 0, searchBar.getHeight());
             searchBar.requestFocusInWindow();
+        } else {
+            popup.setVisible(false);
         }
     }
 }
