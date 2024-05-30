@@ -1,5 +1,12 @@
 ### Project Management System
 
+Made with Java 17 in IntelliJ 2024
+
+##### Libraries used:
+- FlatLaf for look and feel
+- MigLayout for layout management
+- Password4j for password hashing
+
 ##### Current Features:
 - Authentication
 - Project Management (Create, Update, Delete)
